@@ -1,18 +1,29 @@
+/*Стиль заголовка страницы*/
+.pageHeader {
+    composes: mt-10 text text_type_main-large from global;
+    align-self: start;
+}
+
+/*Стиль для блока с табами*/
 .tabsContainer {
     composes: mt-5 from global;
-    display: flex;}
+    display: flex;
+}
 
+/*Стиль для контейнера компонента*/
 .ingredientsContainer {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
+/*Стиль для хедеров блоков с ингридентами*/
 .ingredientsLabel {
     composes: text text_type_main-large from global;
     text-align: left;
 }
 
+/*Стиль для списка ингридиентов*/
 .ingredientsList {
     composes: pt-6 pl-4 pr-4 pb-10 from global;
     list-style-type: none;
@@ -23,20 +34,16 @@
     gap:24px
 }
 
+/*Общий стиль для элекмента списка с ингридиентами*/
 .ingredientsList > li {
     flex: 0 0 0;
 }
 
+/*Настройки контейнера с ингридиентами*/
 .scrollableContainer {
     composes: mt-10 custom-scroll from global;
     /*магические 103 не дают скроллу переносить flex итемы при его появлении*/
     width: 103%;
     height: 100%;
     overflow-y: auto;
-}
-
-/*Стиль заголовка страницы*/
-.pageHeader {
-    composes: mt-10 text text_type_main-large from global;
-    align-self: start;
 }
