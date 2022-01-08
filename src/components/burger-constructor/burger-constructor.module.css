@@ -1,0 +1,44 @@
+/*Стль контейнера для списка ингридиентов*/
+.ingredientsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+}
+
+/*Стиль для списка*/
+.list {
+    composes: mt-25 pl-4 pr-4 mb-10 custom-scroll from global;
+    list-style-type: none;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+/*Отступ слева для первого и последнего элемента, у которых нет иконки dnd*/
+.list > li:first-child, .list > li:last-child {
+    margin-left: 24px;
+}
+
+/*Стиль для конкретного элекмента списка*/
+.list > li {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin: 10px 0;
+}
+
+/*Настройка иконки dnd*/
+.list > li > svg {
+    flex-shrink: 0;
+}
+
+/*Настройки суммы и кнопки оформления*/
+.summary {
+    composes: text text_type_digits-medium from global;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap: 40px;
+}

@@ -1,0 +1,31 @@
+/*Стиль всей панели навигации*/
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    background: #1c1c21;
+    margin: 0 auto;
+}
+
+/*Стиль кнопки на панели*/
+.navbar > button {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+/*Стиль текста кнопки*/
+.label {
+    composes: ml-2 text text_type_main-default from global;
+}
+
+/*Стиль текста кнопки для несуществующих страниц*/
+.label_inactive {
+    composes: ml-2 text text_type_main-default text_color_inactive from global;
+}
+
+/*Стиль логотипа*/
+.navbar > svg {
+    text-align: center;
+    margin: 0 auto;
+}

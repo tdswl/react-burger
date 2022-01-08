@@ -1,0 +1,20 @@
+.ingredientContainer {
+    position: relative;
+    flex: 0 0 0;
+}
+
+.image {
+    composes: ml-4 mr-4 from global;
+}
+
+.price {
+    composes: text text_type_digits-default mt-1 mb-1 from global;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.name {
+    composes: text text_type_main-default mt-1 mb-1 from global;
+    text-align: center;
+}
