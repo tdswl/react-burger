@@ -42,7 +42,6 @@
 /*Настройки контейнера с ингридиентами*/
 .scrollableContainer {
     composes: mt-10 custom-scroll from global;
-    /*магические 103 не дают скроллу переносить flex итемы при его появлении*/
     height: 100%;
     overflow-y: auto;
 }

@@ -16,9 +16,14 @@
     overflow-y: auto;
 }
 
-/*Отступ слева для первого и последнего элемента, у которых нет иконки dnd*/
-.list > li:first-child, .list > li:last-child {
-    margin-left: 24px;
+/*Иконка dnd у первого и последнего элемента*/
+.list > li:first-child > svg, .list > li:last-child > svg {
+    opacity: 0;
+}
+
+/*Расширение стиля компонента ConstructorElement*/
+.constructor-element {
+    composes: ml-10 from global;
 }
 
 /*Стиль для конкретного элекмента списка*/

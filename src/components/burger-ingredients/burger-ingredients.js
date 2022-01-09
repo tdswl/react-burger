@@ -16,7 +16,7 @@ class BurgerIngredients extends React.Component {
         });
 
         let element = document.querySelector(`#${selectedTab}`);
-        // TODO: скроллит всю страницу и хедер уезжает вверх :(
+        // TODO: тут пока баг - скроллит всю страницу и хедер уезжает вверх :(
         element.scrollIntoView({ behavior: 'smooth'});
     };
 

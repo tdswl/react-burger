@@ -1,10 +1,11 @@
 /*Стиль всей панели навигации*/
 .navbar {
     display: flex;
+    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    max-width: 1280px;
     margin: 0 auto;
-    max-width: 1310px;
 }
 
 .header {
@@ -15,7 +16,7 @@
 .navbar > button {
     display: flex;
     flex-wrap: nowrap;
-    /*p-20*/
+    /*Перегрузка стиля из библиотеки p-20*/
     padding: 20px;
 }
 

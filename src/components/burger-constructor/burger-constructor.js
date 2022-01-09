@@ -14,7 +14,7 @@ class BurgerConstructor extends React.Component {
                 <ul className={styles.list}>
                     {burgerComponents && burgerComponents.map((component, index) =>
                         <li key={index}>
-                            {(index !== 0 && index !== burgerComponents.length - 1) && <DragIcon type="primary"/>}
+                            <DragIcon type="primary"/>
                             <ConstructorElement
                                 isLocked={index === 0 || index === burgerComponents.length - 1}
                                 type={index === 0 ? 'top' : index === burgerComponents.length - 1 ? 'bottom' : ''}
