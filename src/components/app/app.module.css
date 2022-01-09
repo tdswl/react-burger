@@ -21,12 +21,13 @@
 /*Стиль котейнера с панелями страницы*/
 .constrictorContainer {
     display: flex;
-    height: 80%;
+    height: 90%;
     gap: 40px;
     justify-content: center;
+    max-width: 1280px;
 }
 
 /*Настройки flex для панелей*/
 .constrictorContainer > article {
-    flex: 0 0 0;
+    flex: 1 0 0;
 }

@@ -5,7 +5,7 @@ import styles from './app-header.module.css'
 class AppHeader extends React.Component {
     render() {
         return (
-            <header>
+            <header className={styles.header}>
                 <nav className={styles.navbar}>
                     <Button type="secondary" size="medium">
                         <BurgerIcon type="primary"/>

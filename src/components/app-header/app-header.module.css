@@ -2,16 +2,21 @@
 .navbar {
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-wrap: wrap;
-    background: #1c1c21;
     margin: 0 auto;
+    max-width: 1310px;
+}
+
+.header {
+    background: #1c1c21;
 }
 
 /*Стиль кнопки на панели*/
 .navbar > button {
     display: flex;
     flex-wrap: nowrap;
+    /*p-20*/
+    padding: 20px;
 }
 
 /*Стиль текста кнопки*/
@@ -27,5 +32,9 @@
 /*Стиль логотипа*/
 .navbar > svg {
     text-align: center;
-    margin: 0 auto;
+    flex-grow: 1;
+}
+
+.login {
+    align-self: flex-end;
 }
