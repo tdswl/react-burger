@@ -9,7 +9,7 @@ export default class App extends React.Component {
     state = {
         burgerComponents: burgerComponentsData,
         // TODO: selectedComponents должна содержать коллекцию выбранных ингридиентов
-        selectedComponents: burgerComponentsData,
+        selectedComponents: burgerComponentsData.filter(x => x.type !== 'bun'),
         selectedBun: burgerComponentsData.find(x => x.type === 'bun')
     };
 
@@ -24,9 +24,9 @@ export default class App extends React.Component {
     };
 
     onSelectBun = () => {
-        // Отдельная функция, потому что булки не входят в общий список ингридиентов
         console.log('selectBun');
         // TODO: выбор булки
+        // Отдельная функция, потому что булки не входят в общий список ингридиентов
     };
 
     render() {
@@ -35,8 +35,12 @@ export default class App extends React.Component {
                 <AppHeader/>
                 <main className={styles.mainContainer}>
                     <article className={styles.constrictorContainer}>
-                        <BurgerIngredients burgerComponents={this.state.burgerComponents} onAdd={this.onAdd} onSelectBun={this.onSelectBun}/>
-                        <BurgerConstructor burgerComponents={this.state.selectedComponents} onDelete={this.onDelete} selectedBun={this.state.selectedBun}/>
+                        <BurgerIngredients burgerComponents={this.state.burgerComponents}
+                                           onAdd={this.onAdd}
+                                           onSelectBun={this.onSelectBun}/>
+                        <BurgerConstructor burgerComponents={this.state.selectedComponents}
+                                           onDelete={this.onDelete}
+                                           selectedBun={this.state.selectedBun}/>
                     </article>
                 </main>
             </div>

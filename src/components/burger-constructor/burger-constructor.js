@@ -12,9 +12,7 @@ class BurgerConstructor extends React.Component {
     render() {
         const {burgerComponents, selectedBun, onDelete} = this.props;
         // Цена всех ингридиентов + 2 булки
-        let total = burgerComponents
-            .filter(x => x.type !== 'bun')
-            .reduce((x, obj) => x + obj.price, 0) + selectedBun.price * 2;
+        let total = burgerComponents.reduce((x, obj) => x + obj.price, 0) + selectedBun.price * 2;
 
         return (
             <article className={styles.ingredientsContainer}>
@@ -28,18 +26,16 @@ class BurgerConstructor extends React.Component {
                 </div>
 
                 <ul className={styles.list}>
-                    {burgerComponents && burgerComponents
-                        .filter(x => x.type !== 'bun')
-                        .map((component, index) =>
-                            <li key={component._id}>
-                                <DragIcon type="primary"/>
-                                <ConstructorElement
-                                    text={component.name}
-                                    price={component.price}
-                                    thumbnail={component.image}
-                                    handleClose={onDelete}/>
-                            </li>
-                        )}
+                    {burgerComponents && burgerComponents.map((component) =>
+                        <li key={component._id}>
+                            <DragIcon type="primary"/>
+                            <ConstructorElement
+                                text={component.name}
+                                price={component.price}
+                                thumbnail={component.image}
+                                handleClose={onDelete}/>
+                        </li>
+                    )}
                 </ul>
 
                 <div className={styles.bottomBun}>
