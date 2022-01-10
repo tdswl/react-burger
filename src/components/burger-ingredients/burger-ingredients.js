@@ -22,8 +22,12 @@ class BurgerIngredients extends React.Component {
             currentTab: selectedTab
         });
 
+        this.scrollToContent(selectedTab);
+    };
+
+    scrollToContent = (selectedTab) => {
         let node = null;
-        switch(selectedTab) {
+        switch (selectedTab) {
             case "bun":
                 node = this.bunRef.current;
                 break;
@@ -37,11 +41,10 @@ class BurgerIngredients extends React.Component {
                 break;
         }
 
-        if (node)
-        {
-            node.scrollIntoView({ behavior: 'smooth'});
+        if (node) {
+            node.scrollIntoView({behavior: 'smooth'});
         }
-    };
+    }
 
     render() {
         const {burgerComponents, onAdd, onSelectBun} = this.props;
