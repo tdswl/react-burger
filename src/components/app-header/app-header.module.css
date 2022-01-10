@@ -9,7 +9,9 @@
 }
 
 .header {
+    width: 100%;
     background: #1c1c21;
+    position: fixed;
 }
 
 /*Стиль кнопки на панели*/

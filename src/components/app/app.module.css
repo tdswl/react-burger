@@ -20,10 +20,11 @@
 /*Стиль котейнера с панелями страницы*/
 .constrictorContainer {
     display: flex;
-    height: 90%;
+    height: 86%;
     gap: 40px;
     justify-content: center;
     max-width: 1280px;
+    padding-top: 64px;
 }
 
 /*Настройки flex для панелей*/

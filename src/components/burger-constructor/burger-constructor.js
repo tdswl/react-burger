@@ -5,33 +5,58 @@ import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../utils/prop-types";
 
 class BurgerConstructor extends React.Component {
+    onCompleteOrder = () => {
+        console.log("Оформить заказ");
+    };
+
     render() {
-        const {burgerComponents, onDelete} = this.props;
-        const total = burgerComponents.reduce((x, obj) => x + obj.price, 0);
+        const {burgerComponents, selectedBun, onDelete} = this.props;
+        // Цена всех ингридиентов + 2 булки
+        let total = burgerComponents
+            .filter(x => x.type !== 'bun')
+            .reduce((x, obj) => x + obj.price, 0) + selectedBun.price * 2;
 
         return (
             <article className={styles.ingredientsContainer}>
+                <div className={styles.topBun}>
+                    {selectedBun && <ConstructorElement
+                        isLocked={true}
+                        type='top'
+                        text={`${selectedBun.name} (верх)`}
+                        price={selectedBun.price}
+                        thumbnail={selectedBun.image}/>}
+                </div>
+
                 <ul className={styles.list}>
-                    {burgerComponents && burgerComponents.map((component, index) =>
-                        <li key={index}>
-                            <DragIcon type="primary"/>
-                            <ConstructorElement
-                                isLocked={index === 0 || index === burgerComponents.length - 1}
-                                type={index === 0 ? 'top' : index === burgerComponents.length - 1 ? 'bottom' : ''}
-                                text={component.name}
-                                price={component.price}
-                                thumbnail={component.image}
-                                handleClose={onDelete}/>
-                        </li>
-                    )}
+                    {burgerComponents && burgerComponents
+                        .filter(x => x.type !== 'bun')
+                        .map((component, index) =>
+                            <li key={component._id}>
+                                <DragIcon type="primary"/>
+                                <ConstructorElement
+                                    text={component.name}
+                                    price={component.price}
+                                    thumbnail={component.image}
+                                    handleClose={onDelete}/>
+                            </li>
+                        )}
                 </ul>
+
+                <div className={styles.bottomBun}>
+                    {selectedBun && <ConstructorElement
+                        isLocked={true}
+                        type='bottom'
+                        text={`${selectedBun.name} (низ)`}
+                        price={selectedBun.price}
+                        thumbnail={selectedBun.image}/>}
+                </div>
 
                 <div className={styles.summary}>
                     <div>
                         {total}
                         <CurrencyIcon type="primary"/>
                     </div>
-                    <Button type="primary" size="large">
+                    <Button type="primary" size="large" onClick={this.onCompleteOrder}>
                         Оформить заказ
                     </Button>
                 </div>
@@ -41,7 +66,8 @@ class BurgerConstructor extends React.Component {
 }
 
 BurgerConstructor.propTypes = {
-    burgerComponents: PropTypes.arrayOf(ingredientPropTypes.isRequired),
+    burgerComponents: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
+    selectedBun: ingredientPropTypes.isRequired,
     onDelete: PropTypes.func.isRequired
 };
 

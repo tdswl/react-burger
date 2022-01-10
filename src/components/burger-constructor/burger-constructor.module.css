@@ -2,28 +2,26 @@
 .ingredientsContainer {
     display: flex;
     flex-direction: column;
-    gap: 10px;
     height: 100%;
 }
 
 /*Стиль для списка*/
 .list {
-    composes: mt-25 pl-4 pr-4 mb-10 custom-scroll from global;
+    composes: pl-4 pr-4 mt-4 mb-4 custom-scroll from global;
     list-style-type: none;
-    padding: 0;
     height: 100%;
     overflow: hidden;
     overflow-y: auto;
 }
 
-/*Иконка dnd у первого и последнего элемента*/
-.list > li:first-child > svg, .list > li:last-child > svg {
-    opacity: 0;
+/*Стиль верхней булки*/
+.topBun {
+    composes: ml-4 mr-4 pl-8 mt-25 from global;
 }
 
-/*Расширение стиля компонента ConstructorElement*/
-.constructor-element {
-    composes: ml-10 from global;
+/*Стиль нижней булки*/
+.bottomBun {
+    composes: ml-4 mr-4 pl-8 mb-10 from global;
 }
 
 /*Стиль для конкретного элекмента списка*/
@@ -31,12 +29,22 @@
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-    margin: 10px 0;
+}
+
+li.list:not(:last-child) {
+}
+
+/*Отступы между элементами списка*/
+.list > li:not(:last-child) {
+   /* mb-4*/
+   margin-bottom: 16px;
 }
 
 /*Настройка иконки dnd*/
 .list > li > svg {
     flex-shrink: 0;
+    /*ml-8*/
+    width: 32px;
 }
 
 /*Настройки суммы и кнопки оформления*/

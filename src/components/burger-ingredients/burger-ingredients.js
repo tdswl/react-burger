@@ -6,6 +6,13 @@ import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../utils/prop-types";
 
 class BurgerIngredients extends React.Component {
+    constructor(props) {
+        super(props);
+        this.bunRef = React.createRef();
+        this.sauceRef = React.createRef();
+        this.mainRef = React.createRef();
+    }
+
     state = {
         currentTab: 'bun',
     };
@@ -15,13 +22,29 @@ class BurgerIngredients extends React.Component {
             currentTab: selectedTab
         });
 
-        let element = document.querySelector(`#${selectedTab}`);
-        // TODO: тут пока баг - скроллит всю страницу и хедер уезжает вверх :(
-        element.scrollIntoView({ behavior: 'smooth'});
+        let node = null;
+        switch(selectedTab) {
+            case "bun":
+                node = this.bunRef.current;
+                break;
+            case "sauce":
+                node = this.sauceRef.current;
+                break;
+            case "main":
+                node = this.mainRef.current;
+                break;
+            default:
+                break;
+        }
+
+        if (node)
+        {
+            node.scrollIntoView({ behavior: 'smooth'});
+        }
     };
 
     render() {
-        const {burgerComponents, onAdd} = this.props;
+        const {burgerComponents, onAdd, onSelectBun} = this.props;
 
         return (
             <article className={styles.ingredientsContainer}>
@@ -41,16 +64,16 @@ class BurgerIngredients extends React.Component {
                 </div>
 
                 <article className={styles.scrollableContainer}>
-                    <section id="bun">
+                    <section ref={this.bunRef}>
                         <h1 className={styles.ingredientsLabel}>Булки</h1>
                         <ul className={styles.ingredientsList}>
                             {burgerComponents.filter(component => component.type === 'bun').map((component) =>
-                                <li key={component._id}><Ingredient item={component} onClick={onAdd}/></li>
+                                <li key={component._id}><Ingredient item={component} onClick={onSelectBun}/></li>
                             )}
                         </ul>
                     </section>
 
-                    <section id="sauce">
+                    <section ref={this.sauceRef}>
                         <h1 className={styles.ingredientsLabel}>Соусы</h1>
                         <ul className={styles.ingredientsList}>
                             {burgerComponents.filter(component => component.type === 'sauce').map((component) =>
@@ -59,7 +82,7 @@ class BurgerIngredients extends React.Component {
                         </ul>
                     </section>
 
-                    <section id="main">
+                    <section ref={this.mainRef}>
                         <h1 className={styles.ingredientsLabel}>Начинки</h1>
                         <ul className={styles.ingredientsList}>
                             {burgerComponents.filter(component => component.type === 'main').map((component) =>
@@ -74,8 +97,9 @@ class BurgerIngredients extends React.Component {
 }
 
 BurgerIngredients.propTypes = {
-    burgerComponents: PropTypes.arrayOf(ingredientPropTypes.isRequired),
-    onAdd: PropTypes.func.isRequired
+    burgerComponents: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
+    onAdd: PropTypes.func.isRequired,
+    onSelectBun: PropTypes.func.isRequired
 };
 
 export default BurgerIngredients;

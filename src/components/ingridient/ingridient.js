@@ -28,7 +28,7 @@ class Ingredient extends React.Component {
 }
 
 Ingredient.propTypes = {
-    item: ingredientPropTypes,
+    item: ingredientPropTypes.isRequired,
     onClick: PropTypes.func.isRequired
 };
 

@@ -10,6 +10,7 @@ export default class App extends React.Component {
         burgerComponents: burgerComponentsData,
         // TODO: selectedComponents должна содержать коллекцию выбранных ингридиентов
         selectedComponents: burgerComponentsData,
+        selectedBun: burgerComponentsData.find(x => x.type === 'bun')
     };
 
     onDelete = () => {
@@ -22,14 +23,20 @@ export default class App extends React.Component {
         // TODO: добавление
     };
 
+    onSelectBun = () => {
+        // Отдельная функция, потому что булки не входят в общий список ингридиентов
+        console.log('selectBun');
+        // TODO: выбор булки
+    };
+
     render() {
         return (
             <div className={styles.app}>
                 <AppHeader/>
                 <main className={styles.mainContainer}>
                     <article className={styles.constrictorContainer}>
-                        <BurgerIngredients burgerComponents={this.state.burgerComponents} onAdd={this.onAdd}/>
-                        <BurgerConstructor burgerComponents={this.state.selectedComponents} onDelete={this.onDelete}/>
+                        <BurgerIngredients burgerComponents={this.state.burgerComponents} onAdd={this.onAdd} onSelectBun={this.onSelectBun}/>
+                        <BurgerConstructor burgerComponents={this.state.selectedComponents} onDelete={this.onDelete} selectedBun={this.state.selectedBun}/>
                     </article>
                 </main>
             </div>
