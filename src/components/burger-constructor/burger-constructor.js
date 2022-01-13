@@ -3,10 +3,16 @@ import {ConstructorElement, Button, CurrencyIcon, DragIcon} from '@ya.praktikum/
 import styles from './burger-constructor.module.css'
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../utils/prop-types";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 const BurgerConstructor = (props) => {
+    const [modalIsOpen,setModalIsOpen] = React.useState(false);
+
     const onCompleteOrder = () => {
         console.log("Оформить заказ");
+        setModalIsOpen(true);
     };
 
     const {burgerComponents, selectedBun, onDelete} = props;
@@ -54,6 +60,9 @@ const BurgerConstructor = (props) => {
                 <Button type="primary" size="large" onClick={onCompleteOrder}>
                     Оформить заказ
                 </Button>
+
+                {modalIsOpen && <Modal><IngredientDetails item={selectedBun} /></Modal>}
+                {/*{modalIsOpen && <Modal><OrderDetails item={selectedBun} /></Modal>}*/}
             </div>
         </article>
     )

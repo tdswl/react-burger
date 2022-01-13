@@ -1,0 +1,11 @@
+.modal {
+    background-color: #1c1c21;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.close {
+    display: flex;
+    align-self: end;
+}
