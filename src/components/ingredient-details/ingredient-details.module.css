@@ -1,3 +1,4 @@
+/*Стиль контейнера*/
 .content {
     display: flex;
     flex-direction: column;
@@ -5,6 +6,7 @@
     align-items: center;
 }
 
+/*Стиль контекйнера с пищевой ценностью ингридиента*/
 .details {
     composes: mb-5 from global;
     display: flex;

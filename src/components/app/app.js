@@ -3,7 +3,7 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import styles from './app.module.css'
-import {ingredientsAddress} from "../../utils/apiConstants";
+import {ingredientsAddress} from "../../utils/api-сonstants";
 
 const App = () => {
     const [state, setState] = React.useState({

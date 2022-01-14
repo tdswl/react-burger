@@ -1,12 +1,15 @@
+/*Стиль контейнера*/
 .container {
     text-align: center;
     width: 120px;
 }
 
+/*Стиль для имени*/
 .name {
     composes: text text_type_main-default text_color_inactive from global;
 }
 
+/*Стиль для значения*/
 .value {
     composes: text text_type_digits-default text_color_inactive mt-2 from global;
 }
