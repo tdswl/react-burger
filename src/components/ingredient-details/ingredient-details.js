@@ -8,10 +8,10 @@ const IngredientDetails = (props) => {
 
     return (
         <section className={styles.content}>
-            <img alt={item.name} src={item.image} className={'mb-4'}/>
-            <p className='text text_type_main-default mb-8'>{item.name}</p>
+            <img alt={item.name} src={item.image_large} className='mb-4'/>
+            <p className='text text_type_main-medium mb-8'>{item.name}</p>
             <div className={styles.details}>
-                <IngredientDetailParam name='Калории, ккал' value={item.calories} />
+                <IngredientDetailParam name='Калории,ккал' value={item.calories} />
                 <IngredientDetailParam name='Белки, г' value={item.proteins} />
                 <IngredientDetailParam name='Жиры, г' value={item.fat} />
                 <IngredientDetailParam name='Углеводы, г' value={item.carbohydrates} />

@@ -41,18 +41,18 @@ const BurgerConstructor = (props) => {
 
     const {burgerComponents, selectedBun, onDelete} = props;
     // Цена всех ингридиентов + 2 булки
-    const total = burgerComponents.reduce((x, obj) => x + obj.price, 0) + selectedBun.price * 2;
+    const total = selectedBun ? burgerComponents.reduce((x, obj) => x + obj.price, 0) + selectedBun.price * 2 : 0;
 
     return (
         <article className={styles.ingredientsContainer}>
-            <div className={styles.topBun} onClick={() => onIngredientClick(selectedBun)}>
-                {selectedBun && <ConstructorElement
+            {selectedBun && <div className={styles.topBun} onClick={() => onIngredientClick(selectedBun)}>
+                <ConstructorElement
                     isLocked={true}
                     type='top'
                     text={`${selectedBun.name} (верх)`}
                     price={selectedBun.price}
-                    thumbnail={selectedBun.image}/>}
-            </div>
+                    thumbnail={selectedBun.image}/>
+            </div>}
 
             <ul className={styles.list}>
                 {burgerComponents && burgerComponents.map((component) =>
@@ -67,14 +67,14 @@ const BurgerConstructor = (props) => {
                 )}
             </ul>
 
-            <div className={styles.bottomBun} onClick={() => onIngredientClick(selectedBun)}>
-                {selectedBun && <ConstructorElement
+            {selectedBun && <div className={styles.bottomBun} onClick={() => onIngredientClick(selectedBun)}>
+                <ConstructorElement
                     isLocked={true}
                     type='bottom'
                     text={`${selectedBun.name} (низ)`}
                     price={selectedBun.price}
-                    thumbnail={selectedBun.image}/>}
-            </div>
+                    thumbnail={selectedBun.image}/>
+            </div>}
 
             <div className={styles.summary}>
                 <div>
@@ -85,10 +85,13 @@ const BurgerConstructor = (props) => {
                     Оформить заказ
                 </Button>
 
+                {/*Модалка для клика по ингридиенту*/}
                 {ingredientDetailsIsOpen &&
                     <Modal onClose={onCloseIngredientModal} header='Детали ингридиента'>
                         <IngredientDetails item={selectedIngredient}/>
                     </Modal>}
+
+                {/*Модалка по клику оформления заказа*/}
                 {orderDetailsIsOpen &&
                     <Modal onClose={onCloseOrderModal}>
                         <OrderDetails/>

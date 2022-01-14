@@ -4,7 +4,7 @@ import styles from './ingredient-details-param.module.css'
 
 const IngredientDetailParam = (props) => {
     return (
-        <div>
+        <div className={styles.container}>
             <p className={styles.name}>
                 {props.name}
             </p>

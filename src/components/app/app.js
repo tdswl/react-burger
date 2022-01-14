@@ -11,7 +11,7 @@ const App = () => {
         hasError: false,
         burgerComponents: [],
         selectedComponents: [],
-        selectedBun: {}
+        selectedBun: null
     });
 
     React.useEffect(() => {
@@ -26,9 +26,9 @@ const App = () => {
                     setState({
                         ...state,
                         isLoading: false,
+                        selectedBun: bun,
                         burgerComponents: data.data,
                         selectedComponents: componentsOnly,
-                        selectedBun: bun
                     })
                 })
                 .catch(e => {
@@ -68,9 +68,11 @@ const App = () => {
                     <BurgerIngredients burgerComponents={state.burgerComponents}
                                        onAdd={onAdd}
                                        onSelectBun={onSelectBun}/>
-                    <BurgerConstructor burgerComponents={state.selectedComponents}
-                                       onDelete={onDelete}
-                                       selectedBun={state.selectedBun}/>
+                    {state.selectedBun && state.selectedComponents &&
+                        <BurgerConstructor burgerComponents={state.selectedComponents}
+                                           onDelete={onDelete}
+                                           selectedBun={state.selectedBun}/>
+                    }
                 </article>
             </main>
         </div>

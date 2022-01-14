@@ -57,34 +57,35 @@ const BurgerIngredients = (props) => {
                 </Tab>
             </div>
 
-            <article className={styles.scrollableContainer}>
-                <section ref={bunRef}>
-                    <h1 className={styles.ingredientsLabel}>Булки</h1>
-                    <ul className={styles.ingredientsList}>
-                        {burgerComponents.filter(component => component.type === 'bun').map((component) =>
-                            <li key={component._id}><Ingredient item={component} onClick={onSelectBun}/></li>
-                        )}
-                    </ul>
-                </section>
+            {burgerComponents &&
+                <article className={styles.scrollableContainer}>
+                    <section ref={bunRef}>
+                        <h1 className={styles.ingredientsLabel}>Булки</h1>
+                        <ul className={styles.ingredientsList}>
+                            {burgerComponents.filter(component => component.type === 'bun').map((component) =>
+                                <li key={component._id}><Ingredient item={component} onClick={onSelectBun}/></li>
+                            )}
+                        </ul>
+                    </section>
 
-                <section ref={sauceRef}>
-                    <h1 className={styles.ingredientsLabel}>Соусы</h1>
-                    <ul className={styles.ingredientsList}>
-                        {burgerComponents.filter(component => component.type === 'sauce').map((component) =>
-                            <li key={component._id} ><Ingredient item={component} onClick={onAdd}/></li>
-                        )}
-                    </ul>
-                </section>
+                    <section ref={sauceRef}>
+                        <h1 className={styles.ingredientsLabel}>Соусы</h1>
+                        <ul className={styles.ingredientsList}>
+                            {burgerComponents.filter(component => component.type === 'sauce').map((component) =>
+                                <li key={component._id}><Ingredient item={component} onClick={onAdd}/></li>
+                            )}
+                        </ul>
+                    </section>
 
-                <section ref={mainRef}>
-                    <h1 className={styles.ingredientsLabel}>Начинки</h1>
-                    <ul className={styles.ingredientsList}>
-                        {burgerComponents.filter(component => component.type === 'main').map((component) =>
-                            <li key={component._id} ><Ingredient item={component} onClick={onAdd}/></li>
-                        )}
-                    </ul>
-                </section>
-            </article>
+                    <section ref={mainRef}>
+                        <h1 className={styles.ingredientsLabel}>Начинки</h1>
+                        <ul className={styles.ingredientsList}>
+                            {burgerComponents.filter(component => component.type === 'main').map((component) =>
+                                <li key={component._id}><Ingredient item={component} onClick={onAdd}/></li>
+                            )}
+                        </ul>
+                    </section>
+                </article>}
         </article>
     )
 }
