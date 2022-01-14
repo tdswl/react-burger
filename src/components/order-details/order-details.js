@@ -7,11 +7,13 @@ const OrderDetails = () => {
 
     return (
         <section className={styles.content}>
-            <p className='text text_type_digits-large'>{number}</p>
-            <p className='text text_type_main-default'>идентификатор заказа</p>
-            <DoneImg />
-            <p className='text text_type_main-medium'>Ваш заказ начали готовить</p>
-            <p className='text text_type_main-medium text_color_inactive'>
+            <p className={styles.number}>{number}</p>
+            <p className='text text_type_main-medium mt-8'>идентификатор заказа</p>
+            <div className='mt-15'>
+                <DoneImg />
+            </div>
+            <p className='text text_type_main-default mt-15'>Ваш заказ начали готовить</p>
+            <p className='text text_type_main-default text_color_inactive mt-2 mb-20'>
                 Дождитесь готовности на орбитальной станции
             </p>
         </section>

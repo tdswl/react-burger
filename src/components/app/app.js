@@ -43,8 +43,9 @@ const App = () => {
         getComponents();
     }, [])
 
-    const onDelete = () => {
+    const onDelete = (e) => {
         console.log("delete");
+        e.stopPropagation();
         // TODO: удаление
     };
 

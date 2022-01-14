@@ -8,11 +8,35 @@ import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 
 const BurgerConstructor = (props) => {
-    const [modalIsOpen,setModalIsOpen] = React.useState(false);
+    const [orderDetailsIsOpen, setOrderDetailsIsOpen] = React.useState(false);
+    const [ingredientDetailsIsOpen, setIngredientDetailsIsOpen] = React.useState(false);
+    const [selectedIngredient, setSelectedIngredient] = React.useState({});
 
     const onCompleteOrder = () => {
         console.log("Оформить заказ");
-        setModalIsOpen(true);
+        setOrderDetailsIsOpen(true);
+    };
+
+    const onCloseOrderModal = (e) => {
+        e.stopPropagation();
+        if (e.target === e.currentTarget || e.keyCode === 27) {
+            console.log("Закрыть оформление заказа");
+            setOrderDetailsIsOpen(false);
+        }
+    };
+
+    const onIngredientClick = (ingredient) => {
+        console.log("Открыть ингридиент");
+        setIngredientDetailsIsOpen(true);
+        setSelectedIngredient(ingredient);
+    };
+
+    const onCloseIngredientModal = (e) => {
+        e.stopPropagation();
+        if (e.target === e.currentTarget || e.keyCode === 27) {
+            console.log("Закрыть ингридиент");
+            setIngredientDetailsIsOpen(false);
+        }
     };
 
     const {burgerComponents, selectedBun, onDelete} = props;
@@ -21,7 +45,7 @@ const BurgerConstructor = (props) => {
 
     return (
         <article className={styles.ingredientsContainer}>
-            <div className={styles.topBun}>
+            <div className={styles.topBun} onClick={() => onIngredientClick(selectedBun)}>
                 {selectedBun && <ConstructorElement
                     isLocked={true}
                     type='top'
@@ -32,7 +56,7 @@ const BurgerConstructor = (props) => {
 
             <ul className={styles.list}>
                 {burgerComponents && burgerComponents.map((component) =>
-                    <li key={component._id}>
+                    <li key={component._id} onClick={() => onIngredientClick(component)}>
                         <DragIcon type="primary"/>
                         <ConstructorElement
                             text={component.name}
@@ -43,7 +67,7 @@ const BurgerConstructor = (props) => {
                 )}
             </ul>
 
-            <div className={styles.bottomBun}>
+            <div className={styles.bottomBun} onClick={() => onIngredientClick(selectedBun)}>
                 {selectedBun && <ConstructorElement
                     isLocked={true}
                     type='bottom'
@@ -61,8 +85,14 @@ const BurgerConstructor = (props) => {
                     Оформить заказ
                 </Button>
 
-                {modalIsOpen && <Modal><IngredientDetails item={selectedBun} /></Modal>}
-                {/*{modalIsOpen && <Modal><OrderDetails item={selectedBun} /></Modal>}*/}
+                {ingredientDetailsIsOpen &&
+                    <Modal onClose={onCloseIngredientModal} header='Детали ингридиента'>
+                        <IngredientDetails item={selectedIngredient}/>
+                    </Modal>}
+                {orderDetailsIsOpen &&
+                    <Modal onClose={onCloseOrderModal}>
+                        <OrderDetails/>
+                    </Modal>}
             </div>
         </article>
     )
