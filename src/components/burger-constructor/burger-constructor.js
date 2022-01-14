@@ -5,12 +5,9 @@ import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../utils/prop-types";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 
-const BurgerConstructor = ({burgerComponents, selectedBun, onDelete}) => {
+const BurgerConstructor = ({burgerComponents, selectedBun, onIngredientClick, onDelete}) => {
     const [orderDetailsIsOpen, setOrderDetailsIsOpen] = React.useState(false);
-    const [ingredientDetailsIsOpen, setIngredientDetailsIsOpen] = React.useState(false);
-    const [selectedIngredient, setSelectedIngredient] = React.useState({});
 
     const onCompleteOrder = () => {
         console.log("Оформить заказ");
@@ -21,18 +18,6 @@ const BurgerConstructor = ({burgerComponents, selectedBun, onDelete}) => {
         console.log("Закрыть оформление заказа");
         e.stopPropagation();
         setOrderDetailsIsOpen(false);
-    };
-
-    const onIngredientClick = (ingredient) => {
-        console.log("Открыть ингридиент");
-        setIngredientDetailsIsOpen(true);
-        setSelectedIngredient(ingredient);
-    };
-
-    const onCloseIngredientModal = (e) => {
-        console.log("Закрыть ингридиент");
-        e.stopPropagation();
-        setIngredientDetailsIsOpen(false);
     };
 
     // Цена всех ингридиентов + 2 булки
@@ -83,12 +68,6 @@ const BurgerConstructor = ({burgerComponents, selectedBun, onDelete}) => {
                 <Button type="primary" size="large" onClick={onCompleteOrder}>
                     Оформить заказ
                 </Button>
-
-                {/*Модалка для клика по ингридиенту*/}
-                {ingredientDetailsIsOpen &&
-                    <Modal onClose={onCloseIngredientModal} header='Детали ингридиента'>
-                        <IngredientDetails item={selectedIngredient}/>
-                    </Modal>}
 
                 {/*Модалка по клику оформления заказа*/}
                 {orderDetailsIsOpen &&

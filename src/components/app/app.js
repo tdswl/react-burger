@@ -4,6 +4,8 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import styles from './app.module.css'
 import {ingredientsAddress} from "../../utils/api-сonstants";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 const App = () => {
     const [state, setState] = React.useState({
@@ -13,6 +15,9 @@ const App = () => {
         selectedComponents: [],
         selectedBun: null
     });
+
+    const [ingredientDetailsIsOpen, setIngredientDetailsIsOpen] = React.useState(false);
+    const [selectedIngredient, setSelectedIngredient] = React.useState({});
 
     React.useEffect(() => {
         const getComponents = async () => {
@@ -49,15 +54,16 @@ const App = () => {
         // TODO: удаление
     };
 
-    const onAdd = () => {
-        console.log("add");
-        // TODO: добавление
+    const onIngredientClick = (ingredient) => {
+        console.log("Открыть ингридиент");
+        setIngredientDetailsIsOpen(true);
+        setSelectedIngredient(ingredient);
     };
 
-    const onSelectBun = () => {
-        console.log('selectBun');
-        // TODO: выбор булки
-        // Отдельная функция, потому что булки не входят в общий список ингридиентов
+    const onCloseIngredientModal = (e) => {
+        console.log("Закрыть ингридиент");
+        e.stopPropagation();
+        setIngredientDetailsIsOpen(false);
     };
 
     return (
@@ -66,15 +72,21 @@ const App = () => {
             <main className={styles.mainContainer}>
                 <article className={styles.constrictorContainer}>
                     <BurgerIngredients burgerComponents={state.burgerComponents}
-                                       onAdd={onAdd}
-                                       onSelectBun={onSelectBun}/>
+                                       onIngredientClick={onIngredientClick} />
                     {state.selectedBun && state.selectedComponents &&
                         <BurgerConstructor burgerComponents={state.selectedComponents}
                                            onDelete={onDelete}
+                                           onIngredientClick={onIngredientClick}
                                            selectedBun={state.selectedBun}/>
                     }
                 </article>
             </main>
+
+            {/*Модалка для клика по ингридиенту*/}
+            {ingredientDetailsIsOpen &&
+                <Modal onClose={onCloseIngredientModal} header='Детали ингридиента'>
+                    <IngredientDetails item={selectedIngredient}/>
+                </Modal>}
         </div>
     );
 }

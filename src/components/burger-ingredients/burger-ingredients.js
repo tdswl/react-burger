@@ -5,7 +5,7 @@ import styles from './burger-ingredients.module.css'
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../utils/prop-types";
 
-const BurgerIngredients = ({burgerComponents, onAdd, onSelectBun}) => {
+const BurgerIngredients = ({burgerComponents, onIngredientClick}) => {
     const bunRef = React.useRef(null);
     const sauceRef = React.useRef(null);
     const mainRef = React.useRef(null);
@@ -61,7 +61,8 @@ const BurgerIngredients = ({burgerComponents, onAdd, onSelectBun}) => {
                         <h1 className={styles.ingredientsLabel}>Булки</h1>
                         <ul className={styles.ingredientsList}>
                             {burgerComponents.filter(component => component.type === 'bun').map((component) =>
-                                <li key={component._id}><Ingredient item={component} onClick={onSelectBun}/></li>
+                                <li key={component._id}><Ingredient item={component}
+                                                                    onClick={() => onIngredientClick(component)}/></li>
                             )}
                         </ul>
                     </section>
@@ -70,7 +71,8 @@ const BurgerIngredients = ({burgerComponents, onAdd, onSelectBun}) => {
                         <h1 className={styles.ingredientsLabel}>Соусы</h1>
                         <ul className={styles.ingredientsList}>
                             {burgerComponents.filter(component => component.type === 'sauce').map((component) =>
-                                <li key={component._id}><Ingredient item={component} onClick={onAdd}/></li>
+                                <li key={component._id}><Ingredient item={component}
+                                                                    onClick={() => onIngredientClick(component)}/></li>
                             )}
                         </ul>
                     </section>
@@ -79,7 +81,8 @@ const BurgerIngredients = ({burgerComponents, onAdd, onSelectBun}) => {
                         <h1 className={styles.ingredientsLabel}>Начинки</h1>
                         <ul className={styles.ingredientsList}>
                             {burgerComponents.filter(component => component.type === 'main').map((component) =>
-                                <li key={component._id}><Ingredient item={component} onClick={onAdd}/></li>
+                                <li key={component._id}><Ingredient item={component}
+                                                                    onClick={() => onIngredientClick(component)}/></li>
                             )}
                         </ul>
                     </section>
@@ -90,7 +93,7 @@ const BurgerIngredients = ({burgerComponents, onAdd, onSelectBun}) => {
 
 BurgerIngredients.propTypes = {
     burgerComponents: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-    onAdd: PropTypes.func.isRequired,
+    onIngredientClick: PropTypes.func.isRequired,
     onSelectBun: PropTypes.func.isRequired
 };
 
