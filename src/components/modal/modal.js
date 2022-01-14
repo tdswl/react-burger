@@ -7,16 +7,14 @@ import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals");
 
-const Modal = (props) => {
+const Modal = ({children, header, onClose}) => {
     React.useEffect(() => {
-        document.addEventListener("keydown", props.onClose);
+        document.addEventListener("keydown", onClose);
 
         return () => {
-            document.removeEventListener("keydown", props.onClose);
+            document.removeEventListener("keydown", onClose);
         }
     }, [])
-
-    const {children, header, onClose} = props;
 
     return ReactDOM.createPortal(
         <ModalOverlay onClose={onClose}>

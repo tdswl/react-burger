@@ -5,7 +5,7 @@ import styles from './burger-ingredients.module.css'
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../utils/prop-types";
 
-const BurgerIngredients = (props) => {
+const BurgerIngredients = ({burgerComponents, onAdd, onSelectBun}) => {
     const bunRef = React.useRef(null);
     const sauceRef = React.useRef(null);
     const mainRef = React.useRef(null);
@@ -37,8 +37,6 @@ const BurgerIngredients = (props) => {
             node.scrollIntoView({behavior: 'smooth'});
         }
     }
-
-    const {burgerComponents, onAdd, onSelectBun} = props;
 
     return (
         <article className={styles.ingredientsContainer}>

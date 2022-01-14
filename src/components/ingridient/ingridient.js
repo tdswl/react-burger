@@ -4,10 +4,8 @@ import styles from './ingredient.module.css'
 import {ingredientPropTypes} from "../../utils/prop-types";
 import PropTypes from "prop-types";
 
-const Ingredient = (props) => {
+const Ingredient = ({item, onClick}) => {
     const [counter, setCounter] = React.useState(1);
-
-    const {item, onClick} = props;
 
     return (
         <section className={styles.ingredientContainer} onClick={onClick}>

@@ -2,14 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from './ingredient-details-param.module.css'
 
-const IngredientDetailParam = (props) => {
+const IngredientDetailParam = ({name, value}) => {
     return (
         <div className={styles.container}>
             <p className={styles.name}>
-                {props.name}
+                {name}
             </p>
             <p className={styles.value}>
-                {props.value}
+                {value}
             </p>
         </div>
     );

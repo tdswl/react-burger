@@ -7,7 +7,7 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 
-const BurgerConstructor = (props) => {
+const BurgerConstructor = ({burgerComponents, selectedBun, onDelete}) => {
     const [orderDetailsIsOpen, setOrderDetailsIsOpen] = React.useState(false);
     const [ingredientDetailsIsOpen, setIngredientDetailsIsOpen] = React.useState(false);
     const [selectedIngredient, setSelectedIngredient] = React.useState({});
@@ -39,7 +39,6 @@ const BurgerConstructor = (props) => {
         }
     };
 
-    const {burgerComponents, selectedBun, onDelete} = props;
     // Цена всех ингридиентов + 2 булки
     const total = selectedBun ? burgerComponents.reduce((x, obj) => x + obj.price, 0) + selectedBun.price * 2 : 0;
 

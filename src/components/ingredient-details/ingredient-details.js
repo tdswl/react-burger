@@ -3,9 +3,7 @@ import styles from './ingredient-details.module.css'
 import {ingredientPropTypes} from "../../utils/prop-types";
 import IngredientDetailParam from "../ingredient-details-param/ingredient-details-param";
 
-const IngredientDetails = (props) => {
-    const {item} = props;
-
+const IngredientDetails = ({item}) => {
     return (
         <section className={styles.content}>
             <img alt={item.name} src={item.image_large} className='mb-4'/>
