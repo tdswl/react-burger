@@ -8,11 +8,18 @@ import PropTypes from "prop-types";
 const modalRoot = document.getElementById("react-modals");
 
 const Modal = ({children, header, onClose}) => {
+    const onKeyClose = (e) => {
+        if (e.key === "Escape" || e.key === "Esc")
+        {
+            onClose(e);
+        }
+    };
+
     React.useEffect(() => {
-        document.addEventListener("keydown", onClose);
+        document.addEventListener("keydown", onKeyClose);
 
         return () => {
-            document.removeEventListener("keydown", onClose);
+            document.removeEventListener("keydown", onKeyClose);
         }
     }, [])
 

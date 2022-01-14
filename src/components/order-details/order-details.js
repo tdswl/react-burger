@@ -3,7 +3,11 @@ import styles from './order-details.module.css'
 import {ReactComponent as DoneImg} from "../../images/done.svg";
 
 const OrderDetails = () => {
-    const number = Math.floor(Math.random() * 1000000);
+    const number = React.useMemo(
+        () =>
+            Math.floor(Math.random() * 1000000),
+        []
+    );
 
     return (
         <section className={styles.content}>

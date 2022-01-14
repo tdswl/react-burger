@@ -18,11 +18,9 @@ const BurgerConstructor = ({burgerComponents, selectedBun, onDelete}) => {
     };
 
     const onCloseOrderModal = (e) => {
+        console.log("Закрыть оформление заказа");
         e.stopPropagation();
-        if (e.target === e.currentTarget || e.keyCode === 27) {
-            console.log("Закрыть оформление заказа");
-            setOrderDetailsIsOpen(false);
-        }
+        setOrderDetailsIsOpen(false);
     };
 
     const onIngredientClick = (ingredient) => {
@@ -32,15 +30,17 @@ const BurgerConstructor = ({burgerComponents, selectedBun, onDelete}) => {
     };
 
     const onCloseIngredientModal = (e) => {
+        console.log("Закрыть ингридиент");
         e.stopPropagation();
-        if (e.target === e.currentTarget || e.keyCode === 27) {
-            console.log("Закрыть ингридиент");
-            setIngredientDetailsIsOpen(false);
-        }
+        setIngredientDetailsIsOpen(false);
     };
 
     // Цена всех ингридиентов + 2 булки
-    const total = selectedBun ? burgerComponents.reduce((x, obj) => x + obj.price, 0) + selectedBun.price * 2 : 0;
+    const total = React.useMemo(
+        () =>
+            selectedBun ? burgerComponents.reduce((x, obj) => x + obj.price, 0) + selectedBun.price * 2 : 0,
+        [selectedBun, burgerComponents]
+    );
 
     return (
         <article className={styles.ingredientsContainer}>
