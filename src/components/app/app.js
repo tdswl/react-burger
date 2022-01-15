@@ -20,16 +20,26 @@ const App = () => {
             await fetch(ingredientsAddress)
                 .then(res => res.json())
                 .then(data => {
-                    const componentsOnly = data.data.filter(x => x.type !== 'bun');
-                    const bun = data.data.find(x => x.type === 'bun');
+                    if (data.success === true)
+                    {
+                        const componentsOnly = data.data.filter(x => x.type !== 'bun');
+                        const bun = data.data.find(x => x.type === 'bun');
 
-                    setState({
-                        ...state,
-                        isLoading: false,
-                        selectedBun: bun,
-                        burgerComponents: data.data,
-                        selectedComponents: componentsOnly,
-                    })
+                        setState({
+                            ...state,
+                            isLoading: false,
+                            selectedBun: bun,
+                            burgerComponents: data.data,
+                            selectedComponents: componentsOnly,
+                        })
+                    }
+                    else {
+                        setState({
+                            ...state,
+                            hasError: true,
+                            isLoading: false,
+                        });
+                    }
                 })
                 .catch(e => {
                     setState({
