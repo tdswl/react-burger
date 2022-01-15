@@ -16,3 +16,8 @@ html, body, #root {
   height: 100%;
   overflow: hidden;
 }
+
+#react-modals {
+  position: relative;
+  z-index: 999;
+}
