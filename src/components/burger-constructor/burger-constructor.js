@@ -6,7 +6,7 @@ import {ingredientPropTypes} from "../../utils/prop-types";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 
-const BurgerConstructor = ({burgerComponents, selectedBun, onIngredientClick, onDelete}) => {
+const BurgerConstructor = ({burgerComponents, selectedBun, onDelete}) => {
     const [orderDetailsIsOpen, setOrderDetailsIsOpen] = React.useState(false);
 
     const onCompleteOrder = () => {
@@ -29,7 +29,7 @@ const BurgerConstructor = ({burgerComponents, selectedBun, onIngredientClick, on
 
     return (
         <article className={styles.ingredientsContainer}>
-            {selectedBun && <div className={styles.topBun} onClick={() => onIngredientClick(selectedBun)}>
+            {selectedBun && <div className={styles.topBun}>
                 <ConstructorElement
                     isLocked={true}
                     type='top'
@@ -40,7 +40,7 @@ const BurgerConstructor = ({burgerComponents, selectedBun, onIngredientClick, on
 
             <ul className={styles.list}>
                 {burgerComponents && burgerComponents.map((component) =>
-                    <li key={component._id} onClick={() => onIngredientClick(component)}>
+                    <li key={component._id}>
                         <DragIcon type="primary"/>
                         <ConstructorElement
                             text={component.name}
@@ -51,7 +51,7 @@ const BurgerConstructor = ({burgerComponents, selectedBun, onIngredientClick, on
                 )}
             </ul>
 
-            {selectedBun && <div className={styles.bottomBun} onClick={() => onIngredientClick(selectedBun)}>
+            {selectedBun && <div className={styles.bottomBun}>
                 <ConstructorElement
                     isLocked={true}
                     type='bottom'
@@ -81,7 +81,6 @@ const BurgerConstructor = ({burgerComponents, selectedBun, onIngredientClick, on
 
 BurgerConstructor.propTypes = {
     burgerComponents: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-    selectedBun: ingredientPropTypes.isRequired,
     onDelete: PropTypes.func.isRequired
 };
 

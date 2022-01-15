@@ -4,13 +4,29 @@ import Ingredient from "../ingridient/ingridient";
 import styles from './burger-ingredients.module.css'
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../utils/prop-types";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
-const BurgerIngredients = ({burgerComponents, onIngredientClick}) => {
+const BurgerIngredients = ({burgerComponents}) => {
     const bunRef = React.useRef(null);
     const sauceRef = React.useRef(null);
     const mainRef = React.useRef(null);
 
     const [currentTab, setCurrentTabState] = React.useState('bun');
+    const [ingredientDetailsIsOpen, setIngredientDetailsIsOpen] = React.useState(false);
+    const [selectedIngredient, setSelectedIngredient] = React.useState({});
+
+    const onIngredientClick = (ingredient) => {
+        console.log("Открыть ингридиент");
+        setIngredientDetailsIsOpen(true);
+        setSelectedIngredient(ingredient);
+    };
+
+    const onCloseIngredientModal = (e) => {
+        console.log("Закрыть ингридиент");
+        e.stopPropagation();
+        setIngredientDetailsIsOpen(false);
+    };
 
     const setCurrentTab = (selectedTab) => {
         setCurrentTabState(selectedTab);
@@ -87,14 +103,18 @@ const BurgerIngredients = ({burgerComponents, onIngredientClick}) => {
                         </ul>
                     </section>
                 </article>}
+
+            {/*Модалка для клика по ингридиенту*/}
+            {ingredientDetailsIsOpen &&
+                <Modal onClose={onCloseIngredientModal} header='Детали ингридиента'>
+                    <IngredientDetails item={selectedIngredient}/>
+                </Modal>}
         </article>
     )
 }
 
 BurgerIngredients.propTypes = {
     burgerComponents: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-    onIngredientClick: PropTypes.func.isRequired,
-    onSelectBun: PropTypes.func.isRequired
 };
 
 export default BurgerIngredients;
