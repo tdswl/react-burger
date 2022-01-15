@@ -1,0 +1,57 @@
+/*Стль контейнера для списка ингридиентов*/
+.ingredientsContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/*Стиль для списка*/
+.list {
+    composes: pl-4 pr-4 mt-4 mb-4 custom-scroll from global;
+    list-style-type: none;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+/*Стиль верхней булки*/
+.topBun {
+    composes: ml-4 mr-4 pl-8 mt-25 from global;
+}
+
+/*Стиль нижней булки*/
+.bottomBun {
+    composes: ml-4 mr-4 pl-8 mb-10 from global;
+}
+
+/*Стиль для конкретного элекмента списка*/
+.list > li {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+li.list:not(:last-child) {
+}
+
+/*Отступы между элементами списка*/
+.list > li:not(:last-child) {
+   /* mb-4*/
+   margin-bottom: 16px;
+}
+
+/*Настройка иконки dnd*/
+.list > li > svg {
+    flex-shrink: 0;
+    /*ml-8*/
+    width: 32px;
+}
+
+/*Настройки суммы и кнопки оформления*/
+.summary {
+    composes: text text_type_digits-medium from global;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap: 40px;
+}

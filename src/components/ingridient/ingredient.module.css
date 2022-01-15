@@ -1,0 +1,24 @@
+/*Стиль контейнера ингридента*/
+.ingredientContainer {
+    position: relative;
+    flex: 0 0 0;
+}
+
+/*Стиль изображения ингридиента*/
+.image {
+    composes: ml-4 mr-4 from global;
+}
+
+/*Стиль цены ингридиента*/
+.price {
+    composes: text text_type_digits-default mt-1 mb-1 from global;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+/*Стиль текста имени ингридиента*/
+.name {
+    composes: text text_type_main-default mt-1 mb-1 from global;
+    text-align: center;
+}

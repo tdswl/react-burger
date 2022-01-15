@@ -1,0 +1,43 @@
+/*Стиль всей панели навигации*/
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.header {
+    width: 100%;
+    background: #1c1c21;
+    position: fixed;
+}
+
+/*Стиль кнопки на панели*/
+.navbar > button {
+    display: flex;
+    flex-wrap: nowrap;
+    /*Перегрузка стиля из библиотеки p-20*/
+    padding: 20px;
+}
+
+/*Стиль текста кнопки*/
+.label {
+    composes: ml-2 text text_type_main-default from global;
+}
+
+/*Стиль текста кнопки для несуществующих страниц*/
+.label_inactive {
+    composes: ml-2 text text_type_main-default text_color_inactive from global;
+}
+
+/*Стиль логотипа*/
+.navbar > svg {
+    text-align: center;
+    flex-grow: 1;
+}
+
+.login {
+    align-self: flex-end;
+}

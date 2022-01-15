@@ -1,0 +1,33 @@
+/*Стиль всего приложения*/
+.app {
+    display: flex;
+    flex-direction: column;
+    background: #131316;
+}
+
+/*Контейнер основного контента - содержимого страницы*/
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*Ставим контейнерам высоту 100%, чтобы потом убрать глобальный скролл*/
+.app, .mainContainer {
+    height: 100%;
+}
+
+/*Стиль котейнера с панелями страницы*/
+.constrictorContainer {
+    display: flex;
+    height: 86%;
+    gap: 40px;
+    justify-content: center;
+    max-width: 1280px;
+    padding-top: 64px;
+}
+
+/*Настройки flex для панелей*/
+.constrictorContainer > article {
+    flex: 1 0 0;
+}
