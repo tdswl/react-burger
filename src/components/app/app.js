@@ -62,15 +62,18 @@ const App = () => {
         <div className={styles.app}>
             <AppHeader/>
             <main className={styles.mainContainer}>
-                {requestState.hasError === true ? (<ErrorMessage />) :
-                    (<article className={styles.constrictorContainer}>
-                        <BurgerIngredients burgerComponents={state.burgerComponents}/>
-                        {state.selectedBun && state.selectedComponents &&
-                            (<BurgerConstructor burgerComponents={state.selectedComponents}
-                                                onDelete={onDelete}
-                                                selectedBun={state.selectedBun}/>)
-                        }
-                    </article>)}
+                {requestState.hasError === true ? (<ErrorMessage/>) :
+                    (
+                        <article className={styles.constrictorContainer}>
+                            <BurgerIngredients burgerComponents={state.burgerComponents}/>
+                            {state.selectedBun && state.selectedComponents &&
+                                (
+                                    <BurgerConstructor burgerComponents={state.selectedComponents}
+                                                       onDelete={onDelete}
+                                                       selectedBun={state.selectedBun}/>
+                                )}
+                        </article>
+                    )}
                 {/*Индикатор загрузки*/}
                 {requestState.isLoading && (<div className={styles.spinner}></div>)}
             </main>

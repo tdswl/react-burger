@@ -29,36 +29,41 @@ const BurgerConstructor = ({burgerComponents, selectedBun, onDelete}) => {
 
     return (
         <article className={styles.ingredientsContainer}>
-            {selectedBun && (<div className={styles.topBun}>
-                <ConstructorElement
-                    isLocked={true}
-                    type='top'
-                    text={`${selectedBun.name} (верх)`}
-                    price={selectedBun.price}
-                    thumbnail={selectedBun.image}/>
-            </div>)}
+            {selectedBun && (
+                <div className={styles.topBun}>
+                    <ConstructorElement
+                        isLocked={true}
+                        type='top'
+                        text={`${selectedBun.name} (верх)`}
+                        price={selectedBun.price}
+                        thumbnail={selectedBun.image}/>
+                </div>
+            )}
 
             <ul className={styles.list}>
                 {burgerComponents && burgerComponents.map((component) =>
-                    (<li key={component._id}>
-                        <DragIcon type="primary"/>
-                        <ConstructorElement
-                            text={component.name}
-                            price={component.price}
-                            thumbnail={component.image}
-                            handleClose={onDelete}/>
-                    </li>)
-                )}
+                    (
+                        <li key={component._id}>
+                            <DragIcon type="primary"/>
+                            <ConstructorElement
+                                text={component.name}
+                                price={component.price}
+                                thumbnail={component.image}
+                                handleClose={onDelete}/>
+                        </li>
+                    ))}
             </ul>
 
-            {selectedBun && (<div className={styles.bottomBun}>
-                <ConstructorElement
-                    isLocked={true}
-                    type='bottom'
-                    text={`${selectedBun.name} (низ)`}
-                    price={selectedBun.price}
-                    thumbnail={selectedBun.image}/>
-            </div>)}
+            {selectedBun && (
+                <div className={styles.bottomBun}>
+                    <ConstructorElement
+                        isLocked={true}
+                        type='bottom'
+                        text={`${selectedBun.name} (низ)`}
+                        price={selectedBun.price}
+                        thumbnail={selectedBun.image}/>
+                </div>
+            )}
 
             <div className={styles.summary}>
                 <div>
@@ -72,8 +77,9 @@ const BurgerConstructor = ({burgerComponents, selectedBun, onDelete}) => {
                 {/*Модалка по клику оформления заказа*/}
                 {orderDetailsIsOpen &&
                     (<Modal onClose={onCloseOrderModal}>
-                        <OrderDetails/>
-                    </Modal>)}
+                            <OrderDetails/>
+                        </Modal>
+                    )}
             </div>
         </article>
     )
