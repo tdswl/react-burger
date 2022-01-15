@@ -8,16 +8,19 @@ import ErrorMessage from "../error-message/error-message";
 
 const App = () => {
     const [state, setState] = React.useState({
-        isLoading: false,
-        hasError: false,
         burgerComponents: [],
         selectedComponents: [],
         selectedBun: null
     });
 
+    const [requestState, setRequestState] = React.useState({
+        isLoading: false,
+        hasError: false
+    });
+
     React.useEffect(() => {
         const getComponents = async () => {
-            setState({...state, hasError: false, isLoading: true});
+            setRequestState({hasError: false, isLoading: true});
             await fetch(INGREDIENTS_ENDPOINT)
                 .then(res => {
                     if (res.ok) {
@@ -32,22 +35,17 @@ const App = () => {
                         const bun = data.data.find(x => x.type === 'bun');
 
                         setState({
-                            ...state,
-                            isLoading: false,
                             selectedBun: bun,
                             burgerComponents: data.data,
                             selectedComponents: componentsOnly,
                         })
+                        setRequestState({hasError: false, isLoading: false});
                     } else {
                         throw new Error("Во время получения данных произошла ошибка");
                     }
                 })
                 .catch(e => {
-                    setState({
-                        ...state,
-                        hasError: true,
-                        isLoading: false,
-                    });
+                    setRequestState({hasError: true, isLoading: false});
                 });
         }
 
@@ -64,7 +62,7 @@ const App = () => {
         <div className={styles.app}>
             <AppHeader/>
             <main className={styles.mainContainer}>
-                {state.hasError === true ? (<ErrorMessage />) :
+                {requestState.hasError === true ? (<ErrorMessage />) :
                     (<article className={styles.constrictorContainer}>
                         <BurgerIngredients burgerComponents={state.burgerComponents}/>
                         {state.selectedBun && state.selectedComponents &&
@@ -74,7 +72,7 @@ const App = () => {
                         }
                     </article>)}
                 {/*Индикатор загрузки*/}
-                {state.isLoading && (<div className={styles.spinner}></div>)}
+                {requestState.isLoading && (<div className={styles.spinner}></div>)}
             </main>
         </div>
     );
