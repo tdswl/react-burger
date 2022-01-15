@@ -1,25 +1,25 @@
 import React from "react";
-import {BurgerIcon, ListIcon, Logo, ProfileIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components'
+import {BurgerIcon, ListIcon, Logo, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './app-header.module.css'
 
 const AppHeader = () => {
     return (
         <header className={styles.header}>
             <nav className={styles.navbar}>
-                <Button type="secondary" size="medium">
+                <a className={styles.link}>
                     <BurgerIcon type="primary"/>
                     <p className={styles.label}>Конструктор</p>
-                </Button>
-                <Button type="secondary" size="medium">
+                </a>
+                <a className={styles.link}>
                     <ListIcon type="secondary"/>
                     <p className={styles.label_inactive}>Лента заказов</p>
-                </Button>
-                <Logo/>
-                <Button type="secondary" size="medium">
+                </a>
+                <a className={styles.login}>
                     <ProfileIcon type="secondary"/>
                     <p className={styles.label_inactive}>Личный кабинет</p>
-                </Button>
+                </a>
             </nav>
+            <Logo />
         </header>
     )
 }

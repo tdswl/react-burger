@@ -1,6 +1,6 @@
 import React from "react";
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
-import Ingredient from "../ingridient/ingridient";
+import Ingredient from "../ingredient/ingredient";
 import styles from './burger-ingredients.module.css'
 import PropTypes from "prop-types";
 import {ingredientPropTypes} from "../../utils/prop-types";
@@ -13,19 +13,17 @@ const BurgerIngredients = ({burgerComponents}) => {
     const mainRef = React.useRef(null);
 
     const [currentTab, setCurrentTabState] = React.useState('bun');
-    const [ingredientDetailsIsOpen, setIngredientDetailsIsOpen] = React.useState(false);
-    const [selectedIngredient, setSelectedIngredient] = React.useState({});
+    const [selectedIngredient, setSelectedIngredient] = React.useState(null);
 
     const onIngredientClick = (ingredient) => {
         console.log("Открыть ингридиент");
-        setIngredientDetailsIsOpen(true);
         setSelectedIngredient(ingredient);
     };
 
     const onCloseIngredientModal = (e) => {
         console.log("Закрыть ингридиент");
         e.stopPropagation();
-        setIngredientDetailsIsOpen(false);
+        setSelectedIngredient(null);
     };
 
     const setCurrentTab = (selectedTab) => {
@@ -72,13 +70,14 @@ const BurgerIngredients = ({burgerComponents}) => {
             </div>
 
             {burgerComponents &&
-                <article className={styles.scrollableContainer}>
+                (<article className={styles.scrollableContainer}>
                     <section ref={bunRef}>
                         <h1 className={styles.ingredientsLabel}>Булки</h1>
                         <ul className={styles.ingredientsList}>
                             {burgerComponents.filter(component => component.type === 'bun').map((component) =>
-                                <li key={component._id}><Ingredient item={component}
-                                                                    onClick={() => onIngredientClick(component)}/></li>
+                                (<li key={component._id}>
+                                    <Ingredient item={component} onClick={() => onIngredientClick(component)}/>
+                                </li>)
                             )}
                         </ul>
                     </section>
@@ -87,8 +86,9 @@ const BurgerIngredients = ({burgerComponents}) => {
                         <h1 className={styles.ingredientsLabel}>Соусы</h1>
                         <ul className={styles.ingredientsList}>
                             {burgerComponents.filter(component => component.type === 'sauce').map((component) =>
-                                <li key={component._id}><Ingredient item={component}
-                                                                    onClick={() => onIngredientClick(component)}/></li>
+                                (<li key={component._id}>
+                                    <Ingredient item={component} onClick={() => onIngredientClick(component)}/>
+                                </li>)
                             )}
                         </ul>
                     </section>
@@ -97,24 +97,25 @@ const BurgerIngredients = ({burgerComponents}) => {
                         <h1 className={styles.ingredientsLabel}>Начинки</h1>
                         <ul className={styles.ingredientsList}>
                             {burgerComponents.filter(component => component.type === 'main').map((component) =>
-                                <li key={component._id}><Ingredient item={component}
-                                                                    onClick={() => onIngredientClick(component)}/></li>
+                                (<li key={component._id}>
+                                    <Ingredient item={component} onClick={() => onIngredientClick(component)}/>
+                                </li>)
                             )}
                         </ul>
                     </section>
-                </article>}
+                </article>)}
 
             {/*Модалка для клика по ингридиенту*/}
-            {ingredientDetailsIsOpen &&
-                <Modal onClose={onCloseIngredientModal} header='Детали ингридиента'>
-                    <IngredientDetails item={selectedIngredient}/>
-                </Modal>}
+            {selectedIngredient &&
+                (<Modal onClose={onCloseIngredientModal} header='Детали ингридиента'>
+                    <IngredientDetails {...selectedIngredient}/>
+                </Modal>)}
         </article>
     )
 }
 
 BurgerIngredients.propTypes = {
-    burgerComponents: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
+    burgerComponents: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 };
 
 export default BurgerIngredients;

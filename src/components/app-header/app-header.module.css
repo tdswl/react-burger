@@ -1,25 +1,42 @@
-/*Стиль всей панели навигации*/
-.navbar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    max-width: 1280px;
-    margin: 0 auto;
-}
-
 .header {
+    composes: pt-4 pb-4 from global;
     width: 100%;
     background: #1c1c21;
     position: fixed;
+    display: block;
 }
 
-/*Стиль кнопки на панели*/
-.navbar > button {
+/*Стиль всей панели навигации*/
+.navbar {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1280px;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+/*Стиль ссылки на панели*/
+.link {
+    composes: p-5 text text_type_main-default from global;
     display: flex;
     flex-wrap: nowrap;
-    /*Перегрузка стиля из библиотеки p-20*/
-    padding: 20px;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.login {
+    composes: link;
+    margin-left: auto;
+    align-self: flex-end;
+}
+
+/*Стиль логотипа*/
+.header > svg {
+    margin: 0 auto;
+    position: absolute;
+    top: 24px;
+    left: 0;
+    right: 0;
 }
 
 /*Стиль текста кнопки*/
@@ -27,17 +44,7 @@
     composes: ml-2 text text_type_main-default from global;
 }
 
-/*Стиль текста кнопки для несуществующих страниц*/
+/*Стиль текста кнопки для неактивных страниц*/
 .label_inactive {
     composes: ml-2 text text_type_main-default text_color_inactive from global;
-}
-
-/*Стиль логотипа*/
-.navbar > svg {
-    text-align: center;
-    flex-grow: 1;
-}
-
-.login {
-    align-self: flex-end;
 }

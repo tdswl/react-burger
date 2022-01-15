@@ -1,25 +1,30 @@
 import React from "react";
 import styles from './ingredient-details.module.css'
-import {ingredientPropTypes} from "../../utils/prop-types";
 import IngredientDetailParam from "../ingredient-details-param/ingredient-details-param";
+import PropTypes from "prop-types";
 
-const IngredientDetails = ({item}) => {
+const IngredientDetails = ({name, image_large, calories, proteins, fat, carbohydrates}) => {
     return (
         <section className={styles.content}>
-            <img alt={item.name} src={item.image_large} className='mb-4'/>
-            <p className='text text_type_main-medium mb-8'>{item.name}</p>
+            <img alt={name} src={image_large} className='mb-4'/>
+            <p className='text text_type_main-medium mb-8'>{name}</p>
             <div className={styles.details}>
-                <IngredientDetailParam name='Калории,ккал' value={item.calories} />
-                <IngredientDetailParam name='Белки, г' value={item.proteins} />
-                <IngredientDetailParam name='Жиры, г' value={item.fat} />
-                <IngredientDetailParam name='Углеводы, г' value={item.carbohydrates} />
+                <IngredientDetailParam name='Калории,ккал' value={calories} />
+                <IngredientDetailParam name='Белки, г' value={proteins} />
+                <IngredientDetailParam name='Жиры, г' value={fat} />
+                <IngredientDetailParam name='Углеводы, г' value={carbohydrates} />
             </div>
         </section>
     )
 }
 
 IngredientDetails.propTypes = {
-    item: ingredientPropTypes.isRequired,
+    name: PropTypes.string.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+    calories: PropTypes.number.isRequired,
+    image_large: PropTypes.string.isRequired,
 };
 
 export default IngredientDetails;

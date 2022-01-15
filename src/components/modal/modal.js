@@ -8,23 +8,23 @@ import PropTypes from "prop-types";
 const modalRoot = document.getElementById("react-modals");
 
 const Modal = ({children, header, onClose}) => {
-    const onKeyClose = (e) => {
-        if (e.key === "Escape" || e.key === "Esc")
-        {
-            onClose(e);
-        }
-    };
-
     React.useEffect(() => {
+        const onKeyClose = (e) => {
+            if (e.key === "Escape" || e.key === "Esc") {
+                onClose(e);
+            }
+        };
+
         document.addEventListener("keydown", onKeyClose);
 
         return () => {
             document.removeEventListener("keydown", onKeyClose);
         }
-    }, [])
+    }, [onClose])
 
     return ReactDOM.createPortal(
-        <ModalOverlay onClose={onClose}>
+        <>
+            <ModalOverlay onClose={onClose} />
             <div className={styles.modal}>
                 <div className={styles.header}>
                     {header && <p className={styles.headerText}>
@@ -34,7 +34,7 @@ const Modal = ({children, header, onClose}) => {
                 </div>
                 {children}
             </div>
-        </ModalOverlay>,
+        </>,
         modalRoot
     );
 }
