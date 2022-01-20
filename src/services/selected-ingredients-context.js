@@ -1,4 +1,4 @@
 import React from "react";
 
-// Контекст с выбранными ингридиентами
+// Контекст с выбранными ингредиентами
 export const SelectedIngredientsContext = React.createContext([]);

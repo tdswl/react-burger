@@ -6,8 +6,10 @@ import PropTypes from "prop-types";
 import {SelectedIngredientsContext} from "../../services/selected-ingredients-context";
 
 const Ingredient = ({item, onClick}) => {
+    // Выбранные ингредиенты из контекста
     const {selectedIngredients} = React.useContext(SelectedIngredientsContext);
 
+    // Подсчет всех выбранных ингредиентов с тем же id
     const counter = React.useMemo(
         () => selectedIngredients.filter(x => x._id === item._id).length,
         [selectedIngredients]

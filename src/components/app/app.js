@@ -10,10 +10,14 @@ import {SelectedBunContext} from '../../services/selected-bun-context';
 import {v4} from "uuid";
 
 const App = () => {
+    // Ингредиенты из api
     const [ingredients, setIngredients] = React.useState([]);
+    // Выбранная булка
     const [selectedBun, setSelectedBun] = React.useState(null);
+    // Выбранные ингредиенты
     const [selectedIngredients, setSelectedIngredients] = React.useState([]);
 
+    // Общее состояние формы
     const [requestState, setRequestState] = React.useState({
         isLoading: false,
         hasError: false
@@ -27,7 +31,7 @@ const App = () => {
                     if (res.ok) {
                         return res.json();
                     } else {
-                        throw new Error(`Во время получения данных произошла ошибка. Запрос вернул код: ${res.status}`);
+                        throw new Error(`Во время получения ингредиентов произошла ошибка. Запрос вернул код: ${res.status}`);
                     }
                 })
                 .then(data => {
@@ -51,10 +55,11 @@ const App = () => {
 
                         setRequestState({hasError: false, isLoading: false});
                     } else {
-                        throw new Error("Во время получения данных произошла ошибка");
+                        throw new Error(data.message);
                     }
                 })
                 .catch(e => {
+                    console.log(`Во время получения ингредиентов произошла ошибка: ${e.message}`);
                     setRequestState({hasError: true, isLoading: false});
                 });
         }

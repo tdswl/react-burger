@@ -1,10 +1,9 @@
 import React from "react";
 import styles from './order-details.module.css'
 import {ReactComponent as DoneImg} from "../../images/done.svg";
-import PropTypes from "prop-types";
 import {orderInfo} from "../../utils/prop-types";
 
-const OrderDetails = ({name, order}) => {
+const OrderDetails = ({order}) => {
     return (
         <section className={styles.content}>
             <p className={styles.number}>{order.number}</p>
@@ -21,7 +20,6 @@ const OrderDetails = ({name, order}) => {
 }
 
 OrderDetails.propTypes = {
-    name: PropTypes.string.isRequired,
     order: orderInfo.isRequired
 };
 

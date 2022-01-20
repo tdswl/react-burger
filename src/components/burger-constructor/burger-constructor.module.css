@@ -1,4 +1,4 @@
-/*Стль контейнера для списка ингридиентов*/
+/*Стль контейнера для списка ингредиентов*/
 .ingredientsContainer {
     display: flex;
     flex-direction: column;

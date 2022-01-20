@@ -6,7 +6,9 @@ import {SelectedBunContext} from '../../services/selected-bun-context';
 import Summary from "../summary/summary";
 
 const BurgerConstructor = () => {
+    // Выбранные ингредиенты из контекста
     const {selectedIngredients, setSelectedIngredients} = React.useContext(SelectedIngredientsContext);
+    // Выбранная булка из контекста
     const {selectedBun} = React.useContext(SelectedBunContext);
 
     const onDelete = (e, key) => {
