@@ -8,7 +8,6 @@ import {SelectedIngredientsContext} from "../../services/selected-ingredients-co
 const Ingredient = ({item, onClick}) => {
     const {selectedIngredients} = React.useContext(SelectedIngredientsContext);
 
-    // Цена всех ингридиентов + 2 булки
     const counter = React.useMemo(
         () => selectedIngredients.filter(x => x._id === item._id).length,
         [selectedIngredients]
