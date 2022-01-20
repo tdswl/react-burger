@@ -46,12 +46,3 @@ li.list:not(:last-child) {
     /*ml-8*/
     width: 32px;
 }
-
-/*Настройки суммы и кнопки оформления*/
-.summary {
-    composes: text text_type_digits-medium from global;
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    gap: 40px;
-}

@@ -1,31 +1,20 @@
 import React from "react";
-import {ConstructorElement, Button, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-constructor.module.css'
-import PropTypes from "prop-types";
-import {ingredientPropTypes} from "../../utils/prop-types";
-import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
+import {SelectedIngredientsContext} from '../../services/selected-ingredients-context';
+import {SelectedBunContext} from '../../services/selected-bun-context';
+import Summary from "../summary/summary";
 
-const BurgerConstructor = ({burgerComponents, selectedBun, onDelete}) => {
-    const [orderDetailsIsOpen, setOrderDetailsIsOpen] = React.useState(false);
+const BurgerConstructor = () => {
+    const {selectedIngredients, setSelectedIngredients} = React.useContext(SelectedIngredientsContext);
+    const {selectedBun} = React.useContext(SelectedBunContext);
 
-    const onCompleteOrder = () => {
-        console.log("Оформить заказ");
-        setOrderDetailsIsOpen(true);
-    };
-
-    const onCloseOrderModal = (e) => {
-        console.log("Закрыть оформление заказа");
+    const onDelete = (e, key) => {
+        console.log(`delete ${key}`);
         e.stopPropagation();
-        setOrderDetailsIsOpen(false);
+        const newList = selectedIngredients.filter(x => x.key !== key);
+        setSelectedIngredients(newList);
     };
-
-    // Цена всех ингридиентов + 2 булки
-    const total = React.useMemo(
-        () =>
-            selectedBun ? burgerComponents.reduce((x, obj) => x + obj.price, 0) + selectedBun.price * 2 : 0,
-        [selectedBun, burgerComponents]
-    );
 
     return (
         <article className={styles.ingredientsContainer}>
@@ -41,15 +30,15 @@ const BurgerConstructor = ({burgerComponents, selectedBun, onDelete}) => {
             )}
 
             <ul className={styles.list}>
-                {burgerComponents && burgerComponents.map((component) =>
+                {selectedIngredients && selectedIngredients.map((component) =>
                     (
-                        <li key={component._id}>
+                        <li key={component.key}>
                             <DragIcon type="primary"/>
                             <ConstructorElement
                                 text={component.name}
                                 price={component.price}
                                 thumbnail={component.image}
-                                handleClose={onDelete}/>
+                                handleClose={(e) => onDelete(e, component.key)}/>
                         </li>
                     ))}
             </ul>
@@ -65,29 +54,8 @@ const BurgerConstructor = ({burgerComponents, selectedBun, onDelete}) => {
                 </div>
             )}
 
-            <div className={styles.summary}>
-                <div>
-                    {total}
-                    <CurrencyIcon type="primary"/>
-                </div>
-                <Button type="primary" size="large" onClick={onCompleteOrder}>
-                    Оформить заказ
-                </Button>
-
-                {/*Модалка по клику оформления заказа*/}
-                {orderDetailsIsOpen &&
-                    (<Modal onClose={onCloseOrderModal}>
-                            <OrderDetails/>
-                        </Modal>
-                    )}
-            </div>
+            <Summary/>
         </article>
     )
 }
-
-BurgerConstructor.propTypes = {
-    burgerComponents: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-    onDelete: PropTypes.func.isRequired
-};
-
 export default BurgerConstructor;
