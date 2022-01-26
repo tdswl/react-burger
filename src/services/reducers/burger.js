@@ -1,16 +1,17 @@
 import {createReducer} from '@reduxjs/toolkit'
 import {
-    add,
+    addIngredient,
     failedIngredients,
     failedOrder,
     getIngredients,
     orderClear,
     prepareOrder,
-    remove,
+    removeIngredient,
     selectIngredient,
     successIngredients,
-    successOrder
-} from "../actions/constructor";
+    successOrder,
+    addBun
+} from "../actions/burger";
 import {v4} from "uuid";
 
 const initialState = {
@@ -22,13 +23,14 @@ const initialState = {
 
     selectedIngredients: [],
     selectedBun: null,
+    totalPrice: 0,
 
     order: null,
     orderRequest: false,
     orderFailed: false,
 }
 
-export const constructorReducer = createReducer(initialState, (builder) => {
+export const burgerReducer = createReducer(initialState, (builder) => {
     builder
         .addCase(getIngredients, (state) => {
             return {
@@ -37,28 +39,11 @@ export const constructorReducer = createReducer(initialState, (builder) => {
             };
         })
         .addCase(successIngredients, (state, action) => {
-            const componentsOnly = action.payload.filter(x => x.type !== 'bun');
-            const bun = action.payload.find(x => x.type === 'bun');
-
-            // Небольшой костыль для выбора рандомных компонентов. Потом нужно удалить
-            let randomComp = [];
-            if (componentsOnly.length > 0) {
-                for (let i = 0; i < componentsOnly.length / 2; i++) {
-                    let comp = componentsOnly[Math.floor(Math.random() * componentsOnly.length)];
-                    // key - подсказали в чатике на случай добавления двух одинаковых компонентов
-                    randomComp.push({...comp, key: v4()});
-                }
-            }
-
-            console.log(bun);
-
             return {
                 ...state,
                 ingredients: action.payload,
                 ingredientsRequest: false,
                 ingredientsFailed: false,
-                selectedBun: bun,
-                selectedIngredients: randomComp
             };
         })
         .addCase(failedIngredients, (state) => {
@@ -68,13 +53,37 @@ export const constructorReducer = createReducer(initialState, (builder) => {
                 ingredientsFailed: true
             };
         })
-        .addCase(add, (state, action) => {
+        .addCase(addBun, (state, action) => {
+            const newPrice = state.selectedBun ?
+                state.totalPrice - state.selectedBun.price * 2 + action.payload.price *2 :
+                state.totalPrice + action.payload.price *2;
+
+            return {
+                ...state,
+                totalPrice: newPrice,
+                selectedBun: action.payload,
+            };
         })
-        .addCase(remove, (state, action) => {
-            const newList = state.selectedIngredients.filter(x => x.key !== action.payload);
+        .addCase(addIngredient, (state, action) => {
+            const newPrice = state.totalPrice + action.payload.price;
+
+            return {
+                ...state,
+                selectedIngredients: [
+                    ...state.selectedIngredients,
+                    {...action.payload, key: v4()}
+                ],
+                totalPrice: newPrice,
+            };
+        })
+        .addCase(removeIngredient, (state, action) => {
+            const newList = state.selectedIngredients.filter(x => x.key !== action.payload.key);
+            const newPrice = state.totalPrice - action.payload.price;
+
             return {
                 ...state,
                 selectedIngredients: newList,
+                totalPrice: newPrice,
             };
         })
         .addCase(prepareOrder, (state) => {

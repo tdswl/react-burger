@@ -5,11 +5,11 @@ import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 import thunk from 'redux-thunk';
 import {Provider} from "react-redux";
-import {root} from "./services/reducers/root";
+import {rootReducer} from "./services/reducers/root";
 import {configureStore} from '@reduxjs/toolkit'
 
 const store = configureStore({
-    reducer: root,
+    reducer: rootReducer,
     middleware: [thunk],
     devTools: process.env.NODE_ENV !== 'production',
 })

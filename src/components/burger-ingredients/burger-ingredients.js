@@ -5,12 +5,12 @@ import styles from './burger-ingredients.module.css'
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import {useDispatch, useSelector} from "react-redux";
-import {selectIngredient} from "../../services/actions/constructor";
+import {selectIngredient, addIngredient, addBun} from "../../services/actions/burger";
 
 const BurgerIngredients = () => {
     const dispatch = useDispatch();
 
-    const {ingredients, selectedIngredientInfo} = useSelector(store => store.constructor);
+    const {ingredients, selectedIngredientInfo} = useSelector(store => store.burger);
 
     const bunRef = React.useRef(null);
     const sauceRef = React.useRef(null);
@@ -20,12 +20,15 @@ const BurgerIngredients = () => {
     const [currentTab, setCurrentTabState] = React.useState('bun');
 
     const onIngredientClick = (ingredient) => {
-        console.log("Открыть ингредиент");
-        dispatch(selectIngredient(ingredient));
+        // dispatch(selectIngredient(ingredient));
+        dispatch(addIngredient(ingredient));
+    };
+
+    const onBunClick = (bun) => {
+        dispatch(addBun(bun));
     };
 
     const onCloseIngredientModal = (e) => {
-        console.log("Закрыть ингредиент");
         e.stopPropagation();
         dispatch(selectIngredient(null));
     };
@@ -82,7 +85,7 @@ const BurgerIngredients = () => {
                                 {ingredients.filter(component => component.type === 'bun').map((component) =>
                                     (
                                         <li key={component._id}>
-                                            <Ingredient item={component} onClick={() => onIngredientClick(component)}/>
+                                            <Ingredient item={component} onClick={() => onBunClick(component)}/>
                                         </li>
                                     ))}
                             </ul>

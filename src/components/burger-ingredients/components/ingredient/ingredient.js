@@ -6,11 +6,11 @@ import PropTypes from "prop-types";
 import {useSelector} from "react-redux";
 
 const Ingredient = ({item, onClick}) => {
-    const { selectedIngredients } = useSelector(store => store.constructor);
+    const {selectedIngredients} = useSelector(store => store.burger);
 
     // Подсчет всех выбранных ингредиентов с тем же id
     const counter = React.useMemo(
-        () => selectedIngredients.filter(x => x._id === item._id).length,
+        () => selectedIngredients ? selectedIngredients.filter(x => x._id === item._id).length : 0,
         [selectedIngredients]
     );
 

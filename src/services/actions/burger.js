@@ -5,6 +5,7 @@ const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
 
+const CONSTRUCTOR_ADD_BUN = 'CONSTRUCTOR_ADD_BUN';
 const CONSTRUCTOR_ADD = 'CONSTRUCTOR_ADD';
 const CONSTRUCTOR_DELETE = 'CONSTRUCTOR_DELETE';
 
@@ -20,8 +21,9 @@ export const getIngredients = createAction(GET_INGREDIENTS_REQUEST);
 export const successIngredients = createAction(GET_INGREDIENTS_SUCCESS);
 export const failedIngredients = createAction(GET_INGREDIENTS_FAILED);
 
-export const add = createAction(CONSTRUCTOR_ADD);
-export const remove = createAction(CONSTRUCTOR_DELETE);
+export const addBun = createAction(CONSTRUCTOR_ADD_BUN);
+export const addIngredient = createAction(CONSTRUCTOR_ADD);
+export const removeIngredient = createAction(CONSTRUCTOR_DELETE);
 
 export const prepareOrder = createAction(ORDER_REQUEST);
 export const successOrder = createAction(ORDER_SUCCESS);

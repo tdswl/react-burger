@@ -3,17 +3,16 @@ import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger
 import styles from './burger-constructor.module.css'
 import Summary from "./components/summary/summary";
 import {useDispatch, useSelector} from "react-redux";
-import {remove} from "../../services/actions/constructor";
+import {removeIngredient} from "../../services/actions/burger";
 
 const BurgerConstructor = () => {
     const dispatch = useDispatch();
 
-    const { selectedBun, selectedIngredients } = useSelector(store => store.constructor);
+    const { selectedBun, selectedIngredients } = useSelector(store => store.burger);
 
-    const onDelete = (e, key) => {
-        console.log(`delete ${key}`);
+    const onDelete = (e, ingredient) => {
         e.stopPropagation();
-        dispatch(remove(key));
+        dispatch(removeIngredient(ingredient));
     };
 
     return (
@@ -38,7 +37,7 @@ const BurgerConstructor = () => {
                                 text={component.name}
                                 price={component.price}
                                 thumbnail={component.image}
-                                handleClose={(e) => onDelete(e, component.key)}/>
+                                handleClose={(e) => onDelete(e, component)}/>
                         </li>
                     ))}
             </ul>
