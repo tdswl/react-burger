@@ -1,7 +1,7 @@
 import React from "react";
 import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-constructor.module.css'
-import Summary from "../summary/summary";
+import Summary from "./components/summary/summary";
 import {useDispatch, useSelector} from "react-redux";
 import {remove} from "../../services/actions/constructor";
 

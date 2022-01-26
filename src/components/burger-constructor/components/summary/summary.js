@@ -1,10 +1,10 @@
 import React from "react";
 import styles from './summary.module.css'
 import {Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
+import Modal from "../../../modal/modal";
+import OrderDetails from "../../../order-details/order-details";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchOrder, orderClear} from "../../services/actions/constructor";
+import {fetchOrder, orderClear} from "../../../../services/actions/constructor";
 
 const Summary = () => {
     const dispatch = useDispatch();

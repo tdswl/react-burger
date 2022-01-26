@@ -1,6 +1,6 @@
 import React from "react";
 import styles from './ingredient-details.module.css'
-import IngredientDetailParam from "../ingredient-details-param/ingredient-details-param";
+import IngredientDetailParam from "./components/ingredient-details-param/ingredient-details-param";
 import PropTypes from "prop-types";
 
 const IngredientDetails = ({name, image_large, calories, proteins, fat, carbohydrates}) => {
