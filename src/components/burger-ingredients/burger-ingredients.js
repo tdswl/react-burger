@@ -2,30 +2,32 @@ import React from "react";
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import Ingredient from "../ingredient/ingredient";
 import styles from './burger-ingredients.module.css'
-import PropTypes from "prop-types";
-import {ingredientPropTypes} from "../../utils/prop-types";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import {useDispatch, useSelector} from "react-redux";
+import {selectIngredient} from "../../services/actions/constructor";
 
-const BurgerIngredients = ({burgerComponents}) => {
+const BurgerIngredients = () => {
+    const dispatch = useDispatch();
+
+    const {ingredients, selectedIngredientInfo} = useSelector(store => store.constructor);
+
     const bunRef = React.useRef(null);
     const sauceRef = React.useRef(null);
     const mainRef = React.useRef(null);
 
     // Выбранный таб
     const [currentTab, setCurrentTabState] = React.useState('bun');
-    // Выбранный ингредиент
-    const [selectedIngredient, setSelectedIngredient] = React.useState(null);
 
     const onIngredientClick = (ingredient) => {
         console.log("Открыть ингредиент");
-        setSelectedIngredient(ingredient);
+        dispatch(selectIngredient(ingredient));
     };
 
     const onCloseIngredientModal = (e) => {
         console.log("Закрыть ингредиент");
         e.stopPropagation();
-        setSelectedIngredient(null);
+        dispatch(selectIngredient(null));
     };
 
     const setCurrentTab = (selectedTab) => {
@@ -71,13 +73,13 @@ const BurgerIngredients = ({burgerComponents}) => {
                 </Tab>
             </div>
 
-            {burgerComponents &&
+            {ingredients &&
                 (
                     <article className={styles.scrollableContainer}>
                         <section ref={bunRef}>
                             <h1 className={styles.ingredientsLabel}>Булки</h1>
                             <ul className={styles.ingredientsList}>
-                                {burgerComponents.filter(component => component.type === 'bun').map((component) =>
+                                {ingredients.filter(component => component.type === 'bun').map((component) =>
                                     (
                                         <li key={component._id}>
                                             <Ingredient item={component} onClick={() => onIngredientClick(component)}/>
@@ -89,7 +91,7 @@ const BurgerIngredients = ({burgerComponents}) => {
                         <section ref={sauceRef}>
                             <h1 className={styles.ingredientsLabel}>Соусы</h1>
                             <ul className={styles.ingredientsList}>
-                                {burgerComponents.filter(component => component.type === 'sauce').map((component) =>
+                                {ingredients.filter(component => component.type === 'sauce').map((component) =>
                                     (
                                         <li key={component._id}>
                                             <Ingredient item={component} onClick={() => onIngredientClick(component)}/>
@@ -101,7 +103,7 @@ const BurgerIngredients = ({burgerComponents}) => {
                         <section ref={mainRef}>
                             <h1 className={styles.ingredientsLabel}>Начинки</h1>
                             <ul className={styles.ingredientsList}>
-                                {burgerComponents.filter(component => component.type === 'main').map((component) =>
+                                {ingredients.filter(component => component.type === 'main').map((component) =>
                                     (
                                         <li key={component._id}>
                                             <Ingredient item={component} onClick={() => onIngredientClick(component)}/>
@@ -113,17 +115,13 @@ const BurgerIngredients = ({burgerComponents}) => {
                 )}
 
             {/*Модалка для клика по ингредиенту*/}
-            {selectedIngredient && (
+            {selectedIngredientInfo && (
                 <Modal onClose={onCloseIngredientModal} header='Детали ингредиента'>
-                    <IngredientDetails {...selectedIngredient}/>
+                    <IngredientDetails {...selectedIngredientInfo}/>
                 </Modal>
             )}
         </article>
     )
 }
-
-BurgerIngredients.propTypes = {
-    burgerComponents: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-};
 
 export default BurgerIngredients;

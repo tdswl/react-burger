@@ -3,11 +3,10 @@ import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-com
 import styles from './ingredient.module.css'
 import {ingredientPropTypes} from "../../utils/prop-types";
 import PropTypes from "prop-types";
-import {SelectedIngredientsContext} from "../../services/selected-ingredients-context";
+import {useSelector} from "react-redux";
 
 const Ingredient = ({item, onClick}) => {
-    // Выбранные ингредиенты из контекста
-    const {selectedIngredients} = React.useContext(SelectedIngredientsContext);
+    const { selectedIngredients } = useSelector(store => store.constructor);
 
     // Подсчет всех выбранных ингредиентов с тем же id
     const counter = React.useMemo(

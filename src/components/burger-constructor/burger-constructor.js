@@ -1,21 +1,19 @@
 import React from "react";
 import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-constructor.module.css'
-import {SelectedIngredientsContext} from '../../services/selected-ingredients-context';
-import {SelectedBunContext} from '../../services/selected-bun-context';
 import Summary from "../summary/summary";
+import {useDispatch, useSelector} from "react-redux";
+import {remove} from "../../services/actions/constructor";
 
 const BurgerConstructor = () => {
-    // Выбранные ингредиенты из контекста
-    const {selectedIngredients, setSelectedIngredients} = React.useContext(SelectedIngredientsContext);
-    // Выбранная булка из контекста
-    const {selectedBun} = React.useContext(SelectedBunContext);
+    const dispatch = useDispatch();
+
+    const { selectedBun, selectedIngredients } = useSelector(store => store.constructor);
 
     const onDelete = (e, key) => {
         console.log(`delete ${key}`);
         e.stopPropagation();
-        const newList = selectedIngredients.filter(x => x.key !== key);
-        setSelectedIngredients(newList);
+        dispatch(remove(key));
     };
 
     return (
