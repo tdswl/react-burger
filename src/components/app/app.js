@@ -6,6 +6,8 @@ import styles from './app.module.css'
 import ErrorMessage from "../error-message/error-message";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchIngredients} from "../../services/actions/burger";
+import {DndProvider} from "react-dnd";
+import {HTML5Backend} from "react-dnd-html5-backend";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -23,8 +25,10 @@ const App = () => {
                 {ingredientsFailed ? (<ErrorMessage/>) :
                     (
                         <article className={styles.constrictorContainer}>
-                            <BurgerIngredients/>
-                            <BurgerConstructor/>
+                            <DndProvider backend={HTML5Backend}>
+                                <BurgerIngredients/>
+                                <BurgerConstructor/>
+                            </DndProvider>
                         </article>
                     )}
                 {/*Индикатор загрузки*/}

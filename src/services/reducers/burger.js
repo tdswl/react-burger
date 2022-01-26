@@ -54,6 +54,8 @@ export const burgerReducer = createReducer(initialState, (builder) => {
             };
         })
         .addCase(addBun, (state, action) => {
+            console.log(action);
+
             const newPrice = state.selectedBun ?
                 state.totalPrice - state.selectedBun.price * 2 + action.payload.price *2 :
                 state.totalPrice + action.payload.price *2;

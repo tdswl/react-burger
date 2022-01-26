@@ -3,32 +3,54 @@ import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger
 import styles from './burger-constructor.module.css'
 import Summary from "./components/summary/summary";
 import {useDispatch, useSelector} from "react-redux";
-import {removeIngredient} from "../../services/actions/burger";
+import {addBun, addIngredient, removeIngredient} from "../../services/actions/burger";
+import {useDrop} from 'react-dnd';
 
 const BurgerConstructor = () => {
     const dispatch = useDispatch();
 
-    const { selectedBun, selectedIngredients } = useSelector(store => store.burger);
+    const {selectedBun, selectedIngredients} = useSelector(store => store.burger);
 
     const onDelete = (e, ingredient) => {
         e.stopPropagation();
         dispatch(removeIngredient(ingredient));
     };
 
+    const [, bunTarget] = useDrop({
+        accept: "bun",
+        collect: monitor => ({
+            isHoverBun: monitor.isOver(),
+            canDropBun: monitor.canDrop(),
+        }),
+        drop(item) {
+            dispatch(addBun(item));
+        },
+    });
+
+    const [, ingredientTarget] = useDrop({
+        accept: ["sauce", "main"],
+        collect: monitor => ({
+            isHoverIngredient: monitor.isOver(),
+            canDropIngredient: monitor.canDrop(),
+        }),
+        drop(item) {
+            dispatch(addIngredient(item));
+        },
+    });
+
     return (
         <article className={styles.ingredientsContainer}>
-            {selectedBun && (
-                <div className={styles.topBun}>
-                    <ConstructorElement
-                        isLocked={true}
-                        type='top'
-                        text={`${selectedBun.name} (верх)`}
-                        price={selectedBun.price}
-                        thumbnail={selectedBun.image}/>
-                </div>
+            <div className={styles.topBun} ref={bunTarget}>{selectedBun && (
+                <ConstructorElement
+                    isLocked={true}
+                    type='top'
+                    text={`${selectedBun.name} (верх)`}
+                    price={selectedBun.price}
+                    thumbnail={selectedBun.image}/>
             )}
+            </div>
 
-            <ul className={styles.list}>
+            <ul className={styles.list} ref={ingredientTarget}>
                 {selectedIngredients && selectedIngredients.map((component) =>
                     (
                         <li key={component.key}>
@@ -42,16 +64,15 @@ const BurgerConstructor = () => {
                     ))}
             </ul>
 
-            {selectedBun && (
-                <div className={styles.bottomBun}>
+            <div className={styles.bottomBun} ref={bunTarget}>
+                {selectedBun && (
                     <ConstructorElement
                         isLocked={true}
                         type='bottom'
                         text={`${selectedBun.name} (низ)`}
                         price={selectedBun.price}
                         thumbnail={selectedBun.image}/>
-                </div>
-            )}
+                )}  </div>
 
             <Summary/>
         </article>
