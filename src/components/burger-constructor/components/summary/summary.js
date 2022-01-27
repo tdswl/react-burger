@@ -9,7 +9,7 @@ import {fetchOrder, orderClear} from "../../../../services/actions/burger";
 const Summary = () => {
     const dispatch = useDispatch();
 
-    const { order, orderRequest, selectedIngredients, selectedBun, totalPrice } = useSelector(store => store.burger);
+    const {order, orderRequest, selectedIngredients, selectedBun, totalPrice} = useSelector(store => store.burger);
 
     const onCompleteOrder = () => {
         console.log("Оформить заказ");
@@ -22,13 +22,15 @@ const Summary = () => {
         dispatch(orderClear())
     };
 
+    const disabled = orderRequest || ((!selectedIngredients || selectedIngredients.length === 0) && !selectedBun);
+
     return (
         <div className={styles.summary}>
             <div>
                 {totalPrice}
                 <CurrencyIcon type="primary"/>
             </div>
-            <Button type="primary" size="large" onClick={onCompleteOrder} disabled={orderRequest}>
+            <Button type="primary" size="large" onClick={onCompleteOrder} disabled={disabled}>
                 Оформить заказ
             </Button>
 

@@ -1,8 +1,8 @@
 import {createReducer} from '@reduxjs/toolkit'
 import {
     addIngredient,
-    failedIngredients,
-    failedOrder,
+    errorIngredients,
+    errorOrder,
     getIngredients,
     orderClear,
     prepareOrder,
@@ -50,9 +50,10 @@ export const burgerReducer = createReducer(initialState, (builder) => {
                 ingredientsFailed: false,
             };
         })
-        .addCase(failedIngredients, (state) => {
+        .addCase(errorIngredients, (state) => {
             return {
                 ...state,
+                ingredients: initialState.ingredients,
                 ingredientsRequest: false,
                 ingredientsFailed: true
             };
@@ -106,9 +107,10 @@ export const burgerReducer = createReducer(initialState, (builder) => {
                 orderFailed: false,
             };
         })
-        .addCase(failedOrder, (state) => {
+        .addCase(errorOrder, (state) => {
             return {
                 ...state,
+                order: initialState.order,
                 orderRequest: false,
                 orderFailed: true,
             };
@@ -129,6 +131,7 @@ export const burgerReducer = createReducer(initialState, (builder) => {
             const dragIngredient = state.selectedIngredients[action.payload.dragIndex];
             const newList = state.selectedIngredients.filter(x => x.key !== dragIngredient.key);
             newList.splice(action.payload.hoverIndex, 0, dragIngredient);
+
             return {
                 ...state,
                 selectedIngredients: newList
