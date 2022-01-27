@@ -1,20 +1,16 @@
 import React from "react";
-import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import {ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-constructor.module.css'
 import Summary from "./components/summary/summary";
 import {useDispatch, useSelector} from "react-redux";
-import {addBun, addIngredient, removeIngredient} from "../../services/actions/burger";
+import {addBun, addIngredient} from "../../services/actions/burger";
 import {useDrop} from 'react-dnd';
+import DraggableElement from "./components/draggable-element/draggable-element";
 
 const BurgerConstructor = () => {
     const dispatch = useDispatch();
 
     const {selectedBun, selectedIngredients} = useSelector(store => store.burger);
-
-    const onDelete = (e, ingredient) => {
-        e.stopPropagation();
-        dispatch(removeIngredient(ingredient));
-    };
 
     const [{isHoverTop}, bunTopTarget] = useDrop({
         accept: "bun",
@@ -68,17 +64,11 @@ const BurgerConstructor = () => {
             </div>
 
             <ul className={styles.list} ref={ingredientTarget}>
-                {selectedIngredients && selectedIngredients.length > 0 ? selectedIngredients.map((component) =>
+                {selectedIngredients && selectedIngredients.length > 0 ? selectedIngredients.map((component, index) =>
                         (
-                            <li key={component.key}>
-                                <DragIcon type="primary"/>
-                                <ConstructorElement
-                                    text={component.name}
-                                    price={component.price}
-                                    thumbnail={component.image}
-                                    handleClose={(e) => onDelete(e, component)}/>
-                            </li>
-                        )) :
+                            <DraggableElement key={component.key} component={component} index={index}/>
+                        )
+                    ) :
                     (
                         <div className={isHoverIngredient ? styles.placeholderIngredientHover : styles.placeholderIngredient}>
                             Положите ингредиенты сюда

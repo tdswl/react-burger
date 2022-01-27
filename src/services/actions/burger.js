@@ -17,6 +17,8 @@ const ORDER_CLEAR = 'ORDER_CLEAR';
 
 const SELECT_INGREDIENT = 'SELECT_INGREDIENT';
 
+const DND_REORDER_INGREDIENTS = 'DND_REORDER_INGREDIENTS';
+
 export const getIngredients = createAction(GET_INGREDIENTS_REQUEST);
 export const successIngredients = createAction(GET_INGREDIENTS_SUCCESS);
 export const failedIngredients = createAction(GET_INGREDIENTS_FAILED);
@@ -32,6 +34,8 @@ export const failedOrder = createAction(ORDER_FAILED);
 export const selectIngredient = createAction(SELECT_INGREDIENT);
 
 export const orderClear = createAction(ORDER_CLEAR);
+
+export const dndReorderIngredients = createAction(DND_REORDER_INGREDIENTS);
 
 export function fetchIngredients() {
     return async dispatch => {

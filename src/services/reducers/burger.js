@@ -10,7 +10,7 @@ import {
     selectIngredient,
     successIngredients,
     successOrder,
-    addBun
+    addBun, dndReorderIngredients
 } from "../actions/burger";
 import {v4} from "uuid";
 
@@ -123,6 +123,15 @@ export const burgerReducer = createReducer(initialState, (builder) => {
             return {
                 ...state,
                 selectedIngredientInfo: action.payload,
+            };
+        })
+        .addCase(dndReorderIngredients, (state, action) => {
+            const dragIngredient = state.selectedIngredients[action.payload.dragIndex];
+            const newList = state.selectedIngredients.filter(x => x.key !== dragIngredient.key);
+            newList.splice(action.payload.hoverIndex, 0, dragIngredient);
+            return {
+                ...state,
+                selectedIngredients: newList
             };
         })
 })
