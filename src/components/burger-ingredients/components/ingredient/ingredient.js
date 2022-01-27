@@ -4,18 +4,23 @@ import styles from './ingredient.module.css'
 import {ingredientPropTypes} from "../../../../utils/prop-types";
 import PropTypes from "prop-types";
 import {useSelector} from "react-redux";
-import { useDrag } from 'react-dnd';
+import {useDrag} from 'react-dnd';
 
 const Ingredient = ({item, onClick}) => {
-    const {selectedIngredients} = useSelector(store => store.burger);
+    const {selectedIngredients, selectedBun} = useSelector(store => store.burger);
 
     // Подсчет всех выбранных ингредиентов с тем же id
     const counter = React.useMemo(
-        () => selectedIngredients.filter(x => x._id === item._id).length,
-        [selectedIngredients, item]
+        () => {
+            if (selectedBun === item) {
+                return 2;
+            }
+            return selectedIngredients.filter(x => x._id === item._id).length;
+        },
+        [selectedIngredients, selectedBun, item]
     );
 
-    const [{ opacity }, ref] = useDrag({
+    const [{opacity}, ref] = useDrag({
         type: item.type,
         item,
         collect: monitor => ({
@@ -24,7 +29,7 @@ const Ingredient = ({item, onClick}) => {
     });
 
     return (
-        <section className={styles.ingredientContainer} onClick={onClick} ref={ref} style={{ opacity }}>
+        <section className={styles.ingredientContainer} onClick={onClick} ref={ref} style={{opacity}}>
             <img className={styles.image} alt={item.name} src={item.image}/>
             {counter > 0 && (<Counter count={counter} size="default"/>)}
             <p className={styles.price}>

@@ -5,7 +5,7 @@ import styles from './burger-ingredients.module.css'
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import {useDispatch, useSelector} from "react-redux";
-import {selectIngredient, addIngredient, addBun} from "../../services/actions/burger";
+import {selectIngredient, addIngredient, fetchIngredients} from "../../services/actions/burger";
 
 const BurgerIngredients = () => {
     const dispatch = useDispatch();
@@ -16,16 +16,42 @@ const BurgerIngredients = () => {
     const sauceRef = React.useRef(null);
     const mainRef = React.useRef(null);
 
+    const onScroll = (e) => {
+        const bun = bunRef.current.getBoundingClientRect();
+        const sauce = sauceRef.current.getBoundingClientRect();
+        const main = mainRef.current.getBoundingClientRect();
+
+        // Берем расстояния до верхней границы
+        const offsetValues = {
+            'bun': bun.top - e.target.offsetTop,
+            'sauce': sauce.top - e.target.offsetTop,
+            'main': main.top - e.target.offsetTop,
+        }
+
+        // Выбираем того, у кого оно меньше
+        const tab = Object.keys(offsetValues)
+            .reduce((prev, curr) => Math.abs(offsetValues[prev]) < Math.abs(offsetValues[curr]) ? prev : curr);
+
+        //  Выбираем вкладку
+        if (currentTab !== tab) {
+            setCurrentTabState(tab);
+        }
+    };
+
     // Выбранный таб
     const [currentTab, setCurrentTabState] = React.useState('bun');
 
     const onIngredientClick = (ingredient) => {
-        // dispatch(selectIngredient(ingredient));
+        dispatch(selectIngredient(ingredient));
         dispatch(addIngredient(ingredient));
     };
 
+    React.useEffect(() => {
+        dispatch(fetchIngredients())
+    }, [dispatch])
+
     const onBunClick = (bun) => {
-        dispatch(addBun(bun));
+        dispatch(selectIngredient(bun));
     };
 
     const onCloseIngredientModal = (e) => {
@@ -78,7 +104,7 @@ const BurgerIngredients = () => {
 
             {ingredients &&
                 (
-                    <article className={styles.scrollableContainer}>
+                    <article className={styles.scrollableContainer} onScroll={onScroll}>
                         <section ref={bunRef}>
                             <h1 className={styles.ingredientsLabel}>Булки</h1>
                             <ul className={styles.ingredientsList}>

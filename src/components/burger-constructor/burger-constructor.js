@@ -16,10 +16,10 @@ const BurgerConstructor = () => {
         dispatch(removeIngredient(ingredient));
     };
 
-    const [, bunTarget] = useDrop({
+    const [{isHoverTop}, bunTopTarget] = useDrop({
         accept: "bun",
         collect: monitor => ({
-            isHoverBun: monitor.isOver(),
+            isHoverTop: monitor.isOver(),
             canDropBun: monitor.canDrop(),
         }),
         drop(item) {
@@ -27,7 +27,18 @@ const BurgerConstructor = () => {
         },
     });
 
-    const [, ingredientTarget] = useDrop({
+    const [{isHoverBottom}, bunBottomTarget] = useDrop({
+        accept: "bun",
+        collect: monitor => ({
+            isHoverBottom: monitor.isOver(),
+            canDropBun: monitor.canDrop(),
+        }),
+        drop(item) {
+            dispatch(addBun(item));
+        },
+    });
+
+    const [{isHoverIngredient}, ingredientTarget] = useDrop({
         accept: ["sauce", "main"],
         collect: monitor => ({
             isHoverIngredient: monitor.isOver(),
@@ -40,39 +51,56 @@ const BurgerConstructor = () => {
 
     return (
         <article className={styles.ingredientsContainer}>
-            <div className={styles.topBun} ref={bunTarget}>{selectedBun && (
-                <ConstructorElement
-                    isLocked={true}
-                    type='top'
-                    text={`${selectedBun.name} (верх)`}
-                    price={selectedBun.price}
-                    thumbnail={selectedBun.image}/>
-            )}
+            <div className={styles.topBun} ref={bunTopTarget}>
+                {selectedBun ? (
+                        <ConstructorElement
+                            isLocked={true}
+                            type='top'
+                            text={`${selectedBun.name} (верх)`}
+                            price={selectedBun.price}
+                            thumbnail={selectedBun.image}/>
+                    ) :
+                    (
+                        <div className={isHoverTop ? styles.placeholderHover : styles.placeholder}>
+                            Положите булку сюда
+                        </div>
+                    )}
             </div>
 
             <ul className={styles.list} ref={ingredientTarget}>
-                {selectedIngredients && selectedIngredients.map((component) =>
+                {selectedIngredients && selectedIngredients.length > 0 ? selectedIngredients.map((component) =>
+                        (
+                            <li key={component.key}>
+                                <DragIcon type="primary"/>
+                                <ConstructorElement
+                                    text={component.name}
+                                    price={component.price}
+                                    thumbnail={component.image}
+                                    handleClose={(e) => onDelete(e, component)}/>
+                            </li>
+                        )) :
                     (
-                        <li key={component.key}>
-                            <DragIcon type="primary"/>
-                            <ConstructorElement
-                                text={component.name}
-                                price={component.price}
-                                thumbnail={component.image}
-                                handleClose={(e) => onDelete(e, component)}/>
-                        </li>
-                    ))}
+                        <div className={isHoverIngredient ? styles.placeholderIngredientHover : styles.placeholderIngredient}>
+                            Положите ингредиенты сюда
+                        </div>
+                    )
+                }
             </ul>
 
-            <div className={styles.bottomBun} ref={bunTarget}>
-                {selectedBun && (
-                    <ConstructorElement
-                        isLocked={true}
-                        type='bottom'
-                        text={`${selectedBun.name} (низ)`}
-                        price={selectedBun.price}
-                        thumbnail={selectedBun.image}/>
-                )}  </div>
+            <div className={styles.bottomBun} ref={bunBottomTarget}>
+                {selectedBun ? (<ConstructorElement
+                            isLocked={true}
+                            type='bottom'
+                            text={`${selectedBun.name} (низ)`}
+                            price={selectedBun.price}
+                            thumbnail={selectedBun.image}/>
+                    ) :
+                    (
+                        <div className={isHoverBottom ? styles.placeholderHover : styles.placeholder}>
+                            Положите булку сюда
+                        </div>
+                    )}
+            </div>
 
             <Summary/>
         </article>

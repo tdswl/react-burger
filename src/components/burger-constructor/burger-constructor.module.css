@@ -24,6 +24,43 @@
     composes: ml-4 mr-4 pl-8 mb-10 from global;
 }
 
+.topBun .bottomBun {
+    width: 100%;
+}
+
+.placeholder {
+    composes: text text_type_main-default text_color_inactive from global;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border: 2px #8585ad dashed;
+    height: 100%;
+    width: 100%;
+    min-height: 80px;
+}
+
+.placeholderHover {
+    composes: placeholder;
+}
+
+.placeholderIngredient {
+    composes:  ml-8 from global;
+    composes: placeholder;
+    height: 98%;
+    width: auto;
+}
+
+.placeholderIngredientHover {
+    composes: placeholderIngredient;
+}
+
+.placeholderHover, .placeholderIngredientHover {
+    border-color: #f2f2f3;
+    color: #f2f2f3;
+}
+
 /*Стиль для конкретного элекмента списка*/
 .list > li {
     display: flex;

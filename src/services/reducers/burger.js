@@ -15,16 +15,20 @@ import {
 import {v4} from "uuid";
 
 const initialState = {
+    // список всех полученных ингредиентов
     ingredients: [],
     ingredientsRequest: false,
     ingredientsFailed: false,
 
+    // объект текущего просматриваемого ингредиента
     selectedIngredientInfo: null,
 
+    // список всех ингредиентов в текущем конструкторе бургера
     selectedIngredients: [],
     selectedBun: null,
     totalPrice: 0,
 
+    // объект созданного заказа
     order: null,
     orderRequest: false,
     orderFailed: false,
@@ -54,11 +58,11 @@ export const burgerReducer = createReducer(initialState, (builder) => {
             };
         })
         .addCase(addBun, (state, action) => {
-            console.log(action);
-
-            const newPrice = state.selectedBun ?
-                state.totalPrice - state.selectedBun.price * 2 + action.payload.price *2 :
-                state.totalPrice + action.payload.price *2;
+            let newPrice = state.totalPrice + action.payload.price * 2;
+            if (state.selectedBun)
+            {
+                newPrice -= state.selectedBun.price * 2;
+            }
 
             return {
                 ...state,
