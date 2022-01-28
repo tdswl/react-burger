@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {addBun, addIngredient} from "../../services/actions/burger";
 import {useDrop} from 'react-dnd';
 import DraggableElement from "./components/draggable-element/draggable-element";
+import {IngredientType} from "../../utils/enums";
 
 const BurgerConstructor = () => {
     const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const BurgerConstructor = () => {
     const {selectedBun, selectedIngredients} = useSelector(store => store.burger);
 
     const [{isHoverTop}, bunTopTarget] = useDrop({
-        accept: "bun",
+        accept: IngredientType.BUN,
         collect: monitor => ({
             isHoverTop: monitor.isOver(),
         }),
@@ -23,7 +24,7 @@ const BurgerConstructor = () => {
     });
 
     const [{isHoverBottom}, bunBottomTarget] = useDrop({
-        accept: "bun",
+        accept: IngredientType.BUN,
         collect: monitor => ({
             isHoverBottom: monitor.isOver(),
         }),
@@ -33,7 +34,7 @@ const BurgerConstructor = () => {
     });
 
     const [{isHoverIngredient}, ingredientTarget] = useDrop({
-        accept: ["sauce", "main"],
+        accept: [IngredientType.SAUCE, IngredientType.MAIN],
         collect: monitor => ({
             isHoverIngredient: monitor.isOver(),
         }),

@@ -6,6 +6,7 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import {useDispatch, useSelector} from "react-redux";
 import {selectIngredient, fetchIngredients} from "../../services/actions/burger";
+import {IngredientType} from "../../utils/enums";
 
 const BurgerIngredients = () => {
     const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const BurgerIngredients = () => {
     };
 
     // Выбранный таб
-    const [currentTab, setCurrentTabState] = React.useState('bun');
+    const [currentTab, setCurrentTabState] = React.useState(IngredientType.BUN);
 
     const onIngredientClick = (ingredient) => {
         dispatch(selectIngredient(ingredient));
@@ -65,13 +66,13 @@ const BurgerIngredients = () => {
     const scrollToContent = (selectedTab) => {
         let node = null;
         switch (selectedTab) {
-            case "bun":
+            case IngredientType.BUN:
                 node = bunRef.current;
                 break;
-            case "sauce":
+            case IngredientType.SAUCE:
                 node = sauceRef.current;
                 break;
-            case "main":
+            case IngredientType.MAIN:
                 node = mainRef.current;
                 break;
             default:
@@ -89,13 +90,13 @@ const BurgerIngredients = () => {
                 Соберите бургер
             </h1>
             <div className={styles.tabsContainer}>
-                <Tab value="bun" active={currentTab === 'bun'} onClick={setCurrentTab}>
+                <Tab value={IngredientType.BUN} active={currentTab === IngredientType.BUN} onClick={setCurrentTab}>
                     Булки
                 </Tab>
-                <Tab value="sauce" active={currentTab === 'sauce'} onClick={setCurrentTab}>
+                <Tab value={IngredientType.SAUCE} active={currentTab === IngredientType.SAUCE} onClick={setCurrentTab}>
                     Соусы
                 </Tab>
-                <Tab value="main" active={currentTab === 'main'} onClick={setCurrentTab}>
+                <Tab value={IngredientType.MAIN} active={currentTab === IngredientType.MAIN} onClick={setCurrentTab}>
                     Начинки
                 </Tab>
             </div>
@@ -106,7 +107,7 @@ const BurgerIngredients = () => {
                         <section ref={bunRef}>
                             <h1 className={styles.ingredientsLabel}>Булки</h1>
                             <ul className={styles.ingredientsList}>
-                                {ingredients.filter(component => component.type === 'bun').map((component) =>
+                                {ingredients.filter(component => component.type === IngredientType.BUN).map((component) =>
                                     (
                                         <li key={component._id}>
                                             <Ingredient item={component} onClick={() => onBunClick(component)}/>
@@ -118,7 +119,7 @@ const BurgerIngredients = () => {
                         <section ref={sauceRef}>
                             <h1 className={styles.ingredientsLabel}>Соусы</h1>
                             <ul className={styles.ingredientsList}>
-                                {ingredients.filter(component => component.type === 'sauce').map((component) =>
+                                {ingredients.filter(component => component.type === IngredientType.SAUCE).map((component) =>
                                     (
                                         <li key={component._id}>
                                             <Ingredient item={component} onClick={() => onIngredientClick(component)}/>
@@ -130,7 +131,7 @@ const BurgerIngredients = () => {
                         <section ref={mainRef}>
                             <h1 className={styles.ingredientsLabel}>Начинки</h1>
                             <ul className={styles.ingredientsList}>
-                                {ingredients.filter(component => component.type === 'main').map((component) =>
+                                {ingredients.filter(component => component.type === IngredientType.MAIN).map((component) =>
                                     (
                                         <li key={component._id}>
                                             <Ingredient item={component} onClick={() => onIngredientClick(component)}/>
