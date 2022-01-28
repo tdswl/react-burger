@@ -17,7 +17,7 @@
     height: 100%;
 }
 
-/*Стиль для хедеров блоков с ингредентами*/
+/*Стиль для хедеров блоков с ингредиентами*/
 .ingredientsLabel {
     composes: text text_type_main-large from global;
     text-align: left;
@@ -34,7 +34,7 @@
     gap:24px
 }
 
-/*Общий стиль для элекмента списка с ингредиентами*/
+/*Общий стиль для элемента списка с ингредиентами*/
 .ingredientsList > li {
     flex: 0 0 0;
 }

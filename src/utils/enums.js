@@ -1,0 +1,1 @@
+export const IngredientType = Object.freeze({BUN:'bun', SAUCE:'sauce', MAIN:'main'});

@@ -1,48 +1,78 @@
 import React from "react";
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
-import Ingredient from "../ingredient/ingredient";
+import Ingredient from "./components/ingredient/ingredient";
 import styles from './burger-ingredients.module.css'
-import PropTypes from "prop-types";
-import {ingredientPropTypes} from "../../utils/prop-types";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import {useDispatch, useSelector} from "react-redux";
+import {selectIngredient, fetchIngredients} from "../../services/actions/burger";
+import {IngredientType} from "../../utils/enums";
 
-const BurgerIngredients = ({burgerComponents}) => {
+const BurgerIngredients = () => {
+    const dispatch = useDispatch();
+
+    const {ingredients, selectedIngredientInfo} = useSelector(store => store.burger);
+
     const bunRef = React.useRef(null);
     const sauceRef = React.useRef(null);
     const mainRef = React.useRef(null);
 
+    const onScroll = (e) => {
+        const bun = bunRef.current.getBoundingClientRect();
+        const sauce = sauceRef.current.getBoundingClientRect();
+        const main = mainRef.current.getBoundingClientRect();
+
+        // Берем расстояния до верхней границы
+        const offsetValues = {
+            'bun': bun.top - e.target.offsetTop,
+            'sauce': sauce.top - e.target.offsetTop,
+            'main': main.top - e.target.offsetTop,
+        }
+
+        // Выбираем элемент, у которого оно меньше
+        const tab = Object.keys(offsetValues)
+            .reduce((prev, curr) => Math.abs(offsetValues[prev]) < Math.abs(offsetValues[curr]) ? prev : curr);
+
+        //  Выбираем вкладку
+        if (currentTab !== tab) {
+            setCurrentTabState(tab);
+        }
+    };
+
     // Выбранный таб
-    const [currentTab, setCurrentTabState] = React.useState('bun');
-    // Выбранный ингредиент
-    const [selectedIngredient, setSelectedIngredient] = React.useState(null);
+    const [currentTab, setCurrentTabState] = React.useState(IngredientType.BUN);
 
     const onIngredientClick = (ingredient) => {
-        console.log("Открыть ингредиент");
-        setSelectedIngredient(ingredient);
+        dispatch(selectIngredient(ingredient));
+    };
+
+    React.useEffect(() => {
+        dispatch(fetchIngredients())
+    }, [dispatch])
+
+    const onBunClick = (bun) => {
+        dispatch(selectIngredient(bun));
     };
 
     const onCloseIngredientModal = (e) => {
-        console.log("Закрыть ингредиент");
         e.stopPropagation();
-        setSelectedIngredient(null);
+        dispatch(selectIngredient(null));
     };
 
     const setCurrentTab = (selectedTab) => {
-        setCurrentTabState(selectedTab);
         scrollToContent(selectedTab);
     };
 
     const scrollToContent = (selectedTab) => {
         let node = null;
         switch (selectedTab) {
-            case "bun":
+            case IngredientType.BUN:
                 node = bunRef.current;
                 break;
-            case "sauce":
+            case IngredientType.SAUCE:
                 node = sauceRef.current;
                 break;
-            case "main":
+            case IngredientType.MAIN:
                 node = mainRef.current;
                 break;
             default:
@@ -60,27 +90,27 @@ const BurgerIngredients = ({burgerComponents}) => {
                 Соберите бургер
             </h1>
             <div className={styles.tabsContainer}>
-                <Tab value="bun" active={currentTab === 'bun'} onClick={setCurrentTab}>
+                <Tab value={IngredientType.BUN} active={currentTab === IngredientType.BUN} onClick={setCurrentTab}>
                     Булки
                 </Tab>
-                <Tab value="sauce" active={currentTab === 'sauce'} onClick={setCurrentTab}>
+                <Tab value={IngredientType.SAUCE} active={currentTab === IngredientType.SAUCE} onClick={setCurrentTab}>
                     Соусы
                 </Tab>
-                <Tab value="main" active={currentTab === 'main'} onClick={setCurrentTab}>
+                <Tab value={IngredientType.MAIN} active={currentTab === IngredientType.MAIN} onClick={setCurrentTab}>
                     Начинки
                 </Tab>
             </div>
 
-            {burgerComponents &&
+            {ingredients &&
                 (
-                    <article className={styles.scrollableContainer}>
+                    <article className={styles.scrollableContainer} onScroll={onScroll}>
                         <section ref={bunRef}>
                             <h1 className={styles.ingredientsLabel}>Булки</h1>
                             <ul className={styles.ingredientsList}>
-                                {burgerComponents.filter(component => component.type === 'bun').map((component) =>
+                                {ingredients.filter(component => component.type === IngredientType.BUN).map((component) =>
                                     (
                                         <li key={component._id}>
-                                            <Ingredient item={component} onClick={() => onIngredientClick(component)}/>
+                                            <Ingredient item={component} onClick={() => onBunClick(component)}/>
                                         </li>
                                     ))}
                             </ul>
@@ -89,7 +119,7 @@ const BurgerIngredients = ({burgerComponents}) => {
                         <section ref={sauceRef}>
                             <h1 className={styles.ingredientsLabel}>Соусы</h1>
                             <ul className={styles.ingredientsList}>
-                                {burgerComponents.filter(component => component.type === 'sauce').map((component) =>
+                                {ingredients.filter(component => component.type === IngredientType.SAUCE).map((component) =>
                                     (
                                         <li key={component._id}>
                                             <Ingredient item={component} onClick={() => onIngredientClick(component)}/>
@@ -101,7 +131,7 @@ const BurgerIngredients = ({burgerComponents}) => {
                         <section ref={mainRef}>
                             <h1 className={styles.ingredientsLabel}>Начинки</h1>
                             <ul className={styles.ingredientsList}>
-                                {burgerComponents.filter(component => component.type === 'main').map((component) =>
+                                {ingredients.filter(component => component.type === IngredientType.MAIN).map((component) =>
                                     (
                                         <li key={component._id}>
                                             <Ingredient item={component} onClick={() => onIngredientClick(component)}/>
@@ -113,17 +143,13 @@ const BurgerIngredients = ({burgerComponents}) => {
                 )}
 
             {/*Модалка для клика по ингредиенту*/}
-            {selectedIngredient && (
+            {selectedIngredientInfo && (
                 <Modal onClose={onCloseIngredientModal} header='Детали ингредиента'>
-                    <IngredientDetails {...selectedIngredient}/>
+                    <IngredientDetails {...selectedIngredientInfo}/>
                 </Modal>
             )}
         </article>
     )
 }
-
-BurgerIngredients.propTypes = {
-    burgerComponents: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-};
 
 export default BurgerIngredients;

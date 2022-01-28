@@ -6,7 +6,7 @@
     align-items: center;
 }
 
-/*Стиль контекйнера с пищевой ценностью ингредиента*/
+/*Стиль контейнера с пищевой ценностью ингредиента*/
 .details {
     composes: mb-5 from global;
     display: flex;

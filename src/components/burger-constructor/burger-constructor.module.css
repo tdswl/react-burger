@@ -24,7 +24,46 @@
     composes: ml-4 mr-4 pl-8 mb-10 from global;
 }
 
-/*Стиль для конкретного элекмента списка*/
+.topBun .bottomBun {
+    width: 100%;
+}
+
+/*Заглушка булки*/
+.placeholder {
+    composes: text text_type_main-default text_color_inactive from global;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border: 2px #8585ad dashed;
+    height: 100%;
+    width: 100%;
+    min-height: 80px;
+}
+
+.placeholderHover {
+    composes: placeholder;
+}
+
+/*Заглушка ингредиентов*/
+.placeholderIngredient {
+    composes:  ml-8 from global;
+    composes: placeholder;
+    height: 98%;
+    width: auto;
+}
+
+.placeholderIngredientHover {
+    composes: placeholderIngredient;
+}
+
+.placeholderHover, .placeholderIngredientHover {
+    border-color: #f2f2f3;
+    color: #f2f2f3;
+}
+
+/*Стиль для конкретного элемента списка*/
 .list > li {
     display: flex;
     flex-wrap: nowrap;
@@ -45,4 +84,5 @@ li.list:not(:last-child) {
     flex-shrink: 0;
     /*ml-8*/
     width: 32px;
+    cursor: move;
 }
