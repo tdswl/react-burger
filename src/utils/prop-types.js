@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 
+// Ингредиент получаемый из Api
 export const ingredientPropTypes = PropTypes.shape({
     _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -13,4 +14,9 @@ export const ingredientPropTypes = PropTypes.shape({
     image_mobile: PropTypes.string,
     image_large: PropTypes.string,
     __v: PropTypes.number,
+});
+
+// Информация по заказу после его создания через Api
+export const orderInfo = PropTypes.shape({
+    number: PropTypes.number.isRequired,
 });

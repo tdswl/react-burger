@@ -1,0 +1,8 @@
+/*Настройки суммы и кнопки оформления*/
+.summary {
+    composes: text text_type_digits-medium from global;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap: 40px;
+}

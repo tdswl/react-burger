@@ -5,14 +5,19 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import styles from './app.module.css'
 import {INGREDIENTS_ENDPOINT} from "../../utils/api-сonstants";
 import ErrorMessage from "../error-message/error-message";
+import {SelectedIngredientsContext} from '../../services/selected-ingredients-context';
+import {SelectedBunContext} from '../../services/selected-bun-context';
+import {v4} from "uuid";
 
 const App = () => {
-    const [state, setState] = React.useState({
-        burgerComponents: [],
-        selectedComponents: [],
-        selectedBun: null
-    });
+    // Ингредиенты из api
+    const [ingredients, setIngredients] = React.useState([]);
+    // Выбранная булка
+    const [selectedBun, setSelectedBun] = React.useState(null);
+    // Выбранные ингредиенты
+    const [selectedIngredients, setSelectedIngredients] = React.useState([]);
 
+    // Общее состояние формы
     const [requestState, setRequestState] = React.useState({
         isLoading: false,
         hasError: false
@@ -26,7 +31,7 @@ const App = () => {
                     if (res.ok) {
                         return res.json();
                     } else {
-                        throw new Error(`Во время получения данных произошла ошибка. Запрос вернул код: ${res.status}`);
+                        throw new Error(`Во время получения ингредиентов произошла ошибка. Запрос вернул код: ${res.status}`);
                     }
                 })
                 .then(data => {
@@ -34,29 +39,33 @@ const App = () => {
                         const componentsOnly = data.data.filter(x => x.type !== 'bun');
                         const bun = data.data.find(x => x.type === 'bun');
 
-                        setState({
-                            selectedBun: bun,
-                            burgerComponents: data.data,
-                            selectedComponents: componentsOnly,
-                        })
+                        // Небольшой костыль для выбора рандомных компонентов. Потом нужно удалить
+                        let randomComp = [];
+                        if (componentsOnly.length > 0) {
+                            for (let i = 0; i < componentsOnly.length / 2; i++) {
+                                let comp = componentsOnly[Math.floor(Math.random() * componentsOnly.length)];
+                                // key - подсказали в чатике на случай добавления двух одинаковых компонентов
+                                randomComp.push({...comp, key: v4()});
+                            }
+                        }
+
+                        setIngredients(data.data);
+                        setSelectedIngredients(randomComp);
+                        setSelectedBun(bun)
+
                         setRequestState({hasError: false, isLoading: false});
                     } else {
-                        throw new Error("Во время получения данных произошла ошибка");
+                        throw new Error(data.message);
                     }
                 })
                 .catch(e => {
+                    console.log(`Во время получения ингредиентов произошла ошибка: ${e.message}`);
                     setRequestState({hasError: true, isLoading: false});
                 });
         }
 
         getComponents();
     }, [])
-
-    const onDelete = (e) => {
-        console.log("delete");
-        e.stopPropagation();
-        // TODO: удаление
-    };
 
     return (
         <div className={styles.app}>
@@ -65,13 +74,12 @@ const App = () => {
                 {requestState.hasError === true ? (<ErrorMessage/>) :
                     (
                         <article className={styles.constrictorContainer}>
-                            <BurgerIngredients burgerComponents={state.burgerComponents}/>
-                            {state.selectedBun && state.selectedComponents &&
-                                (
-                                    <BurgerConstructor burgerComponents={state.selectedComponents}
-                                                       onDelete={onDelete}
-                                                       selectedBun={state.selectedBun}/>
-                                )}
+                            <SelectedBunContext.Provider value={{selectedBun, setSelectedBun}}>
+                                <SelectedIngredientsContext.Provider value={{selectedIngredients, setSelectedIngredients}}>
+                                    <BurgerIngredients burgerComponents={ingredients}/>
+                                    <BurgerConstructor/>
+                                </SelectedIngredientsContext.Provider>
+                            </SelectedBunContext.Provider>
                         </article>
                     )}
                 {/*Индикатор загрузки*/}

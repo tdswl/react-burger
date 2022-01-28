@@ -1,16 +1,16 @@
-/*Стиль контейнера ингридента*/
+/*Стиль контейнера ингредента*/
 .ingredientContainer {
     position: relative;
     flex: 0 0 0;
     cursor: pointer;
 }
 
-/*Стиль изображения ингридиента*/
+/*Стиль изображения ингредиента*/
 .image {
     composes: ml-4 mr-4 from global;
 }
 
-/*Стиль цены ингридиента*/
+/*Стиль цены ингредиента*/
 .price {
     composes: text text_type_digits-default mt-1 mb-1 from global;
     text-align: center;
@@ -18,7 +18,7 @@
     justify-content: center;
 }
 
-/*Стиль текста имени ингридиента*/
+/*Стиль текста имени ингредиента*/
 .name {
     composes: text text_type_main-default mt-1 mb-1 from global;
     text-align: center;

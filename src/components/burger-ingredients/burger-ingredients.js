@@ -12,16 +12,18 @@ const BurgerIngredients = ({burgerComponents}) => {
     const sauceRef = React.useRef(null);
     const mainRef = React.useRef(null);
 
+    // Выбранный таб
     const [currentTab, setCurrentTabState] = React.useState('bun');
+    // Выбранный ингредиент
     const [selectedIngredient, setSelectedIngredient] = React.useState(null);
 
     const onIngredientClick = (ingredient) => {
-        console.log("Открыть ингридиент");
+        console.log("Открыть ингредиент");
         setSelectedIngredient(ingredient);
     };
 
     const onCloseIngredientModal = (e) => {
-        console.log("Закрыть ингридиент");
+        console.log("Закрыть ингредиент");
         e.stopPropagation();
         setSelectedIngredient(null);
     };
@@ -110,9 +112,9 @@ const BurgerIngredients = ({burgerComponents}) => {
                     </article>
                 )}
 
-            {/*Модалка для клика по ингридиенту*/}
+            {/*Модалка для клика по ингредиенту*/}
             {selectedIngredient && (
-                <Modal onClose={onCloseIngredientModal} header='Детали ингридиента'>
+                <Modal onClose={onCloseIngredientModal} header='Детали ингредиента'>
                     <IngredientDetails {...selectedIngredient}/>
                 </Modal>
             )}
