@@ -89,7 +89,6 @@ export const burgerReducer = createReducer(initialState, (builder) => {
                 ...state,
                 selectedBun: initialState.selectedBun,
                 selectedIngredients: initialState.selectedIngredients,
-                totalPrice: initialState.totalPrice,
                 order: action.payload,
                 orderRequest: false,
                 orderFailed: false,
