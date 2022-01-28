@@ -86,7 +86,6 @@ const DraggableElement = ({component, index}) => {
     )
 }
 
-
 DraggableElement.propTypes = {
     component: ingredientPropTypes.isRequired,
     index: PropTypes.number.isRequired
