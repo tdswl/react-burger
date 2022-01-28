@@ -28,7 +28,7 @@ const BurgerIngredients = () => {
             'main': main.top - e.target.offsetTop,
         }
 
-        // Выбираем того, у кого оно меньше
+        // Выбираем элемент, у которого оно меньше
         const tab = Object.keys(offsetValues)
             .reduce((prev, curr) => Math.abs(offsetValues[prev]) < Math.abs(offsetValues[curr]) ? prev : curr);
 

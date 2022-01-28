@@ -16,7 +16,6 @@ const BurgerConstructor = () => {
         accept: "bun",
         collect: monitor => ({
             isHoverTop: monitor.isOver(),
-            canDropBun: monitor.canDrop(),
         }),
         drop(item) {
             dispatch(addBun(item));
@@ -27,7 +26,6 @@ const BurgerConstructor = () => {
         accept: "bun",
         collect: monitor => ({
             isHoverBottom: monitor.isOver(),
-            canDropBun: monitor.canDrop(),
         }),
         drop(item) {
             dispatch(addBun(item));
@@ -38,7 +36,6 @@ const BurgerConstructor = () => {
         accept: ["sauce", "main"],
         collect: monitor => ({
             isHoverIngredient: monitor.isOver(),
-            canDropIngredient: monitor.canDrop(),
         }),
         drop(item) {
             dispatch(addIngredient(item));
