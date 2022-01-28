@@ -12,7 +12,6 @@ import {
     successOrder,
     addBun, dndReorderIngredients
 } from "../actions/burger";
-import {v4} from "uuid";
 
 const initialState = {
     // список всех полученных ингредиентов
@@ -26,7 +25,6 @@ const initialState = {
     // список всех ингредиентов в текущем конструкторе бургера
     selectedIngredients: [],
     selectedBun: null,
-    totalPrice: 0,
 
     // объект созданного заказа
     order: null,
@@ -59,38 +57,25 @@ export const burgerReducer = createReducer(initialState, (builder) => {
             };
         })
         .addCase(addBun, (state, action) => {
-            let newPrice = state.totalPrice + action.payload.price * 2;
-            if (state.selectedBun)
-            {
-                newPrice -= state.selectedBun.price * 2;
-            }
-
             return {
                 ...state,
-                totalPrice: newPrice,
                 selectedBun: action.payload,
             };
         })
         .addCase(addIngredient, (state, action) => {
-            const newPrice = state.totalPrice + action.payload.price;
-
             return {
                 ...state,
                 selectedIngredients: [
                     ...state.selectedIngredients,
-                    {...action.payload, key: v4()}
-                ],
-                totalPrice: newPrice,
+                    {...action.payload}
+                ]
             };
         })
         .addCase(removeIngredient, (state, action) => {
             const newList = state.selectedIngredients.filter(x => x.key !== action.payload.key);
-            const newPrice = state.totalPrice - action.payload.price;
-
             return {
                 ...state,
-                selectedIngredients: newList,
-                totalPrice: newPrice,
+                selectedIngredients: newList
             };
         })
         .addCase(prepareOrder, (state) => {
@@ -102,6 +87,9 @@ export const burgerReducer = createReducer(initialState, (builder) => {
         .addCase(successOrder, (state, action) => {
             return {
                 ...state,
+                selectedBun: initialState.selectedBun,
+                selectedIngredients: initialState.selectedIngredients,
+                totalPrice: initialState.totalPrice,
                 order: action.payload,
                 orderRequest: false,
                 orderFailed: false,
