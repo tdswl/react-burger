@@ -84,4 +84,5 @@ li.list:not(:last-child) {
     flex-shrink: 0;
     /*ml-8*/
     width: 32px;
+    cursor: move;
 }

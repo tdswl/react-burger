@@ -43,7 +43,6 @@ const BurgerIngredients = () => {
 
     const onIngredientClick = (ingredient) => {
         dispatch(selectIngredient(ingredient));
-        dispatch(addIngredient(ingredient));
     };
 
     React.useEffect(() => {
@@ -60,7 +59,6 @@ const BurgerIngredients = () => {
     };
 
     const setCurrentTab = (selectedTab) => {
-        setCurrentTabState(selectedTab);
         scrollToContent(selectedTab);
     };
 
