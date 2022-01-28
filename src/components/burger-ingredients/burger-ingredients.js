@@ -5,7 +5,7 @@ import styles from './burger-ingredients.module.css'
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import {useDispatch, useSelector} from "react-redux";
-import {selectIngredient, addIngredient, fetchIngredients} from "../../services/actions/burger";
+import {selectIngredient, fetchIngredients} from "../../services/actions/burger";
 
 const BurgerIngredients = () => {
     const dispatch = useDispatch();
