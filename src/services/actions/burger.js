@@ -77,13 +77,13 @@ export function fetchOrder(selectedIngredients, selectedBun) {
         dispatch(prepareOrder())
 
         const ingredients = selectedIngredients.map(x => x._id);
-        // Пушим булку. Нужно две и надо ли вообще?
+        // Пушим булку. Нужно две?
         if (selectedBun) {
             ingredients.push(selectedBun._id);
             ingredients.push(selectedBun._id);
         }
 
-        await fetch(ORDERS_ENDPOINT, {
+        const request = {
             method: 'POST',
             body: JSON.stringify({
                 "ingredients": ingredients
@@ -91,7 +91,9 @@ export function fetchOrder(selectedIngredients, selectedBun) {
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }
-        })
+        };
+
+        await fetch(ORDERS_ENDPOINT, request)
             .then(checkResponse)
             .then(data => {
                 if (data.success) {
@@ -99,7 +101,8 @@ export function fetchOrder(selectedIngredients, selectedBun) {
                 } else {
                     throw new Error(data.message);
                 }
-            }).catch(e => {
+            })
+            .catch(e => {
                 console.log(`Во время заказа произошла ошибка: ${e.message}`);
                 dispatch(errorOrder());
             });
