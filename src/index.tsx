@@ -7,6 +7,15 @@ import thunk from 'redux-thunk';
 import {Provider} from "react-redux";
 import {rootReducer} from "./services/reducers/root";
 import {configureStore} from '@reduxjs/toolkit'
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import ConstructorPage from "./pages/constructor/constructor";
+import ProfilePage from "./pages/profile/profile";
+import LoginPage from "./pages/login/login";
+import IngredientPage from "./pages/ingredients/ingredient";
+import ResetPasswordPage from "./pages/reset-password/reset-password";
+import ForgotPasswordPage from "./pages/forgot-password/forgot-password";
+import RegisterPage from "./pages/register/register";
+import SecurityPage from "./pages/profile/security";
 
 const store = configureStore({
     reducer: rootReducer,
@@ -17,7 +26,24 @@ const store = configureStore({
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
-            <App/>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<App/>}>
+                        <Route path="/" element={<ConstructorPage/>}/>
+                        <Route path="/history" element={<ConstructorPage/>}/>
+                        <Route path="/login" element={<LoginPage/>}/>
+                        <Route path="/register" element={<RegisterPage/>}/>
+                        <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
+                        <Route path="/reset-password" element={<ResetPasswordPage/>}/>
+                        <Route path="/profile" element={<ProfilePage/>}>
+                            <Route path="/profile" element={<SecurityPage/>}/>
+                            <Route path="/profile/history" element={<ConstructorPage/>}/>
+                            <Route path="/profile/logout" element={<ConstructorPage/>}/>
+                        </Route>
+                        <Route path="/ingredients/:id" element={<IngredientPage/>}/>
+                    </Route>
+                </Routes>
+            </BrowserRouter>
         </Provider>
     </React.StrictMode>,
     document.getElementById('root')

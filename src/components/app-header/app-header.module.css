@@ -15,8 +15,8 @@
     align-items: flex-start;
 }
 
-/*Стиль ссылки на панели*/
-.link {
+/*Стиль активной ссылки на панели*/
+.activeLink {
     composes: p-5 text text_type_main-default from global;
     display: flex;
     flex-wrap: nowrap;
@@ -24,10 +24,21 @@
     cursor: pointer;
 }
 
-.login {
+/*Стиль ссылки на панели*/
+.link {
+    composes: activeLink;
+    composes: text_color_inactive from global;
+}
+
+.activeLogin {
     composes: link;
     margin-left: auto;
     align-self: flex-end;
+}
+
+.login {
+    composes: activeLogin;
+    composes: text_color_inactive from global;
 }
 
 /*Стиль логотипа*/
