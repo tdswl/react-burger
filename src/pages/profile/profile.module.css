@@ -10,7 +10,21 @@
 .panel {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     text-align: start;
     gap: 24px;
+}
+
+.link {
+    composes: text text_type_main-medium from global;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+
+.inactiveLink {
+    composes: text text_type_main-medium text_color_inactive from global;
+    cursor: pointer;
+    text-decoration: none;
+
 }

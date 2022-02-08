@@ -1,9 +1,23 @@
 import React from "react";
 import styles from './reset-password.module.css'
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchPasswordReset} from "../../services/actions/auth";
 
 const ResetPasswordPage = () => {
+    let navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const {resetRequest} = useSelector(store => store.auth);
+
+    const onSubmit = () => {
+        if (password && code)
+        {
+            dispatch(fetchPasswordReset(password, code));
+        }
+    };
+
     const [password, setPassword] = React.useState('')
     const onPasswordChange = e => {
         setPassword(e.target.value)
@@ -29,7 +43,7 @@ const ResetPasswordPage = () => {
                 error={false}
                 size={'default'}
             />
-            <Button type="primary" size="medium">
+            <Button type="primary" size="medium" onClick={onSubmit}  disabled={!password || !code || resetRequest}>
                 Сохранить
             </Button>
             <p className="text text_type_main-default text_color_inactive" style={{paddingTop: '56px'}}>

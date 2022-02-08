@@ -7,20 +7,29 @@ const AppHeader = () => {
     return (
         <header className={styles.header}>
             <nav className={styles.navbar}>
-                <NavLink className={({ isActive }) => isActive ? styles.activeLink : styles.link} to='/'>
-                    <BurgerIcon type="primary"/>
-                    <p className={styles.label}>Конструктор</p>
+                <NavLink className={styles.link} to='/'
+                         children={({isActive}) =>
+                             (<>
+                                 <BurgerIcon type={isActive ? 'primary' : 'secondary'}/>
+                                 <p className={isActive ? styles.label : styles.label_inactive}>Конструктор</p>
+                             </>)}>
                 </NavLink>
-                <NavLink className={({ isActive }) => isActive ? styles.activeLink : styles.link} to='/history' >
-                    <ListIcon type="secondary"/>
-                    <p className={styles.label_inactive}>Лента заказов</p>
+                <NavLink className={styles.link} to='/history'
+                         children={({isActive}) =>
+                             (<>
+                                 <ListIcon type={isActive ? 'primary' : 'secondary'}/>
+                                 <p className={isActive ? styles.label : styles.label_inactive}>Лента заказов</p>
+                             </>)}>
                 </NavLink>
-                <NavLink className={({ isActive }) => isActive ? styles.activeLogin : styles.login} to='/profile'>
-                    <ProfileIcon type="secondary"/>
-                    <p className={styles.label_inactive}>Личный кабинет</p>
+                <NavLink className={styles.login} to='/profile'
+                         children={({isActive}) =>
+                             (<>
+                                 <ProfileIcon type={isActive ? 'primary' : 'secondary'}/>
+                                 <p className={isActive ? styles.label : styles.label_inactive}>Личный кабинет</p>
+                             </>)}>
                 </NavLink>
             </nav>
-            <Logo />
+            <Logo/>
         </header>
     )
 }
