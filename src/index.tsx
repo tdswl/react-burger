@@ -18,7 +18,7 @@ import {
     RegisterPage,
     SecurityPage
 } from './pages'
-import RequireAuth from "./components/require-auth/require-auth";
+import ProtectedRoute from "./components/require-auth/protected-route";
 
 const store = configureStore({
     reducer: rootReducer,
@@ -32,19 +32,19 @@ ReactDOM.render(
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<App/>}>
+                        <Route index element={<ConstructorPage/>}/>
                         <Route path="login" element={<LoginPage/>}/>
                         <Route path="register" element={<RegisterPage/>}/>
                         <Route path="forgot-password" element={<ForgotPasswordPage/>}/>
                         <Route path="reset-password" element={<ResetPasswordPage/>}/>
-                        <Route element={<RequireAuth/>}>
-                            <Route index element={<ConstructorPage/>}/>
+                        <Route path="ingredients/:id" element={<IngredientPage/>}/>
+                        <Route element={<ProtectedRoute/>}>
                             <Route path="history" element={<p>Тут пока ничего нет</p>}/>
                             <Route path="profile" element={<ProfilePage/>}>
                                 <Route index element={<SecurityPage/>}/>
                                 <Route path="orders" element={<p>Тут пока ничего нет</p>}/>
-                                <Route path="logout" element={<p>И тут ничего нет</p>}/>
                             </Route>
-                            <Route path="ingredients/:id" element={<IngredientPage/>}/>
+                            <Route path="profile/orders/:id" element={<p>Тут пока ничего нет</p>}/>
                         </Route>
                     </Route>
                 </Routes>

@@ -2,7 +2,7 @@ import React from "react";
 import {Outlet, useLocation, Navigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 
-const RequireAuth = () => {
+const ProtectedRoute = () => {
     const {user} = useSelector(store => store.auth);
     let location = useLocation();
 
@@ -13,4 +13,4 @@ const RequireAuth = () => {
     return <Outlet />;
 }
 
-export default RequireAuth;
+export default ProtectedRoute;

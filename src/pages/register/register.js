@@ -1,9 +1,24 @@
 import React from "react";
 import styles from './register.module.css'
 import {Button, EmailInput, PasswordInput, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchRegister} from "../../services/actions/auth";
 
 const RegisterPage = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const dispatch = useDispatch();
+
+    const {user, registerRequest} = useSelector(store => store.auth);
+
+    const onSubmit = () => {
+        if (name && email && password)
+        {
+            dispatch(fetchRegister(email, password, name));
+        }
+    };
+
     const [name, setName] = React.useState('')
     const onNameChange = e => {
         setName(e.target.value)
@@ -18,6 +33,14 @@ const RegisterPage = () => {
     const onPasswordChange = e => {
         setPassword(e.target.value)
     }
+
+    React.useEffect(() => {
+        if (user)
+        {
+            const from = location.state?.from?.pathname || "/";
+            navigate(from, {replace: true});
+        }
+    }, [user])
 
     return (
         <article className={styles.container}>
@@ -35,7 +58,7 @@ const RegisterPage = () => {
             />
             <EmailInput onChange={onEmailChange} value={email} name={'email'} />
             <PasswordInput onChange={onPasswordChange} value={password} name={'password'} />
-            <Button type="primary" size="medium">
+            <Button type="primary" size="medium" onClick={onSubmit} disabled={registerRequest || !(name && email && password)}>
                 Зарегистрироваться
             </Button>
             <p className="text text_type_main-default text_color_inactive" style={{paddingTop: '56px'}}>

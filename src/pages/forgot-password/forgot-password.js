@@ -1,15 +1,16 @@
 import React from "react";
 import styles from './forgot-password.module.css'
 import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchPasswordReset} from "../../services/actions/auth";
 
 const ForgotPasswordPage = () => {
     let navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useDispatch();
 
-    const {passwordResetRequest} = useSelector(store => store.auth);
+    const {user, passwordResetRequest} = useSelector(store => store.auth);
 
     const onSubmit = () => {
         dispatch(fetchPasswordReset(email, () => {
@@ -21,6 +22,13 @@ const ForgotPasswordPage = () => {
     const onEmailChange = e => {
         setEmail(e.target.value)
     }
+
+    React.useEffect(() => {
+        if (user) {
+            const from = location.state?.from?.pathname || "/";
+            navigate(from, {replace: true});
+        }
+    }, [user])
 
     return (
         <article className={styles.container}>

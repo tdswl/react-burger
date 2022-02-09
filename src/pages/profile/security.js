@@ -1,18 +1,21 @@
 import React from "react";
 import {EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {useSelector} from "react-redux";
 
 const SecurityPage = () => {
-    const [name, setName] = React.useState('')
+    const {user} = useSelector(store => store.auth);
+
+    const [name, setName] = React.useState(user.name)
     const onNameChange = e => {
         setName(e.target.value)
     }
 
-    const [email, setEmail] = React.useState('')
+    const [email, setEmail] = React.useState(user.email)
     const onEmailChange = e => {
         setEmail(e.target.value)
     }
 
-    const [password, setPassword] = React.useState('')
+    const [password, setPassword] = React.useState(user.password)
     const onPasswordChange = e => {
         setPassword(e.target.value)
     }

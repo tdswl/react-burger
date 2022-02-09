@@ -5,13 +5,21 @@ import Modal from "../../../modal/modal";
 import OrderDetails from "../../../order-details/order-details";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchOrder, orderClear} from "../../../../services/actions/burger";
+import {useNavigate} from "react-router-dom";
 
 const Summary = () => {
+    let navigate = useNavigate();
     const dispatch = useDispatch();
 
     const {order, orderRequest, selectedIngredients, selectedBun} = useSelector(store => store.burger);
+    const {user} = useSelector(store => store.auth);
 
     const onCompleteOrder = () => {
+        if (!user)
+        {
+            navigate("/login", {replace: true});
+            return;
+        }
         console.log("Оформить заказ");
         dispatch(fetchOrder(selectedIngredients, selectedBun))
     };

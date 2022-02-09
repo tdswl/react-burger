@@ -1,5 +1,11 @@
 import {createAction} from '@reduxjs/toolkit'
-import {PASSWORD_RESET_ENDPOINT, RESET_ENDPOINT} from "../../utils/api-сonstants";
+import {
+    LOGIN_AUTH_ENDPOINT, LOGOUT_AUTH_ENDPOINT,
+    PASSWORD_RESET_ENDPOINT,
+    REGISTER_AUTH_ENDPOINT,
+    RESET_ENDPOINT, TOKEN_AUTH_ENDPOINT, USER_AUTH_ENDPOINT
+} from "../../utils/api-сonstants";
+import axios from "axios";
 
 const PASSWORD_RESET_REQUEST = 'PASSWORD_RESET_REQUEST';
 const PASSWORD_RESET_SUCCESS = 'PASSWORD_RESET_SUCCESS';
@@ -65,31 +71,22 @@ export const patchUser = createAction(PATCH_USER_REQUEST);
 export const successPatchUser = createAction(PATCH_USER_SUCCESS);
 export const errorPatchUser = createAction(PATCH_USER_ERROR);
 
-function checkResponse(res) {
-    if (res.ok) {
-        return res.json();
-    } else {
-        throw new Error(`Во время запроса к Api произошла ошибка. Запрос вернул код: ${res.status}`);
-    }
+function storeTokens(accessToken, refreshToken)
+{
+    localStorage.setItem("Authorization_AccessToken", accessToken);
+    localStorage.setItem("Authorization_RefreshToken", refreshToken);
 }
 
 export function fetchPasswordReset(email, successCallback) {
     return async dispatch => {
         dispatch(passwordReset())
 
-        const request = {
-            method: 'POST',
-            body: JSON.stringify({
+        await axios.post(PASSWORD_RESET_ENDPOINT,
+            {
                 "email": email
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        };
-
-        await fetch(PASSWORD_RESET_ENDPOINT, request)
-            .then(checkResponse)
-            .then(data => {
+            })
+            .then(response => {
+                let data = response.data;
                 if (data.success) {
                     dispatch(successPasswordReset({message: data.message}));
                     successCallback();
@@ -108,20 +105,13 @@ export function fetchReset(password, token) {
     return async dispatch => {
         dispatch(reset())
 
-        const request = {
-            method: 'POST',
-            body: JSON.stringify({
+        await axios.post(RESET_ENDPOINT,
+            {
                 "password": password,
                 "token": token,
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        };
-
-        await fetch(RESET_ENDPOINT, request)
-            .then(checkResponse)
-            .then(data => {
+            })
+            .then(response => {
+                let data = response.data;
                 if (data.success) {
                     dispatch(successReset({message: data.message}));
                 } else {
@@ -131,6 +121,182 @@ export function fetchReset(password, token) {
             .catch(e => {
                 console.log(`Во время ввода токена произошла ошибка: ${e.message}`);
                 dispatch(errorReset());
+            });
+    }
+}
+
+export function fetchRegister(email, password, name) {
+    return async dispatch => {
+        dispatch(register())
+
+        await axios.post(REGISTER_AUTH_ENDPOINT,
+            {
+                "email": email,
+                "password": password,
+                "name": name,
+            })
+            .then(response => {
+                let data = response.data;
+                if (data.success) {
+                    dispatch(successRegister({
+                        user: data.user,
+                        accessToken: data.accessToken,
+                        refreshToken: data.refreshToken
+                    }));
+
+                    storeTokens(data.accessToken, data.refreshToken);
+                } else {
+                    throw new Error(data.message);
+                }
+            })
+            .catch(e => {
+                console.log(`Во время регистрации произошла ошибка: ${e.message}`);
+                dispatch(errorRegister());
+            });
+    }
+}
+
+export function fetchLogin(email, password, successCallback) {
+    return async dispatch => {
+        dispatch(login())
+
+        await axios.post(LOGIN_AUTH_ENDPOINT,
+            {
+                "email": email,
+                "password": password
+            })
+            .then(response => {
+                let data = response.data;
+                if (data.success) {
+                    dispatch(successLogin({
+                        user: data.user,
+                        accessToken: data.accessToken,
+                        refreshToken: data.refreshToken
+                    }));
+
+                    storeTokens(data.accessToken, data.refreshToken);
+
+                    successCallback();
+                } else {
+                    throw new Error(data.message);
+                }
+            })
+            .catch(e => {
+                console.log(`Во время входа произошла ошибка: ${e.message}`);
+                dispatch(errorLogin());
+            });
+    }
+}
+
+export function fetchLogout(refreshToken) {
+    return async dispatch => {
+        dispatch(logout())
+
+        await axios.post(LOGOUT_AUTH_ENDPOINT,
+            {
+                "token": refreshToken
+            })
+            .then(response => {
+                let data = response.data;
+                if (data.success) {
+                    dispatch(successLogout({message: data.message}));
+                    storeTokens('', '');
+                } else {
+                    throw new Error(data.message);
+                }
+            })
+            .catch(e => {
+                console.log(`Во время выхода из системы произошла ошибка: ${e.message}`);
+                dispatch(errorLogout());
+            });
+    }
+}
+
+export function fetchToken(refreshToken) {
+    return async dispatch => {
+        dispatch(token())
+
+        await axios.post(TOKEN_AUTH_ENDPOINT,
+            {
+                "token": refreshToken
+            })
+            .then(response => {
+                let data = response.data;
+                if (data.success) {
+                    dispatch(successToken({
+                        accessToken: data.accessToken,
+                        refreshToken: data.refreshToken
+                    }));
+                    storeTokens(data.accessToken, data.refreshToken);
+                } else {
+                    throw new Error(data.message);
+                }
+            })
+            .catch(e => {
+                console.log(`Во время обновления токена произошла ошибка: ${e.message}`);
+                dispatch(errorToken());
+            });
+    }
+}
+
+export function fetchGetUser() {
+    return async dispatch => {
+        dispatch(getUser())
+
+        let config = {
+            headers: {
+                Authorization : localStorage.getItem("Authorization_AccessToken"),
+            }
+        }
+
+        await axios.get(USER_AUTH_ENDPOINT, config)
+            .then(response => {
+                let data = response.data;
+                if (data.success) {
+                    dispatch(successGetUser({
+                        user: data.user,
+                    }));
+                } else {
+                    throw new Error(data.message);
+                }
+            })
+            .catch(e => {
+                console.log(`Во время получения юзера произошла ошибка: ${e.message}`);
+                dispatch(errorGetUser());
+            });
+    }
+}
+
+export function fetchUpdateUser(email, password, name) {
+    return async dispatch => {
+        dispatch(patchUser())
+
+        let config = {
+            headers: {
+                Authorization : localStorage.getItem("Authorization_AccessToken"),
+            }
+        }
+
+        await axios.patch(USER_AUTH_ENDPOINT,
+            {
+                "email": email,
+                "password": password,
+                "name": name
+            },
+            config)
+            .then(response => {
+                let data = response.data;
+                if (data.success) {
+                    dispatch(successPatchUser({
+                        user: data.user,
+                    }));
+                } else {
+                    throw new Error(data.message);
+                }
+            })
+            .catch(e => {
+                console.log(`Во время обновления юзера произошла ошибка: ${e.message}`);
+                dispatch(errorPatchUser());
             });
     }
 }

@@ -52,6 +52,9 @@ const initialState = {
     patchUserFailed: false,
 
     user: null,
+    // TODO: сохранять в куку или localstorage
+    accessToken: '',
+    refreshToken: '',
 }
 
 export const authReducer = createReducer(initialState, (builder) => {
@@ -103,16 +106,22 @@ export const authReducer = createReducer(initialState, (builder) => {
                 registerRequest: true,
             };
         })
-        .addCase(successRegister, (state) => {
+        .addCase(successRegister, (state, action) => {
             return {
                 ...state,
-               registerRequest: false,
-               registerFailed: false,
+                user: action.payload.user,
+                accessToken: action.payload.accessToken,
+                refreshToken: action.payload.refreshToken,
+                registerRequest: false,
+                registerFailed: false,
             };
         })
         .addCase(errorRegister, (state) => {
             return {
                 ...state,
+                user: initialState.user,
+                accessToken: initialState.accessToken,
+                refreshToken: initialState.refreshToken,
                 registerRequest: false,
                 registerFailed: true,
             };
@@ -123,9 +132,12 @@ export const authReducer = createReducer(initialState, (builder) => {
                 loginRequest: true,
             };
         })
-        .addCase(successLogin, (state) => {
+        .addCase(successLogin, (state, action) => {
             return {
                 ...state,
+                user: action.payload.user,
+                accessToken: action.payload.accessToken,
+                refreshToken: action.payload.refreshToken,
                 loginRequest: false,
                 loginFailed: false,
             };
@@ -133,6 +145,9 @@ export const authReducer = createReducer(initialState, (builder) => {
         .addCase(errorLogin, (state) => {
             return {
                 ...state,
+                user: initialState.user,
+                accessToken: initialState.accessToken,
+                refreshToken: initialState.refreshToken,
                 loginRequest: false,
                 loginFailed: true,
             };
@@ -146,6 +161,9 @@ export const authReducer = createReducer(initialState, (builder) => {
         .addCase(successLogout, (state) => {
             return {
                 ...state,
+                user: initialState.user,
+                accessToken: initialState.accessToken,
+                refreshToken: initialState.refreshToken,
                 loginRequest: false,
                 loginFailed: false,
             };
@@ -163,9 +181,11 @@ export const authReducer = createReducer(initialState, (builder) => {
                 tokenRequest: true,
             };
         })
-        .addCase(successToken, (state) => {
+        .addCase(successToken, (state, action) => {
             return {
                 ...state,
+                accessToken: action.payload.accessToken,
+                refreshToken: action.payload.refreshToken,
                 tokenRequest: false,
                 tokenFailed: false,
             };
@@ -183,9 +203,10 @@ export const authReducer = createReducer(initialState, (builder) => {
                 getUserRequest: true,
             };
         })
-        .addCase(successGetUser, (state) => {
+        .addCase(successGetUser, (state, action) => {
             return {
                 ...state,
+                user: action.payload.user,
                 getUserRequest: false,
                 getUserFailed: false,
             };
@@ -203,9 +224,10 @@ export const authReducer = createReducer(initialState, (builder) => {
                 patchUserRequest: true,
             };
         })
-        .addCase(successPatchUser, (state) => {
+        .addCase(successPatchUser, (state, action) => {
             return {
                 ...state,
+                user: action.payload.user,
                 patchUserRequest: false,
                 patchUserFailed: false,
             };

@@ -1,15 +1,16 @@
 import React from "react";
 import styles from './reset-password.module.css'
-import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, useNavigate} from "react-router-dom";
+import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchPasswordReset} from "../../services/actions/auth";
 
 const ResetPasswordPage = () => {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useDispatch();
 
-    const {resetRequest} = useSelector(store => store.auth);
+    const {user, resetRequest} = useSelector(store => store.auth);
 
     const onSubmit = () => {
         if (password && code)
@@ -28,6 +29,14 @@ const ResetPasswordPage = () => {
         setCode(e.target.value)
     }
 
+    React.useEffect(() => {
+        if (user)
+        {
+            const from = location.state?.from?.pathname || "/";
+            navigate(from, {replace: true});
+        }
+    }, [user])
+
     return (
         <article className={styles.container}>
             <p className="text text_type_main-medium">
@@ -43,7 +52,7 @@ const ResetPasswordPage = () => {
                 error={false}
                 size={'default'}
             />
-            <Button type="primary" size="medium" onClick={onSubmit}  disabled={!password || !code || resetRequest}>
+            <Button type="primary" size="medium" onClick={onSubmit} disabled={!(password && code) || resetRequest}>
                 Сохранить
             </Button>
             <p className="text text_type_main-default text_color_inactive" style={{paddingTop: '56px'}}>
