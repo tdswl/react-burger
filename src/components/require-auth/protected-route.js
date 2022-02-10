@@ -1,13 +1,14 @@
 import React from "react";
 import {Outlet, useLocation, Navigate} from "react-router-dom";
 import {useSelector} from "react-redux";
+import {LOGIN_ROUTE} from "../../utils/routes";
 
 const ProtectedRoute = () => {
-    const {user} = useSelector(store => store.auth);
+    const {user, getUserRequest} = useSelector(store => store.auth);
     let location = useLocation();
 
-    if (!user) {
-        return <Navigate to="/login" state={{ from: location }} />;
+    if (!user && !getUserRequest) {
+        return <Navigate to={LOGIN_ROUTE} state={{ from: location }} />;
     }
 
     return <Outlet />;

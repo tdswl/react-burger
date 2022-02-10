@@ -17,7 +17,8 @@ const LoginPage = () => {
         return location.state?.from?.pathname || INDEX_ROUTE;
     }, [location]);
 
-    const onSubmit = () => {
+    const onSubmit = (e) => {
+        e.preventDefault();
         dispatch(fetchLogin(email, password, () => navigate(from, {replace: true})))
     };
 
@@ -38,13 +39,13 @@ const LoginPage = () => {
     }, [user, navigate, from])
 
     return (
-        <article className={styles.container}>
+        <form className={styles.container} onSubmit={onSubmit}>
             <p className="text text_type_main-medium">
                 Вход
             </p>
             <EmailInput onChange={onEmailChange} value={email} name={'email'}/>
             <PasswordInput onChange={onPasswordChange} value={password} name={'password'}/>
-            <Button type="primary" size="medium" onClick={onSubmit} disabled={!(password && email) || loginRequest}>
+            <Button type="primary" size="medium" disabled={!(password && email) || loginRequest}>
                 Войти
             </Button>
             <p className="text text_type_main-default text_color_inactive" style={{paddingTop: '56px'}}>
@@ -55,7 +56,7 @@ const LoginPage = () => {
                 Забыли пароль?&nbsp;
                 <Link to={FORGOT_ROUTE}>Восстановить пароль</Link>
             </p>
-        </article>
+        </form>
     )
 }
 

@@ -5,6 +5,5 @@ import IngredientPage from "./ingredients/ingredient";
 import ResetPasswordPage from "./reset-password/reset-password";
 import ForgotPasswordPage from "./forgot-password/forgot-password";
 import RegisterPage from "./register/register";
-import SecurityPage from "./profile/security";
 
-export { ConstructorPage, ProfilePage, LoginPage, IngredientPage, ResetPasswordPage, ForgotPasswordPage, RegisterPage, SecurityPage };
+export { ConstructorPage, ProfilePage, LoginPage, IngredientPage, ResetPasswordPage, ForgotPasswordPage, RegisterPage };

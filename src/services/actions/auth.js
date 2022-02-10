@@ -110,6 +110,7 @@ export function fetchPasswordReset(email, successCallback) {
 
 export function fetchReset(password, token, successCallback) {
     return async dispatch => {
+        successCallback();
         dispatch(reset())
 
         await axios.post(RESET_ENDPOINT,
@@ -196,7 +197,7 @@ export function fetchLogin(email, password, successCallback) {
     }
 }
 
-export function fetchLogout() {
+export function fetchLogout(successCallback) {
     return async dispatch => {
         dispatch(logout())
 
@@ -215,6 +216,7 @@ export function fetchLogout() {
                 if (data.success) {
                     dispatch(successLogout({message: data.message}));
                     storeTokens(null, null);
+                    successCallback();
                 } else {
                     throw new Error(data.message);
                 }
@@ -281,7 +283,7 @@ export function fetchGetUser() {
     }
 }
 
-export function fetchUpdateUser(email, password, name) {
+export function fetchUpdateUser(name, email, password) {
     return async dispatch => {
         dispatch(patchUser())
 

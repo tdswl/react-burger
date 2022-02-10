@@ -26,3 +26,10 @@ html, body, #root {
 .input_size_default {
   width: 480px !important;
 }
+
+/*Глобальный стиль для форм*/
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}

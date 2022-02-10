@@ -4,7 +4,7 @@ import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-compon
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchPasswordReset} from "../../services/actions/auth";
-import {LOGIN_ROUTE, RESET_ROUTE} from "../../utils/routes";
+import {INDEX_ROUTE, LOGIN_ROUTE, RESET_ROUTE} from "../../utils/routes";
 
 const ForgotPasswordPage = () => {
     let navigate = useNavigate();
@@ -13,9 +13,10 @@ const ForgotPasswordPage = () => {
 
     const {user, passwordResetRequest} = useSelector(store => store.auth);
 
-    const onSubmit = () => {
+    const onSubmit = (e) => {
+        e.preventDefault();
         dispatch(fetchPasswordReset(email, () => {
-            navigate(RESET_ROUTE, {replace: true});
+            navigate(RESET_ROUTE, {replace: true, state: {from: location}});
         }))
     };
 
@@ -26,25 +27,25 @@ const ForgotPasswordPage = () => {
 
     React.useEffect(() => {
         if (user) {
-            const from = location.state?.from?.pathname || "/";
+            const from = location.state?.from?.pathname || {INDEX_ROUTE};
             navigate(from, {replace: true});
         }
     }, [user, location, navigate])
 
     return (
-        <article className={styles.container}>
+        <form className={styles.container} onSubmit={onSubmit}>
             <p className="text text_type_main-medium">
                 Восстановление пароля
             </p>
             <EmailInput onChange={onEmailChange} value={email} name={'email'}/>
-            <Button type="primary" size="medium" onClick={onSubmit} disabled={!email || passwordResetRequest}>
+            <Button type="primary" size="medium" disabled={!email || passwordResetRequest}>
                 Восстановить
             </Button>
             <p className="text text_type_main-default text_color_inactive" style={{paddingTop: '56px'}}>
                 Вспомнили пароль?&nbsp;
                 <Link to={LOGIN_ROUTE}>Войти</Link>
             </p>
-        </article>
+        </form>
     )
 }
 

@@ -13,9 +13,9 @@ const RegisterPage = () => {
 
     const {user, registerRequest} = useSelector(store => store.auth);
 
-    const onSubmit = () => {
-        if (name && email && password)
-        {
+    const onSubmit = (e) => {
+        e.preventDefault();
+        if (name && email && password) {
             dispatch(fetchRegister(email, password, name));
         }
     };
@@ -36,37 +36,34 @@ const RegisterPage = () => {
     }
 
     React.useEffect(() => {
-        if (user)
-        {
+        if (user) {
             const from = location.state?.from?.pathname || INDEX_ROUTE;
             navigate(from, {replace: true});
         }
     }, [user, location, navigate])
 
     return (
-        <article className={styles.container}>
+        <form className={styles.container} onSubmit={onSubmit}>
             <p className="text text_type_main-medium">
                 Регистрация
             </p>
-            <Input
-                type={'text'}
-                placeholder={'Имя'}
-                onChange={e => onNameChange(e)}
-                value={name}
-                name={'name'}
-                error={false}
-                size={'default'}
-            />
-            <EmailInput onChange={onEmailChange} value={email} name={'email'} />
-            <PasswordInput onChange={onPasswordChange} value={password} name={'password'} />
-            <Button type="primary" size="medium" onClick={onSubmit} disabled={registerRequest || !(name && email && password)}>
+            <Input type={'text'}
+                   placeholder={'Имя'}
+                   onChange={e => onNameChange(e)}
+                   value={name}
+                   name={'name'}
+                   error={false}
+                   size={'default'}/>
+            <EmailInput onChange={onEmailChange} value={email} name={'email'}/>
+            <PasswordInput onChange={onPasswordChange} value={password} name={'password'}/>
+            <Button type="primary" size="medium" disabled={registerRequest || !(name && email && password)}>
                 Зарегистрироваться
             </Button>
             <p className="text text_type_main-default text_color_inactive" style={{paddingTop: '56px'}}>
                 Уже зарегистрированы?&nbsp;
                 <Link to={LOGIN_ROUTE}>Войти</Link>
             </p>
-        </article>
+        </form>
     )
 }
 

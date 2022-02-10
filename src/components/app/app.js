@@ -10,8 +10,7 @@ import {
     IngredientPage,
     ResetPasswordPage,
     ForgotPasswordPage,
-    RegisterPage,
-    SecurityPage
+    RegisterPage
 } from '../../pages'
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -30,6 +29,7 @@ import {
     ORDER_ROUTE
 } from "../../utils/routes";
 import {fetchGetUser} from "../../services/actions/auth";
+import UserProfile from "../user-profile/user-profile";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -61,7 +61,7 @@ const App = () => {
                         <Route element={<ProtectedRoute/>}>
                             <Route path={HISTORY_ROUTE} element={<p>Тут пока ничего нет</p>}/>
                             <Route path={PROFILE_ROUTE} element={<ProfilePage/>}>
-                                <Route index element={<SecurityPage/>}/>
+                                <Route index element={<UserProfile/>}/>
                                 <Route path={ORDERS_ROUTE} element={<p>Тут пока ничего нет</p>}/>
                             </Route>
                             <Route path={ORDER_ROUTE} element={<p>Тут пока ничего нет</p>}/>
