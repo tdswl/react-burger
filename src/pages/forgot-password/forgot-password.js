@@ -4,6 +4,7 @@ import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-compon
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchPasswordReset} from "../../services/actions/auth";
+import {LOGIN_ROUTE, RESET_ROUTE} from "../../utils/routes";
 
 const ForgotPasswordPage = () => {
     let navigate = useNavigate();
@@ -14,7 +15,7 @@ const ForgotPasswordPage = () => {
 
     const onSubmit = () => {
         dispatch(fetchPasswordReset(email, () => {
-            navigate("/reset-password", {replace: true});
+            navigate(RESET_ROUTE, {replace: true});
         }))
     };
 
@@ -28,7 +29,7 @@ const ForgotPasswordPage = () => {
             const from = location.state?.from?.pathname || "/";
             navigate(from, {replace: true});
         }
-    }, [user])
+    }, [user, location, navigate])
 
     return (
         <article className={styles.container}>
@@ -41,7 +42,7 @@ const ForgotPasswordPage = () => {
             </Button>
             <p className="text text_type_main-default text_color_inactive" style={{paddingTop: '56px'}}>
                 Вспомнили пароль?&nbsp;
-                <Link to='/login'>Войти</Link>
+                <Link to={LOGIN_ROUTE}>Войти</Link>
             </p>
         </article>
     )

@@ -6,6 +6,7 @@ import {
     RESET_ENDPOINT, TOKEN_AUTH_ENDPOINT, USER_AUTH_ENDPOINT
 } from "../../utils/api-сonstants";
 import axios from "axios";
+import {deleteCookie, getCookie, setCookie} from "../../utils/cookie-helper";
 
 const PASSWORD_RESET_REQUEST = 'PASSWORD_RESET_REQUEST';
 const PASSWORD_RESET_SUCCESS = 'PASSWORD_RESET_SUCCESS';
@@ -71,10 +72,16 @@ export const patchUser = createAction(PATCH_USER_REQUEST);
 export const successPatchUser = createAction(PATCH_USER_SUCCESS);
 export const errorPatchUser = createAction(PATCH_USER_ERROR);
 
-function storeTokens(accessToken, refreshToken)
-{
-    localStorage.setItem("Authorization_AccessToken", accessToken);
-    localStorage.setItem("Authorization_RefreshToken", refreshToken);
+// 20 минут в секундах
+const ACCESS_TOKEN_EXPIRES = 20 * 60;
+
+function storeTokens(accessToken, refreshToken) {
+    accessToken ?
+        setCookie('token', accessToken.split('Bearer ')[1], {expires: ACCESS_TOKEN_EXPIRES}) :
+        deleteCookie('token');
+    refreshToken ?
+        localStorage.setItem("Authorization_RefreshToken", refreshToken):
+        localStorage.removeItem("Authorization_RefreshToken");
 }
 
 export function fetchPasswordReset(email, successCallback) {
@@ -101,7 +108,7 @@ export function fetchPasswordReset(email, successCallback) {
     }
 }
 
-export function fetchReset(password, token) {
+export function fetchReset(password, token, successCallback) {
     return async dispatch => {
         dispatch(reset())
 
@@ -114,6 +121,7 @@ export function fetchReset(password, token) {
                 let data = response.data;
                 if (data.success) {
                     dispatch(successReset({message: data.message}));
+                    successCallback();
                 } else {
                     throw new Error(data.message);
                 }
@@ -188,9 +196,15 @@ export function fetchLogin(email, password, successCallback) {
     }
 }
 
-export function fetchLogout(refreshToken) {
+export function fetchLogout() {
     return async dispatch => {
         dispatch(logout())
+
+        const refreshToken = localStorage.getItem("Authorization_RefreshToken");
+        if (!refreshToken) {
+            dispatch(successLogout());
+            return;
+        }
 
         await axios.post(LOGOUT_AUTH_ENDPOINT,
             {
@@ -200,7 +214,7 @@ export function fetchLogout(refreshToken) {
                 let data = response.data;
                 if (data.success) {
                     dispatch(successLogout({message: data.message}));
-                    storeTokens('', '');
+                    storeTokens(null, null);
                 } else {
                     throw new Error(data.message);
                 }
@@ -245,7 +259,7 @@ export function fetchGetUser() {
 
         let config = {
             headers: {
-                Authorization : localStorage.getItem("Authorization_AccessToken"),
+                Authorization: 'Bearer ' + getCookie('token'),
             }
         }
 
@@ -273,7 +287,7 @@ export function fetchUpdateUser(email, password, name) {
 
         let config = {
             headers: {
-                Authorization : localStorage.getItem("Authorization_AccessToken"),
+                Authorization: 'Bearer ' + getCookie('token'),
             }
         }
 

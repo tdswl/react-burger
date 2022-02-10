@@ -4,6 +4,7 @@ import {EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-b
 import {Link, useNavigate, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchLogin} from "../../services/actions/auth";
+import {FORGOT_ROUTE, INDEX_ROUTE, REGISTER_ROUTE} from "../../utils/routes";
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -12,13 +13,12 @@ const LoginPage = () => {
 
     const {user, loginRequest} = useSelector(store => store.auth);
 
-    const returnFrom = () => {
-        const from = location.state?.from?.pathname || "/";
-        navigate(from, {replace: true});
-    }
+    const from = React.useMemo(() => {
+        return location.state?.from?.pathname || INDEX_ROUTE;
+    }, [location]);
 
     const onSubmit = () => {
-        dispatch(fetchLogin(email, password, returnFrom))
+        dispatch(fetchLogin(email, password, () => navigate(from, {replace: true})))
     };
 
     const [email, setEmail] = React.useState('')
@@ -33,9 +33,9 @@ const LoginPage = () => {
 
     React.useEffect(() => {
         if (user) {
-            returnFrom();
+            navigate(from, {replace: true});
         }
-    }, [user])
+    }, [user, navigate, from])
 
     return (
         <article className={styles.container}>
@@ -49,11 +49,11 @@ const LoginPage = () => {
             </Button>
             <p className="text text_type_main-default text_color_inactive" style={{paddingTop: '56px'}}>
                 Вы — новый пользователь?&nbsp;
-                <Link to='/register'>Зарегистрироваться</Link>
+                <Link to={REGISTER_ROUTE}>Зарегистрироваться</Link>
             </p>
             <p className="text text_type_main-default text_color_inactive">
                 Забыли пароль?&nbsp;
-                <Link to='/forgot-password'>Восстановить пароль</Link>
+                <Link to={FORGOT_ROUTE}>Восстановить пароль</Link>
             </p>
         </article>
     )

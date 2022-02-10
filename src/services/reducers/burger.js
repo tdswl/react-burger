@@ -109,9 +109,11 @@ export const burgerReducer = createReducer(initialState, (builder) => {
             };
         })
         .addCase(selectIngredient, (state, action) => {
+            const selected = state.ingredients.find(x => x._id === action.payload);
+
             return {
                 ...state,
-                selectedIngredientInfo: action.payload,
+                selectedIngredientInfo: selected,
             };
         })
         .addCase(dndReorderIngredients, (state, action) => {

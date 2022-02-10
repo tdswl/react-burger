@@ -4,6 +4,7 @@ import {Button, EmailInput, PasswordInput, Input} from "@ya.praktikum/react-deve
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchRegister} from "../../services/actions/auth";
+import {INDEX_ROUTE, LOGIN_ROUTE} from "../../utils/routes";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
@@ -37,10 +38,10 @@ const RegisterPage = () => {
     React.useEffect(() => {
         if (user)
         {
-            const from = location.state?.from?.pathname || "/";
+            const from = location.state?.from?.pathname || INDEX_ROUTE;
             navigate(from, {replace: true});
         }
-    }, [user])
+    }, [user, location, navigate])
 
     return (
         <article className={styles.container}>
@@ -50,7 +51,7 @@ const RegisterPage = () => {
             <Input
                 type={'text'}
                 placeholder={'Имя'}
-                onChange={e => onNameChange(e.target.value)}
+                onChange={e => onNameChange(e)}
                 value={name}
                 name={'name'}
                 error={false}
@@ -63,7 +64,7 @@ const RegisterPage = () => {
             </Button>
             <p className="text text_type_main-default text_color_inactive" style={{paddingTop: '56px'}}>
                 Уже зарегистрированы?&nbsp;
-                <Link to='/login'>Войти</Link>
+                <Link to={LOGIN_ROUTE}>Войти</Link>
             </p>
         </article>
     )

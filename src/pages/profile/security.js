@@ -15,7 +15,7 @@ const SecurityPage = () => {
         setEmail(e.target.value)
     }
 
-    const [password, setPassword] = React.useState(user.password)
+    const [password, setPassword] = React.useState('')
     const onPasswordChange = e => {
         setPassword(e.target.value)
     }
