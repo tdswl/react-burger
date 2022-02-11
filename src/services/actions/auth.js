@@ -148,9 +148,7 @@ export function fetchRegister(email, password, name) {
                 let data = response.data;
                 if (data.success) {
                     dispatch(successRegister({
-                        user: data.user,
-                        accessToken: data.accessToken,
-                        refreshToken: data.refreshToken
+                        user: data.user
                     }));
 
                     storeTokens(data.accessToken, data.refreshToken);
@@ -178,9 +176,7 @@ export function fetchLogin(email, password, successCallback) {
                 let data = response.data;
                 if (data.success) {
                     dispatch(successLogin({
-                        user: data.user,
-                        accessToken: data.accessToken,
-                        refreshToken: data.refreshToken
+                        user: data.user
                     }));
 
                     storeTokens(data.accessToken, data.refreshToken);
@@ -239,10 +235,7 @@ export function fetchToken(refreshToken) {
             .then(response => {
                 let data = response.data;
                 if (data.success) {
-                    dispatch(successToken({
-                        accessToken: data.accessToken,
-                        refreshToken: data.refreshToken
-                    }));
+                    dispatch(successToken());
                     storeTokens(data.accessToken, data.refreshToken);
                 } else {
                     throw new Error(data.message);

@@ -52,9 +52,6 @@ const initialState = {
     patchUserFailed: false,
 
     user: null,
-    // TODO: сохранять в куку или localstorage
-    accessToken: '',
-    refreshToken: '',
 }
 
 export const authReducer = createReducer(initialState, (builder) => {
@@ -110,8 +107,6 @@ export const authReducer = createReducer(initialState, (builder) => {
             return {
                 ...state,
                 user: action.payload.user,
-                accessToken: action.payload.accessToken,
-                refreshToken: action.payload.refreshToken,
                 registerRequest: false,
                 registerFailed: false,
             };
@@ -120,8 +115,6 @@ export const authReducer = createReducer(initialState, (builder) => {
             return {
                 ...state,
                 user: initialState.user,
-                accessToken: initialState.accessToken,
-                refreshToken: initialState.refreshToken,
                 registerRequest: false,
                 registerFailed: true,
             };
@@ -136,8 +129,6 @@ export const authReducer = createReducer(initialState, (builder) => {
             return {
                 ...state,
                 user: action.payload.user,
-                accessToken: action.payload.accessToken,
-                refreshToken: action.payload.refreshToken,
                 loginRequest: false,
                 loginFailed: false,
             };
@@ -181,11 +172,9 @@ export const authReducer = createReducer(initialState, (builder) => {
                 tokenRequest: true,
             };
         })
-        .addCase(successToken, (state, action) => {
+        .addCase(successToken, (state) => {
             return {
                 ...state,
-                accessToken: action.payload.accessToken,
-                refreshToken: action.payload.refreshToken,
                 tokenRequest: false,
                 tokenFailed: false,
             };
