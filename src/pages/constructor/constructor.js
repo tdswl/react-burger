@@ -8,7 +8,7 @@ import BurgerConstructor from "../../components/burger-constructor/burger-constr
 import {useSelector} from "react-redux";
 
 const ConstructorPage = () => {
-    const {ingredientsRequest, ingredientsFailed} = useSelector(store => store.burger);
+    const {ingredientsRequest, ingredientsFailed, orderRequest} = useSelector(store => store.burger);
 
     return (
         <>
@@ -22,7 +22,7 @@ const ConstructorPage = () => {
                     </article>
                 )}
             {/*Индикатор загрузки*/}
-            {ingredientsRequest && (<div className={styles.spinner}></div>)}
+            {(ingredientsRequest || orderRequest) && (<div className={styles.spinner}></div>)}
         </>
     )
 }
