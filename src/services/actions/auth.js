@@ -7,6 +7,7 @@ import {
 } from "../../utils/api-сonstants";
 import axios from "axios";
 import {deleteCookie, getCookie, setCookie} from "../../utils/cookie-helper";
+import {axiosWithAuth} from "../axiosInterceptors";
 
 const PASSWORD_RESET_REQUEST = 'PASSWORD_RESET_REQUEST';
 const PASSWORD_RESET_SUCCESS = 'PASSWORD_RESET_SUCCESS';
@@ -80,7 +81,7 @@ function storeTokens(accessToken, refreshToken) {
         setCookie('token', accessToken.split('Bearer ')[1], {expires: ACCESS_TOKEN_EXPIRES}) :
         deleteCookie('token');
     refreshToken ?
-        localStorage.setItem("Authorization_RefreshToken", refreshToken):
+        localStorage.setItem("Authorization_RefreshToken", refreshToken) :
         localStorage.removeItem("Authorization_RefreshToken");
 }
 
@@ -110,7 +111,6 @@ export function fetchPasswordReset(email, successCallback) {
 
 export function fetchReset(password, token, successCallback) {
     return async dispatch => {
-        successCallback();
         dispatch(reset())
 
         await axios.post(RESET_ENDPOINT,
@@ -259,13 +259,8 @@ export function fetchGetUser() {
     return async dispatch => {
         dispatch(getUser())
 
-        let config = {
-            headers: {
-                Authorization: 'Bearer ' + getCookie('token'),
-            }
-        }
-
-        await axios.get(USER_AUTH_ENDPOINT, config)
+        await axiosWithAuth((refreshToken) => dispatch(fetchToken(refreshToken)))
+            .get(USER_AUTH_ENDPOINT)
             .then(response => {
                 let data = response.data;
                 if (data.success) {
@@ -287,19 +282,13 @@ export function fetchUpdateUser(name, email, password) {
     return async dispatch => {
         dispatch(patchUser())
 
-        let config = {
-            headers: {
-                Authorization: 'Bearer ' + getCookie('token'),
-            }
-        }
-
-        await axios.patch(USER_AUTH_ENDPOINT,
+        await axiosWithAuth((refreshToken) => dispatch(fetchToken(refreshToken)))
+            .patch(USER_AUTH_ENDPOINT,
             {
                 "email": email,
                 "password": password,
                 "name": name
-            },
-            config)
+            })
             .then(response => {
                 let data = response.data;
                 if (data.success) {

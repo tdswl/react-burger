@@ -3,6 +3,8 @@ import {INGREDIENTS_ENDPOINT, ORDERS_ENDPOINT} from "../../utils/api-сonstants"
 import {v4} from "uuid";
 import axios from "axios";
 import {getCookie} from "../../utils/cookie-helper";
+import {axiosWithAuth} from "../axiosInterceptors";
+import {fetchToken} from "./auth";
 
 const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -78,17 +80,11 @@ export function fetchOrder(selectedIngredients, selectedBun) {
             ingredients.push(selectedBun._id);
         }
 
-        let config = {
-            headers: {
-                Authorization :  'Bearer ' + getCookie('token'),
-            }
-        }
-
-        await axios.post(ORDERS_ENDPOINT,
-            {
-                "ingredients": ingredients
-            },
-            config)
+        await axiosWithAuth((refreshToken) => dispatch(fetchToken(refreshToken)))
+            .post(ORDERS_ENDPOINT,
+                {
+                    "ingredients": ingredients
+                })
             .then(response => {
                 let data = response.data;
                 if (data.success) {
