@@ -6,7 +6,7 @@ import {
     RESET_ENDPOINT, TOKEN_AUTH_ENDPOINT, USER_AUTH_ENDPOINT
 } from "../../utils/api-сonstants";
 import axios from "axios";
-import {deleteCookie, getCookie, setCookie} from "../../utils/cookie-helper";
+import {deleteCookie, setCookie} from "../../utils/cookie-helper";
 import {axiosWithAuth} from "../axiosInterceptors";
 
 const PASSWORD_RESET_REQUEST = 'PASSWORD_RESET_REQUEST';

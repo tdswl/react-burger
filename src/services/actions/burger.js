@@ -2,7 +2,6 @@ import {createAction} from '@reduxjs/toolkit'
 import {INGREDIENTS_ENDPOINT, ORDERS_ENDPOINT} from "../../utils/api-сonstants";
 import {v4} from "uuid";
 import axios from "axios";
-import {getCookie} from "../../utils/cookie-helper";
 import {axiosWithAuth} from "../axiosInterceptors";
 import {fetchToken} from "./auth";
 
