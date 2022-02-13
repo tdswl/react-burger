@@ -2,16 +2,17 @@ import React from "react";
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import Ingredient from "./components/ingredient/ingredient";
 import styles from './burger-ingredients.module.css'
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 import {useDispatch, useSelector} from "react-redux";
-import {selectIngredient, fetchIngredients} from "../../services/actions/burger";
+import {fetchIngredients} from "../../services/actions/burger";
 import {IngredientType} from "../../utils/enums";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const BurgerIngredients = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    const {ingredients, selectedIngredientInfo} = useSelector(store => store.burger);
+    const {ingredients} = useSelector(store => store.burger);
 
     const bunRef = React.useRef(null);
     const sauceRef = React.useRef(null);
@@ -42,22 +43,13 @@ const BurgerIngredients = () => {
     // Выбранный таб
     const [currentTab, setCurrentTabState] = React.useState(IngredientType.BUN);
 
-    const onIngredientClick = (ingredient) => {
-        dispatch(selectIngredient(ingredient));
+    const onIngredientClick = (id) => {
+        navigate(`/ingredient/${id}`, {state: { background: location }})
     };
 
     React.useEffect(() => {
         dispatch(fetchIngredients())
     }, [dispatch])
-
-    const onBunClick = (bun) => {
-        dispatch(selectIngredient(bun));
-    };
-
-    const onCloseIngredientModal = (e) => {
-        e.stopPropagation();
-        dispatch(selectIngredient(null));
-    };
 
     const setCurrentTab = (selectedTab) => {
         scrollToContent(selectedTab);
@@ -110,7 +102,7 @@ const BurgerIngredients = () => {
                                 {ingredients.filter(component => component.type === IngredientType.BUN).map((component) =>
                                     (
                                         <li key={component._id}>
-                                            <Ingredient item={component} onClick={() => onBunClick(component)}/>
+                                            <Ingredient item={component} onClick={() => onIngredientClick(component._id)}/>
                                         </li>
                                     ))}
                             </ul>
@@ -122,7 +114,7 @@ const BurgerIngredients = () => {
                                 {ingredients.filter(component => component.type === IngredientType.SAUCE).map((component) =>
                                     (
                                         <li key={component._id}>
-                                            <Ingredient item={component} onClick={() => onIngredientClick(component)}/>
+                                            <Ingredient item={component} onClick={() => onIngredientClick(component._id)}/>
                                         </li>
                                     ))}
                             </ul>
@@ -134,20 +126,13 @@ const BurgerIngredients = () => {
                                 {ingredients.filter(component => component.type === IngredientType.MAIN).map((component) =>
                                     (
                                         <li key={component._id}>
-                                            <Ingredient item={component} onClick={() => onIngredientClick(component)}/>
+                                            <Ingredient item={component} onClick={() => onIngredientClick(component._id)}/>
                                         </li>
                                     ))}
                             </ul>
                         </section>
                     </article>
                 )}
-
-            {/*Модалка для клика по ингредиенту*/}
-            {selectedIngredientInfo && (
-                <Modal onClose={onCloseIngredientModal} header='Детали ингредиента'>
-                    <IngredientDetails {...selectedIngredientInfo}/>
-                </Modal>
-            )}
         </article>
     )
 }

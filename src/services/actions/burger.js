@@ -1,6 +1,9 @@
 import {createAction} from '@reduxjs/toolkit'
 import {INGREDIENTS_ENDPOINT, ORDERS_ENDPOINT} from "../../utils/api-сonstants";
 import {v4} from "uuid";
+import axios from "axios";
+import {axiosWithAuth} from "../axiosInterceptors";
+import {fetchToken} from "./auth";
 
 const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -45,20 +48,13 @@ export const orderClear = createAction(ORDER_CLEAR);
 
 export const dndReorderIngredients = createAction(DND_REORDER_INGREDIENTS);
 
-function checkResponse(res) {
-    if (res.ok) {
-        return res.json();
-    } else {
-        throw new Error(`Во время запроса к Api произошла ошибка. Запрос вернул код: ${res.status}`);
-    }
-}
-
 export function fetchIngredients() {
     return async dispatch => {
         dispatch(getIngredients())
-        await fetch(INGREDIENTS_ENDPOINT)
-            .then(checkResponse)
-            .then(data => {
+
+        await axios.get(INGREDIENTS_ENDPOINT)
+            .then(response => {
+                let data = response.data;
                 if (data.success) {
                     dispatch(successIngredients(data.data));
                 } else {
@@ -83,19 +79,13 @@ export function fetchOrder(selectedIngredients, selectedBun) {
             ingredients.push(selectedBun._id);
         }
 
-        const request = {
-            method: 'POST',
-            body: JSON.stringify({
-                "ingredients": ingredients
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        };
-
-        await fetch(ORDERS_ENDPOINT, request)
-            .then(checkResponse)
-            .then(data => {
+        await axiosWithAuth((refreshToken) => dispatch(fetchToken(refreshToken)))
+            .post(ORDERS_ENDPOINT,
+                {
+                    "ingredients": ingredients
+                })
+            .then(response => {
+                let data = response.data;
                 if (data.success) {
                     dispatch(successOrder({name: data.name, order: data.order}));
                 } else {

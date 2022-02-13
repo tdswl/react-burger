@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import {Provider} from "react-redux";
 import {rootReducer} from "./services/reducers/root";
 import {configureStore} from '@reduxjs/toolkit'
+import {BrowserRouter} from "react-router-dom";
 
 const store = configureStore({
     reducer: rootReducer,
@@ -17,7 +18,9 @@ const store = configureStore({
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
-            <App/>
+            <BrowserRouter>
+                <App/>
+            </BrowserRouter>
         </Provider>
     </React.StrictMode>,
     document.getElementById('root')

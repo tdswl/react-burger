@@ -12,7 +12,7 @@ const Ingredient = ({item, onClick}) => {
     // Подсчет всех выбранных ингредиентов с тем же id
     const counter = React.useMemo(
         () => {
-            if (selectedBun === item) {
+            if (selectedBun?._id === item._id) {
                 return 2;
             }
             return selectedIngredients.filter(x => x._id === item._id).length;
