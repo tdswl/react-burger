@@ -34,12 +34,13 @@
 }
 
 /*Стиль логотипа*/
-.header > svg {
+.logo {
     margin: 0 auto;
     position: absolute;
     top: 24px;
     left: 0;
     right: 0;
+    display: table;
 }
 
 /*Стиль текста кнопки*/
