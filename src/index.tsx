@@ -15,6 +15,8 @@ const store = configureStore({
     devTools: process.env.NODE_ENV !== 'production',
 })
 
+export type AppDispatch = typeof store.dispatch;
+
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>

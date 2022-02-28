@@ -1,13 +1,12 @@
-import React from "react";
+import React, {FC, MouseEventHandler} from "react";
 import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './ingredient.module.css'
-import {ingredientPropTypes} from "../../../../utils/prop-types";
-import PropTypes from "prop-types";
 import {useSelector} from "react-redux";
 import {useDrag} from 'react-dnd';
+import {IIngredient, IRootState} from "../../../../utils/types";
 
-const Ingredient = ({item, onClick}) => {
-    const {selectedIngredients, selectedBun} = useSelector(store => store.burger);
+const Ingredient: FC<{ item: IIngredient, onClick: MouseEventHandler<HTMLElement> }> = ({item, onClick}) => {
+    const {selectedIngredients, selectedBun} = useSelector((store: IRootState) => store.burger);
 
     // Подсчет всех выбранных ингредиентов с тем же id
     const counter = React.useMemo(
@@ -40,10 +39,5 @@ const Ingredient = ({item, onClick}) => {
         </section>
     )
 }
-
-Ingredient.propTypes = {
-    item: ingredientPropTypes.isRequired,
-    onClick: PropTypes.func.isRequired
-};
 
 export default Ingredient;

@@ -6,33 +6,38 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchIngredients} from "../../services/actions/burger";
 import {IngredientType} from "../../utils/enums";
 import {useLocation, useNavigate} from "react-router-dom";
+import {IRootState} from "../../utils/types";
 
 const BurgerIngredients = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
 
-    const {ingredients} = useSelector(store => store.burger);
+    const {ingredients} = useSelector((store: IRootState) => store.burger);
 
-    const bunRef = React.useRef(null);
-    const sauceRef = React.useRef(null);
-    const mainRef = React.useRef(null);
+    const bunRef = React.useRef<HTMLDivElement>(null);
+    const sauceRef = React.useRef<HTMLDivElement>(null);
+    const mainRef = React.useRef<HTMLDivElement>(null);
+    const scrollableContainerRef = React.useRef<HTMLDivElement>(null);
 
-    const onScroll = (e) => {
-        const bun = bunRef.current.getBoundingClientRect();
-        const sauce = sauceRef.current.getBoundingClientRect();
-        const main = mainRef.current.getBoundingClientRect();
+    const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
+        const bun = bunRef?.current?.getBoundingClientRect();
+        const sauce = sauceRef?.current?.getBoundingClientRect();
+        const main = mainRef?.current?.getBoundingClientRect();
 
         // Берем расстояния до верхней границы
-        const offsetValues = {
-            'bun': bun.top - e.target.offsetTop,
-            'sauce': sauce.top - e.target.offsetTop,
-            'main': main.top - e.target.offsetTop,
+        const offsetTop = scrollableContainerRef?.current?.offsetTop;
+
+        //TODO: небольшой баг с вычислениями - последний пункт выбирается неверно
+        const offsetValues: { [name: string]: number } = {
+            'bun': bun?.top ?? 0 - (offsetTop ?? 0),
+            'sauce': sauce?.top ?? 0 - (offsetTop ?? 0),
+            'main': main?.top ?? 0 - (offsetTop ?? 0),
         }
 
         // Выбираем элемент, у которого оно меньше
         const tab = Object.keys(offsetValues)
-            .reduce((prev, curr) => Math.abs(offsetValues[prev]) < Math.abs(offsetValues[curr]) ? prev : curr);
+            .reduce((prev: string, curr: string) => Math.abs(offsetValues[prev]) < Math.abs(offsetValues[curr]) ? prev : curr);
 
         //  Выбираем вкладку
         if (currentTab !== tab) {
@@ -43,19 +48,19 @@ const BurgerIngredients = () => {
     // Выбранный таб
     const [currentTab, setCurrentTabState] = React.useState(IngredientType.BUN);
 
-    const onIngredientClick = (id) => {
-        navigate(`/ingredient/${id}`, {state: { background: location }})
+    const onIngredientClick = (id: string) => {
+        navigate(`/ingredient/${id}`, {state: {background: location}})
     };
 
     React.useEffect(() => {
         dispatch(fetchIngredients())
     }, [dispatch])
 
-    const setCurrentTab = (selectedTab) => {
+    const setCurrentTab = (selectedTab: string) => {
         scrollToContent(selectedTab);
     };
 
-    const scrollToContent = (selectedTab) => {
+    const scrollToContent = (selectedTab: string) => {
         let node = null;
         switch (selectedTab) {
             case IngredientType.BUN:
@@ -95,14 +100,15 @@ const BurgerIngredients = () => {
 
             {ingredients &&
                 (
-                    <article className={styles.scrollableContainer} onScroll={onScroll}>
+                    <article ref={scrollableContainerRef} className={styles.scrollableContainer} onScroll={onScroll}>
                         <section ref={bunRef}>
                             <h1 className={styles.ingredientsLabel}>Булки</h1>
                             <ul className={styles.ingredientsList}>
                                 {ingredients.filter(component => component.type === IngredientType.BUN).map((component) =>
                                     (
                                         <li key={component._id}>
-                                            <Ingredient item={component} onClick={() => onIngredientClick(component._id)}/>
+                                            <Ingredient item={component}
+                                                        onClick={() => onIngredientClick(component._id)}/>
                                         </li>
                                     ))}
                             </ul>
@@ -114,7 +120,8 @@ const BurgerIngredients = () => {
                                 {ingredients.filter(component => component.type === IngredientType.SAUCE).map((component) =>
                                     (
                                         <li key={component._id}>
-                                            <Ingredient item={component} onClick={() => onIngredientClick(component._id)}/>
+                                            <Ingredient item={component}
+                                                        onClick={() => onIngredientClick(component._id)}/>
                                         </li>
                                     ))}
                             </ul>
@@ -126,7 +133,8 @@ const BurgerIngredients = () => {
                                 {ingredients.filter(component => component.type === IngredientType.MAIN).map((component) =>
                                     (
                                         <li key={component._id}>
-                                            <Ingredient item={component} onClick={() => onIngredientClick(component._id)}/>
+                                            <Ingredient item={component}
+                                                        onClick={() => onIngredientClick(component._id)}/>
                                         </li>
                                     ))}
                             </ul>

@@ -4,6 +4,8 @@ import {v4} from "uuid";
 import axios from "axios";
 import {axiosWithAuth} from "../axiosInterceptors";
 import {fetchToken} from "./auth";
+import {IIngredient, IOrderInfo, IResponse, ISelectedIngredient} from "../../utils/types";
+import {AppDispatch} from "../../index";
 
 const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -24,10 +26,10 @@ const SELECT_INGREDIENT = 'SELECT_INGREDIENT';
 const DND_REORDER_INGREDIENTS = 'DND_REORDER_INGREDIENTS';
 
 export const getIngredients = createAction(GET_INGREDIENTS_REQUEST);
-export const successIngredients = createAction(GET_INGREDIENTS_SUCCESS);
+export const successIngredients = createAction<Array<IIngredient> | undefined>(GET_INGREDIENTS_SUCCESS);
 export const errorIngredients = createAction(GET_INGREDIENTS_ERROR);
 
-export const addBun = createAction(CONSTRUCTOR_ADD_BUN);
+export const addBun = createAction<IIngredient>(CONSTRUCTOR_ADD_BUN);
 export const addIngredient = createAction(CONSTRUCTOR_ADD, function prepare(ingredient) {
     return {
         payload: {
@@ -36,23 +38,23 @@ export const addIngredient = createAction(CONSTRUCTOR_ADD, function prepare(ingr
         },
     }
 });
-export const removeIngredient = createAction(CONSTRUCTOR_DELETE);
+export const removeIngredient = createAction<ISelectedIngredient>(CONSTRUCTOR_DELETE);
 
 export const prepareOrder = createAction(ORDER_REQUEST);
-export const successOrder = createAction(ORDER_SUCCESS);
+export const successOrder = createAction<IOrderInfo>(ORDER_SUCCESS);
 export const errorOrder = createAction(ORDER_ERROR);
 
-export const selectIngredient = createAction(SELECT_INGREDIENT);
+export const selectIngredient = createAction<string | undefined | null>(SELECT_INGREDIENT);
 
 export const orderClear = createAction(ORDER_CLEAR);
 
-export const dndReorderIngredients = createAction(DND_REORDER_INGREDIENTS);
+export const dndReorderIngredients = createAction<{dragIndex: number, hoverIndex: number}>(DND_REORDER_INGREDIENTS);
 
 export function fetchIngredients() {
-    return async dispatch => {
+    return async (dispatch: AppDispatch) => {
         dispatch(getIngredients())
 
-        await axios.get(INGREDIENTS_ENDPOINT)
+        await axios.get<IResponse & {data: Array<IIngredient>}>(INGREDIENTS_ENDPOINT)
             .then(response => {
                 let data = response.data;
                 if (data.success) {
@@ -68,8 +70,8 @@ export function fetchIngredients() {
     }
 }
 
-export function fetchOrder(selectedIngredients, selectedBun) {
-    return async dispatch => {
+export function fetchOrder(selectedIngredients: Array<ISelectedIngredient>, selectedBun: IIngredient) {
+    return async (dispatch: AppDispatch) => {
         dispatch(prepareOrder())
 
         const ingredients = selectedIngredients.map(x => x._id);
@@ -79,7 +81,7 @@ export function fetchOrder(selectedIngredients, selectedBun) {
             ingredients.push(selectedBun._id);
         }
 
-        await axiosWithAuth((refreshToken) => dispatch(fetchToken(refreshToken)))
+        await axiosWithAuth((refreshToken: string) => fetchToken(refreshToken))
             .post(ORDERS_ENDPOINT,
                 {
                     "ingredients": ingredients

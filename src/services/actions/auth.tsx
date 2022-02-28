@@ -8,6 +8,8 @@ import {
 import axios from "axios";
 import {deleteCookie, setCookie} from "../../utils/cookie-helper";
 import {axiosWithAuth} from "../axiosInterceptors";
+import {AppDispatch} from "../../index";
+import {IAuthResponse, IResponse, IUser} from "../../utils/types";
 
 const PASSWORD_RESET_REQUEST = 'PASSWORD_RESET_REQUEST';
 const PASSWORD_RESET_SUCCESS = 'PASSWORD_RESET_SUCCESS';
@@ -50,11 +52,11 @@ export const successReset = createAction(RESET_SUCCESS);
 export const errorReset = createAction(RESET_ERROR);
 
 export const register = createAction(REGISTER_REQUEST);
-export const successRegister = createAction(REGISTER_SUCCESS);
+export const successRegister = createAction<IUser>(REGISTER_SUCCESS);
 export const errorRegister = createAction(REGISTER_ERROR);
 
 export const login = createAction(LOGIN_REQUEST);
-export const successLogin = createAction(LOGIN_SUCCESS);
+export const successLogin = createAction<IUser>(LOGIN_SUCCESS);
 export const errorLogin = createAction(LOGIN_ERROR);
 
 export const logout = createAction(LOGOUT_REQUEST);
@@ -66,17 +68,17 @@ export const successToken = createAction(TOKEN_SUCCESS);
 export const errorToken = createAction(TOKEN_ERROR);
 
 export const getUser = createAction(GET_USER_REQUEST);
-export const successGetUser = createAction(GET_USER_SUCCESS);
+export const successGetUser = createAction<IUser>(GET_USER_SUCCESS);
 export const errorGetUser = createAction(GET_USER_ERROR);
 
 export const patchUser = createAction(PATCH_USER_REQUEST);
-export const successPatchUser = createAction(PATCH_USER_SUCCESS);
+export const successPatchUser = createAction<IUser>(PATCH_USER_SUCCESS);
 export const errorPatchUser = createAction(PATCH_USER_ERROR);
 
 // 20 минут в секундах
 const ACCESS_TOKEN_EXPIRES = 20 * 60;
 
-function storeTokens(accessToken, refreshToken) {
+function storeTokens(accessToken: string | undefined | null, refreshToken: string | undefined | null) {
     accessToken ?
         setCookie('token', accessToken.split('Bearer ')[1], {expires: ACCESS_TOKEN_EXPIRES}) :
         deleteCookie('token');
@@ -85,8 +87,8 @@ function storeTokens(accessToken, refreshToken) {
         localStorage.removeItem("Authorization_RefreshToken");
 }
 
-export function fetchPasswordReset(email, successCallback) {
-    return async dispatch => {
+export function fetchPasswordReset(email: string, successCallback: () => void) {
+    return async (dispatch: AppDispatch) => {
         dispatch(passwordReset())
 
         await axios.post(PASSWORD_RESET_ENDPOINT,
@@ -96,7 +98,7 @@ export function fetchPasswordReset(email, successCallback) {
             .then(response => {
                 let data = response.data;
                 if (data.success) {
-                    dispatch(successPasswordReset({message: data.message}));
+                    dispatch(successPasswordReset());
                     successCallback();
                 } else {
                     throw new Error(data.message);
@@ -109,8 +111,8 @@ export function fetchPasswordReset(email, successCallback) {
     }
 }
 
-export function fetchReset(password, token, successCallback) {
-    return async dispatch => {
+export function fetchReset(password: string, token: string, successCallback: ()=>void) {
+    return async (dispatch: AppDispatch) => {
         dispatch(reset())
 
         await axios.post(RESET_ENDPOINT,
@@ -121,7 +123,7 @@ export function fetchReset(password, token, successCallback) {
             .then(response => {
                 let data = response.data;
                 if (data.success) {
-                    dispatch(successReset({message: data.message}));
+                    dispatch(successReset());
                     successCallback();
                 } else {
                     throw new Error(data.message);
@@ -134,11 +136,11 @@ export function fetchReset(password, token, successCallback) {
     }
 }
 
-export function fetchRegister(email, password, name) {
-    return async dispatch => {
+export function fetchRegister(email: string, password: string, name: string) {
+    return async (dispatch: AppDispatch) => {
         dispatch(register())
 
-        await axios.post(REGISTER_AUTH_ENDPOINT,
+        await axios.post<IResponse & {user: IUser} & IAuthResponse>(REGISTER_AUTH_ENDPOINT,
             {
                 "email": email,
                 "password": password,
@@ -147,9 +149,7 @@ export function fetchRegister(email, password, name) {
             .then(response => {
                 let data = response.data;
                 if (data.success) {
-                    dispatch(successRegister({
-                        user: data.user
-                    }));
+                    dispatch(successRegister(data.user));
 
                     storeTokens(data.accessToken, data.refreshToken);
                 } else {
@@ -163,11 +163,11 @@ export function fetchRegister(email, password, name) {
     }
 }
 
-export function fetchLogin(email, password, successCallback) {
-    return async dispatch => {
+export function fetchLogin(email: string, password: string, successCallback: ()=>void) {
+    return async (dispatch: AppDispatch) => {
         dispatch(login())
 
-        await axios.post(LOGIN_AUTH_ENDPOINT,
+        await axios.post<IResponse & {user: IUser} & IAuthResponse>(LOGIN_AUTH_ENDPOINT,
             {
                 "email": email,
                 "password": password
@@ -175,9 +175,7 @@ export function fetchLogin(email, password, successCallback) {
             .then(response => {
                 let data = response.data;
                 if (data.success) {
-                    dispatch(successLogin({
-                        user: data.user
-                    }));
+                    dispatch(successLogin(data.user));
 
                     storeTokens(data.accessToken, data.refreshToken);
 
@@ -193,8 +191,8 @@ export function fetchLogin(email, password, successCallback) {
     }
 }
 
-export function fetchLogout(successCallback) {
-    return async dispatch => {
+export function fetchLogout(successCallback: ()=>void) {
+    return async (dispatch: AppDispatch) => {
         dispatch(logout())
 
         const refreshToken = localStorage.getItem("Authorization_RefreshToken");
@@ -210,7 +208,7 @@ export function fetchLogout(successCallback) {
             .then(response => {
                 let data = response.data;
                 if (data.success) {
-                    dispatch(successLogout({message: data.message}));
+                    dispatch(successLogout());
                     storeTokens(null, null);
                     successCallback();
                 } else {
@@ -224,8 +222,8 @@ export function fetchLogout(successCallback) {
     }
 }
 
-export function fetchToken(refreshToken) {
-    return async dispatch => {
+export function fetchToken(refreshToken : string) {
+    return async (dispatch: AppDispatch) => {
         dispatch(token())
 
         await axios.post(TOKEN_AUTH_ENDPOINT,
@@ -249,17 +247,15 @@ export function fetchToken(refreshToken) {
 }
 
 export function fetchGetUser() {
-    return async dispatch => {
+    return async (dispatch: AppDispatch) => {
         dispatch(getUser())
 
-        await axiosWithAuth((refreshToken) => dispatch(fetchToken(refreshToken)))
+        await axiosWithAuth((refreshToken : string) => fetchToken(refreshToken))
             .get(USER_AUTH_ENDPOINT)
             .then(response => {
                 let data = response.data;
                 if (data.success) {
-                    dispatch(successGetUser({
-                        user: data.user,
-                    }));
+                    dispatch(successGetUser(data.user));
                 } else {
                     throw new Error(data.message);
                 }
@@ -271,11 +267,11 @@ export function fetchGetUser() {
     }
 }
 
-export function fetchUpdateUser(name, email, password) {
-    return async dispatch => {
+export function fetchUpdateUser(name: string, email: string, password: string) {
+    return async (dispatch: AppDispatch) => {
         dispatch(patchUser())
 
-        await axiosWithAuth((refreshToken) => dispatch(fetchToken(refreshToken)))
+        await axiosWithAuth((refreshToken : string) => fetchToken(refreshToken))
             .patch(USER_AUTH_ENDPOINT,
             {
                 "email": email,
@@ -285,9 +281,7 @@ export function fetchUpdateUser(name, email, password) {
             .then(response => {
                 let data = response.data;
                 if (data.success) {
-                    dispatch(successPatchUser({
-                        user: data.user,
-                    }));
+                    dispatch(successPatchUser(data.user));
                 } else {
                     throw new Error(data.message);
                 }

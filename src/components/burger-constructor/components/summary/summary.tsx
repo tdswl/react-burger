@@ -6,17 +6,17 @@ import OrderDetails from "../../../order-details/order-details";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchOrder, orderClear} from "../../../../services/actions/burger";
 import {useNavigate} from "react-router-dom";
+import {IRootState} from "../../../../utils/types";
 
 const Summary = () => {
     let navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const {order, orderRequest, selectedIngredients, selectedBun} = useSelector(store => store.burger);
-    const {user} = useSelector(store => store.auth);
+    const {order, orderRequest, selectedIngredients, selectedBun} = useSelector((store: IRootState) => store.burger);
+    const {user} = useSelector((store: IRootState) => store.auth);
 
     const onCompleteOrder = () => {
-        if (!user)
-        {
+        if (!user) {
             navigate("/login", {replace: true});
             return;
         }
@@ -24,9 +24,8 @@ const Summary = () => {
         dispatch(fetchOrder(selectedIngredients, selectedBun))
     };
 
-    const onCloseOrderModal = (e) => {
+    const onCloseOrderModal = () => {
         console.log("Закрыть оформление заказа");
-        e.stopPropagation();
         dispatch(orderClear())
     };
 
@@ -59,7 +58,7 @@ const Summary = () => {
             {/*Модалка по клику оформления заказа*/}
             {order &&
                 (<Modal onClose={onCloseOrderModal}>
-                        <OrderDetails {...order}/>
+                        <OrderDetails order={order}/>
                     </Modal>
                 )}
         </div>

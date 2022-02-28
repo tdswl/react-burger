@@ -1,35 +1,36 @@
-import React from "react";
+import React, {ChangeEvent, SyntheticEvent} from "react";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "react-redux";
 import styles from './user-profile.module.css'
 import {fetchUpdateUser} from "../../services/actions/auth";
+import {IRootState} from "../../utils/types";
 
 const UserProfile = () => {
     const dispatch = useDispatch();
 
-    const {user} = useSelector(store => store.auth);
+    const {user} = useSelector((store: IRootState) => store.auth);
 
     const [name, setName] = React.useState(user.name)
-    const onNameChange = e => {
+    const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
     }
 
     const [email, setEmail] = React.useState(user.email)
-    const onEmailChange = e => {
+    const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value)
     }
 
     const [password, setPassword] = React.useState('')
-    const onPasswordChange = e => {
+    const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)
     }
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(fetchUpdateUser(name, email, password))
     };
 
-    const onCancel = (e) => {
+    const onCancel = (e: SyntheticEvent) => {
         e.preventDefault();
         setName(user.name);
         setEmail(user.email);

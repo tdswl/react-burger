@@ -106,7 +106,7 @@ export const authReducer = createReducer(initialState, (builder) => {
         .addCase(successRegister, (state, action) => {
             return {
                 ...state,
-                user: action.payload.user,
+                user: action.payload,
                 registerRequest: false,
                 registerFailed: false,
             };
@@ -128,7 +128,7 @@ export const authReducer = createReducer(initialState, (builder) => {
         .addCase(successLogin, (state, action) => {
             return {
                 ...state,
-                user: action.payload.user,
+                user: action.payload,
                 loginRequest: false,
                 loginFailed: false,
             };
@@ -195,7 +195,7 @@ export const authReducer = createReducer(initialState, (builder) => {
         .addCase(successGetUser, (state, action) => {
             return {
                 ...state,
-                user: action.payload.user,
+                user: action.payload,
                 getUserRequest: false,
                 getUserFailed: false,
             };
@@ -216,7 +216,7 @@ export const authReducer = createReducer(initialState, (builder) => {
         .addCase(successPatchUser, (state, action) => {
             return {
                 ...state,
-                user: action.payload.user,
+                user: action.payload,
                 patchUserRequest: false,
                 patchUserFailed: false,
             };
