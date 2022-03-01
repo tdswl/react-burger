@@ -1,6 +1,6 @@
-// Ингредиент получаемый из Api
 import {To} from "history";
 
+// Ингредиент получаемый из Api
 export interface IIngredient {
     _id: string,
     name: string,
@@ -88,14 +88,14 @@ export interface IBurgerState {
     ingredientsFailed: boolean,
 
     // объект текущего просматриваемого ингредиента
-    selectedIngredientInfo: ISelectedIngredient,
+    selectedIngredientInfo: ISelectedIngredient | null,
 
     // список всех ингредиентов в текущем конструкторе бургера
     selectedIngredients: Array<ISelectedIngredient>,
-    selectedBun: IIngredient,
+    selectedBun: IIngredient | null,
 
     // объект созданного заказа
-    order: IOrder,
+    order: IOrder | null,
     orderRequest: boolean,
     orderFailed: boolean,
 }
