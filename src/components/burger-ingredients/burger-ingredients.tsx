@@ -29,15 +29,15 @@ const BurgerIngredients = () => {
         const offsetTop = scrollableContainerRef?.current?.offsetTop;
 
         //TODO: небольшой баг с вычислениями - последний пункт выбирается неверно
-        const offsetValues: { [name: string]: number } = {
-            'bun': bun?.top ?? 0 - (offsetTop ?? 0),
-            'sauce': sauce?.top ?? 0 - (offsetTop ?? 0),
-            'main': main?.top ?? 0 - (offsetTop ?? 0),
-        }
+        const offsetValues = new Map<IngredientType, number>([
+            [IngredientType.BUN, bun?.top ?? 0 - (offsetTop ?? 0)],
+            [IngredientType.SAUCE, sauce?.top ?? 0 - (offsetTop ?? 0)],
+            [IngredientType.MAIN, main?.top ?? 0 - (offsetTop ?? 0)]
+        ]);
 
         // Выбираем элемент, у которого оно меньше
-        const tab = Object.keys(offsetValues)
-            .reduce((prev: string, curr: string) => Math.abs(offsetValues[prev]) < Math.abs(offsetValues[curr]) ? prev : curr);
+        const tab = Array.from(offsetValues.keys())
+            .reduce((prev: IngredientType, curr: IngredientType) => Math.abs(offsetValues.get(prev) as number) < Math.abs(offsetValues.get(curr) as number) ? prev : curr);
 
         //  Выбираем вкладку
         if (currentTab !== tab) {

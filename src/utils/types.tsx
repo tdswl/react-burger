@@ -1,4 +1,6 @@
 // Ингредиент получаемый из Api
+import {To} from "history";
+
 export interface IIngredient {
     _id: string,
     name: string,
@@ -31,6 +33,9 @@ export interface IOrderInfo {
 export interface ILocationState {
     background?: string;
     modal?: boolean;
+    from?: {
+        pathname?: To;
+    }
 }
 
 export interface IUser {
