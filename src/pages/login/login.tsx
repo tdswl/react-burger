@@ -16,7 +16,7 @@ const LoginPage = () => {
 
     const from = React.useMemo(() => {
         const locationState = location.state as ILocationState;
-        return locationState.from?.pathname ?? INDEX_ROUTE;
+        return locationState?.from?.pathname ?? INDEX_ROUTE;
     }, [location]);
 
     const onSubmit = (e: React.FormEvent) => {

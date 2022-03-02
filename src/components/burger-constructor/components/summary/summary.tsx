@@ -21,7 +21,10 @@ const Summary = () => {
             return;
         }
         console.log("Оформить заказ");
-        dispatch(fetchOrder(selectedIngredients, selectedBun))
+        if (selectedBun)
+        {
+            dispatch(fetchOrder(selectedIngredients, selectedBun))
+        }
     };
 
     const onCloseOrderModal = () => {

@@ -39,7 +39,7 @@ const RegisterPage = () => {
     React.useEffect(() => {
         if (user) {
             const locationState = location.state as ILocationState;
-            const from = locationState.from?.pathname ?? INDEX_ROUTE;
+            const from = locationState?.from?.pathname ?? INDEX_ROUTE;
             navigate(from, {replace: true});
         }
     }, [user, location, navigate])
