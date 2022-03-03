@@ -25,8 +25,9 @@ import {
     errorPatchUser,
     successPatchUser
 } from "../actions/auth";
+import {IAuthState} from "../../utils/types";
 
-const initialState = {
+const initialState : IAuthState= {
     passwordResetRequest: false,
     passwordResetFailed: false,
 
@@ -137,8 +138,6 @@ export const authReducer = createReducer(initialState, (builder) => {
             return {
                 ...state,
                 user: initialState.user,
-                accessToken: initialState.accessToken,
-                refreshToken: initialState.refreshToken,
                 loginRequest: false,
                 loginFailed: true,
             };
@@ -153,8 +152,6 @@ export const authReducer = createReducer(initialState, (builder) => {
             return {
                 ...state,
                 user: initialState.user,
-                accessToken: initialState.accessToken,
-                refreshToken: initialState.refreshToken,
                 loginRequest: false,
                 loginFailed: false,
             };

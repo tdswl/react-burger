@@ -79,7 +79,7 @@ export interface IAuthState {
     patchUserRequest: boolean,
     patchUserFailed: boolean,
 
-    user: IUser,
+    user: IUser | null,
 }
 
 export interface IBurgerState {
@@ -88,7 +88,7 @@ export interface IBurgerState {
     ingredientsFailed: boolean,
 
     // объект текущего просматриваемого ингредиента
-    selectedIngredientInfo: ISelectedIngredient | null,
+    selectedIngredientInfo: IIngredient | null,
 
     // список всех ингредиентов в текущем конструкторе бургера
     selectedIngredients: Array<ISelectedIngredient>,
