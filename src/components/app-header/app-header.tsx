@@ -4,9 +4,10 @@ import styles from './app-header.module.css'
 import {NavLink, Link} from "react-router-dom";
 import {INDEX_ROUTE, HISTORY_ROUTE, PROFILE_ROUTE} from "../../utils/routes";
 import {useSelector} from "react-redux";
+import {IRootState} from "../../utils/types";
 
 const AppHeader = () => {
-    const {user} = useSelector(store => store.auth);
+    const {user} = useSelector((store: IRootState) => store.auth);
 
     return (
         <header className={styles.header}>
@@ -16,22 +17,19 @@ const AppHeader = () => {
                              (<>
                                  <BurgerIcon type={isActive ? 'primary' : 'secondary'}/>
                                  <p className={isActive ? styles.label : styles.label_inactive}>Конструктор</p>
-                             </>)}>
-                </NavLink>
+                             </>)}/>
                 <NavLink className={styles.link} to={HISTORY_ROUTE}
                          children={({isActive}) =>
                              (<>
                                  <ListIcon type={isActive ? 'primary' : 'secondary'}/>
                                  <p className={isActive ? styles.label : styles.label_inactive}>Лента заказов</p>
-                             </>)}>
-                </NavLink>
+                             </>)}/>
                 <NavLink className={styles.login} to={PROFILE_ROUTE}
                          children={({isActive}) =>
                              (<>
                                  <ProfileIcon type={isActive ? 'primary' : 'secondary'}/>
                                  <p className={isActive ? styles.label : styles.label_inactive}>{user ? user.name : 'Личный кабинет'}</p>
-                             </>)}>
-                </NavLink>
+                             </>)}/>
             </nav>
             <Link className={styles.logo} to={INDEX_ROUTE}>
                 <Logo/>

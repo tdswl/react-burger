@@ -1,39 +1,41 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import styles from './reset-password.module.css'
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchReset} from "../../services/actions/auth";
 import {FORGOT_ROUTE, INDEX_ROUTE, LOGIN_ROUTE} from "../../utils/routes";
+import {ILocationState, IRootState} from "../../utils/types";
 
 const ResetPasswordPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
 
-    const {user, resetRequest} = useSelector(store => store.auth);
+    const {user, resetRequest} = useSelector((store: IRootState) => store.auth);
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (password && code) {
             dispatch(fetchReset(password, code, () => {
-                navigate({LOGIN_ROUTE}, {replace: true})
+                navigate(LOGIN_ROUTE, {replace: true})
             }));
         }
     };
 
     const [password, setPassword] = React.useState('')
-    const onPasswordChange = e => {
+    const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)
     }
 
     const [code, setCode] = React.useState('')
-    const onCodeChange = e => {
+    const onCodeChange = (e: ChangeEvent<HTMLInputElement>) => {
         setCode(e.target.value)
     }
 
     React.useEffect(() => {
-        const from = location.state?.from?.pathname || INDEX_ROUTE;
+        const locationState = location.state as ILocationState;
+        const from = locationState?.from?.pathname ?? INDEX_ROUTE;
         if (user || from !== FORGOT_ROUTE) {
             navigate(from, {replace: true});
         }

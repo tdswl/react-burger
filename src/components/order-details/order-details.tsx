@@ -1,9 +1,9 @@
-import React from "react";
+import React, {FC} from "react";
 import styles from './order-details.module.css'
 import {ReactComponent as DoneImg} from "../../images/done.svg";
-import {orderInfo} from "../../utils/prop-types";
+import {IOrder} from "../../utils/types";
 
-const OrderDetails = ({order}) => {
+const OrderDetails : FC<{order: IOrder}> = ({order}) => {
     return (
         <section className={styles.content}>
             <p className={styles.number}>{order.number}</p>
@@ -18,9 +18,5 @@ const OrderDetails = ({order}) => {
         </section>
     )
 }
-
-OrderDetails.propTypes = {
-    order: orderInfo.isRequired
-};
 
 export default OrderDetails;

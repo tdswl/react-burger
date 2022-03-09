@@ -7,18 +7,19 @@ import {addBun, addIngredient} from "../../services/actions/burger";
 import {useDrop} from 'react-dnd';
 import DraggableElement from "./components/draggable-element/draggable-element";
 import {IngredientType} from "../../utils/enums";
+import {IIngredient, IRootState} from "../../utils/types";
 
 const BurgerConstructor = () => {
     const dispatch = useDispatch();
 
-    const {selectedBun, selectedIngredients} = useSelector(store => store.burger);
+    const {selectedBun, selectedIngredients} = useSelector((store: IRootState) => store.burger);
 
     const [{isHoverTop}, bunTopTarget] = useDrop({
         accept: IngredientType.BUN,
         collect: monitor => ({
             isHoverTop: monitor.isOver(),
         }),
-        drop(item) {
+        drop(item: IIngredient) {
             dispatch(addBun(item));
         },
     });
@@ -28,7 +29,7 @@ const BurgerConstructor = () => {
         collect: monitor => ({
             isHoverBottom: monitor.isOver(),
         }),
-        drop(item) {
+        drop(item: IIngredient) {
             dispatch(addBun(item));
         },
     });
@@ -68,7 +69,8 @@ const BurgerConstructor = () => {
                         )
                     ) :
                     (
-                        <div className={isHoverIngredient ? styles.placeholderIngredientHover : styles.placeholderIngredient}>
+                        <div
+                            className={isHoverIngredient ? styles.placeholderIngredientHover : styles.placeholderIngredient}>
                             Положите ингредиенты сюда
                         </div>
                     )

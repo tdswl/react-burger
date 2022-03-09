@@ -25,8 +25,9 @@ import {
     errorPatchUser,
     successPatchUser
 } from "../actions/auth";
+import {IAuthState} from "../../utils/types";
 
-const initialState = {
+const initialState : IAuthState= {
     passwordResetRequest: false,
     passwordResetFailed: false,
 
@@ -106,7 +107,7 @@ export const authReducer = createReducer(initialState, (builder) => {
         .addCase(successRegister, (state, action) => {
             return {
                 ...state,
-                user: action.payload.user,
+                user: action.payload,
                 registerRequest: false,
                 registerFailed: false,
             };
@@ -128,7 +129,7 @@ export const authReducer = createReducer(initialState, (builder) => {
         .addCase(successLogin, (state, action) => {
             return {
                 ...state,
-                user: action.payload.user,
+                user: action.payload,
                 loginRequest: false,
                 loginFailed: false,
             };
@@ -137,8 +138,6 @@ export const authReducer = createReducer(initialState, (builder) => {
             return {
                 ...state,
                 user: initialState.user,
-                accessToken: initialState.accessToken,
-                refreshToken: initialState.refreshToken,
                 loginRequest: false,
                 loginFailed: true,
             };
@@ -153,8 +152,6 @@ export const authReducer = createReducer(initialState, (builder) => {
             return {
                 ...state,
                 user: initialState.user,
-                accessToken: initialState.accessToken,
-                refreshToken: initialState.refreshToken,
                 loginRequest: false,
                 loginFailed: false,
             };
@@ -195,7 +192,7 @@ export const authReducer = createReducer(initialState, (builder) => {
         .addCase(successGetUser, (state, action) => {
             return {
                 ...state,
-                user: action.payload.user,
+                user: action.payload,
                 getUserRequest: false,
                 getUserFailed: false,
             };
@@ -216,7 +213,7 @@ export const authReducer = createReducer(initialState, (builder) => {
         .addCase(successPatchUser, (state, action) => {
             return {
                 ...state,
-                user: action.payload.user,
+                user: action.payload,
                 patchUserRequest: false,
                 patchUserFailed: false,
             };

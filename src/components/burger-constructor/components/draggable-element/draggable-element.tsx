@@ -1,21 +1,25 @@
-import React, {useRef} from "react";
+import React, {FC, useRef} from "react";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch} from "react-redux";
 import {dndReorderIngredients, removeIngredient} from "../../../../services/actions/burger";
-import {ingredientPropTypes} from "../../../../utils/prop-types";
-import {useDrag, useDrop} from 'react-dnd';
-import PropTypes from "prop-types";
+import {useDrag, useDrop, XYCoord} from 'react-dnd';
+import {ISelectedIngredient} from "../../../../utils/types";
 
-const DraggableElement = ({component, index}) => {
+interface IDragItem {
+    index: number
+    id: string
+    type: string
+}
+
+const DraggableElement: FC<{ component: ISelectedIngredient, index: number }> = ({component, index}) => {
     const dispatch = useDispatch();
 
-    const onDelete = (e, ingredient) => {
-        e.stopPropagation();
+    const onDelete = (ingredient: ISelectedIngredient) => {
         dispatch(removeIngredient(ingredient));
     };
 
     // Реализация ниже взята из примера https://react-dnd.github.io/react-dnd/examples/sortable/simple
-    const ref = useRef(null);
+    const ref = useRef<HTMLLIElement>(null);
     const [{handlerId}, drop] = useDrop({
         accept: 'ingredient',
         collect(monitor) {
@@ -23,7 +27,7 @@ const DraggableElement = ({component, index}) => {
                 handlerId: monitor.getHandlerId(),
             };
         },
-        hover(item, monitor) {
+        hover(item: IDragItem, monitor) {
             if (!ref.current) {
                 return;
             }
@@ -40,7 +44,7 @@ const DraggableElement = ({component, index}) => {
             // Determine mouse position
             const clientOffset = monitor.getClientOffset();
             // Get pixels to the top
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+            const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
             // Only perform the move when the mouse has crossed half of the items height
             // When dragging downwards, only move when the cursor is below 50%
             // When dragging upwards, only move when the cursor is above 50%
@@ -81,14 +85,9 @@ const DraggableElement = ({component, index}) => {
                 text={component.name}
                 price={component.price}
                 thumbnail={component.image}
-                handleClose={(e) => onDelete(e, component)}/>
+                handleClose={() => onDelete(component)}/>
         </li>
     )
 }
-
-DraggableElement.propTypes = {
-    component: ingredientPropTypes.isRequired,
-    index: PropTypes.number.isRequired
-};
 
 export default DraggableElement;

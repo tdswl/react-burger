@@ -10,7 +10,7 @@ const ProfilePage = () => {
     const dispatch = useDispatch();
 
     const onLogout = () => {
-        dispatch(fetchLogout(() => navigate({LOGOUT_ROUTE})));
+        dispatch(fetchLogout(() => navigate(LOGOUT_ROUTE)));
     }
 
     return (

@@ -1,15 +1,15 @@
 import {getCookie} from "../utils/cookie-helper";
-import axios from "axios";
+import axios, {AxiosInstance, AxiosRequestConfig} from "axios";
 
 // Интерсепторы для запросов с аутентификацией
-export const axiosWithAuth = (updateToken) => {
+export const axiosWithAuth = (updateToken: (x: string) => void): AxiosInstance => {
     let axiosInstance = axios.create();
 
-    axiosInstance.interceptors.request.use(function (config) {
+    axiosInstance.interceptors.request.use(function (config: AxiosRequestConfig) {
         const token = getCookie('token');
         // Тут просто задаем токен, чтобы не усложнять - все ошибки потом придут в ответе
-        if (token) {
-            config.headers["Authorization"] = 'Bearer ' + token;
+        if (token && config.headers) {
+            config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
     }, function (error) {

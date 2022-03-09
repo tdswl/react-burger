@@ -1,19 +1,20 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import styles from './register.module.css'
 import {Button, EmailInput, PasswordInput, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchRegister} from "../../services/actions/auth";
 import {INDEX_ROUTE, LOGIN_ROUTE} from "../../utils/routes";
+import {ILocationState, IRootState} from "../../utils/types";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
 
-    const {user, registerRequest} = useSelector(store => store.auth);
+    const {user, registerRequest} = useSelector((store: IRootState) => store.auth);
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (name && email && password) {
             dispatch(fetchRegister(email, password, name));
@@ -21,23 +22,24 @@ const RegisterPage = () => {
     };
 
     const [name, setName] = React.useState('')
-    const onNameChange = e => {
+    const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
     }
 
     const [email, setEmail] = React.useState('')
-    const onEmailChange = e => {
+    const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value)
     }
 
     const [password, setPassword] = React.useState('')
-    const onPasswordChange = e => {
+    const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)
     }
 
     React.useEffect(() => {
         if (user) {
-            const from = location.state?.from?.pathname || INDEX_ROUTE;
+            const locationState = location.state as ILocationState;
+            const from = locationState?.from?.pathname ?? INDEX_ROUTE;
             navigate(from, {replace: true});
         }
     }, [user, location, navigate])

@@ -1,22 +1,23 @@
-import React from "react";
+import React, {FC} from "react";
 import styles from './ingredient-details.module.css'
 import IngredientDetailParam from "./components/ingredient-details-param/ingredient-details-param";
 import {useLocation, useParams} from "react-router-dom";
 import {fetchIngredients, selectIngredient} from "../../services/actions/burger";
 import {useDispatch, useSelector} from "react-redux";
-import PropTypes from "prop-types";
+import {ILocationState, IRootState} from "../../utils/types";
 
-const IngredientDetails = ({header}) => {
+const IngredientDetails : FC<{header?: string}> = ({header}) => {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const {ingredients, ingredientsRequest, selectedIngredientInfo} = useSelector(store => store.burger);
+    const {ingredients, ingredientsRequest, selectedIngredientInfo} = useSelector((store: IRootState) => store.burger);
 
     let { id } = useParams();
 
     React.useEffect(() => {
+        const locationState = location.state as ILocationState;
         // Если не модалка и нет ингридиентов, то надо бы запросить. Непонятно, есть ли роут для получение одного ингридиента
-        if (!location.state?.modal && (!ingredients || ingredients.length === 0) && !ingredientsRequest)
+        if (!locationState?.modal && (!ingredients || ingredients.length === 0) && !ingredientsRequest)
         {
             dispatch(fetchIngredients())
         }
@@ -50,9 +51,5 @@ const IngredientDetails = ({header}) => {
         </section>
     )
 }
-
-IngredientDetails.propTypes = {
-    header: PropTypes.string
-};
 
 export default IngredientDetails;
