@@ -12,3 +12,5 @@ export const LOGIN_AUTH_ENDPOINT = AUTH_ENDPOINT + "/login";
 export const LOGOUT_AUTH_ENDPOINT = AUTH_ENDPOINT + "/logout";
 export const TOKEN_AUTH_ENDPOINT = AUTH_ENDPOINT + "/token";
 export const USER_AUTH_ENDPOINT = AUTH_ENDPOINT + "/user";
+
+export const WS_ORDERS = 'wss://norma.nomoreparties.space/orders';

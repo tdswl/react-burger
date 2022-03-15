@@ -3,7 +3,7 @@ import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-deve
 import {useDispatch, useSelector} from "react-redux";
 import styles from './user-profile.module.css'
 import {fetchUpdateUser} from "../../services/actions/auth";
-import {IRootState} from "../../utils/types";
+import {IRootState} from "../../services/types/types";
 
 const UserProfile = () => {
     const dispatch = useDispatch();

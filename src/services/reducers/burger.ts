@@ -12,7 +12,7 @@ import {
     successOrder,
     addBun, dndReorderIngredients
 } from "../actions/burger";
-import {IBurgerState, IIngredient, IOrderInfo, ISelectedIngredient} from "../../utils/types";
+import {IBurgerState, IIngredient, IOrderInfo, ISelectedIngredient} from "../types/burger";
 
 const initialState: IBurgerState = {
     // список всех полученных ингредиентов

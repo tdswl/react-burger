@@ -2,9 +2,9 @@ import React from "react";
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './app-header.module.css'
 import {NavLink, Link} from "react-router-dom";
-import {INDEX_ROUTE, HISTORY_ROUTE, PROFILE_ROUTE} from "../../utils/routes";
+import {INDEX_ROUTE, FEEDS_ROUTE, PROFILE_ROUTE} from "../../utils/routes";
 import {useSelector} from "react-redux";
-import {IRootState} from "../../utils/types";
+import {IRootState} from "../../services/types/types";
 
 const AppHeader = () => {
     const {user} = useSelector((store: IRootState) => store.auth);
@@ -18,7 +18,7 @@ const AppHeader = () => {
                                  <BurgerIcon type={isActive ? 'primary' : 'secondary'}/>
                                  <p className={isActive ? styles.label : styles.label_inactive}>Конструктор</p>
                              </>)}/>
-                <NavLink className={styles.link} to={HISTORY_ROUTE}
+                <NavLink className={styles.link} to={FEEDS_ROUTE}
                          children={({isActive}) =>
                              (<>
                                  <ListIcon type={isActive ? 'primary' : 'secondary'}/>

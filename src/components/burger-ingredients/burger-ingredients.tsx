@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchIngredients} from "../../services/actions/burger";
 import {IngredientType} from "../../utils/enums";
 import {useLocation, useNavigate} from "react-router-dom";
-import {IRootState} from "../../utils/types";
+import {IRootState} from "../../services/types/types";
 
 const BurgerIngredients = () => {
     const dispatch = useDispatch();

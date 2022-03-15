@@ -4,33 +4,17 @@ import {v4} from "uuid";
 import axios from "axios";
 import {axiosWithAuth} from "../axiosInterceptors";
 import {fetchToken} from "./auth";
-import {IIngredient, IOrderInfo, IResponse, ISelectedIngredient} from "../../utils/types";
+import {IResponse} from "../types/types";
 import {AppDispatch} from "../../index";
+import {BurgerAction} from "../constants/burger";
+import {IIngredient, IOrderInfo, ISelectedIngredient} from "../types/burger";
 
-const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
-const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
-const GET_INGREDIENTS_ERROR = 'GET_INGREDIENTS_ERROR';
+export const getIngredients = createAction(BurgerAction.GET_INGREDIENTS_REQUEST);
+export const successIngredients = createAction<Array<IIngredient> | undefined>(BurgerAction.GET_INGREDIENTS_SUCCESS);
+export const errorIngredients = createAction(BurgerAction.GET_INGREDIENTS_ERROR);
 
-const CONSTRUCTOR_ADD_BUN = 'CONSTRUCTOR_ADD_BUN';
-const CONSTRUCTOR_ADD = 'CONSTRUCTOR_ADD';
-const CONSTRUCTOR_DELETE = 'CONSTRUCTOR_DELETE';
-
-const ORDER_REQUEST = 'ORDER_REQUEST';
-const ORDER_SUCCESS = 'ORDER_SUCCESS';
-const ORDER_ERROR = 'ORDER_ERROR';
-
-const ORDER_CLEAR = 'ORDER_CLEAR';
-
-const SELECT_INGREDIENT = 'SELECT_INGREDIENT';
-
-const DND_REORDER_INGREDIENTS = 'DND_REORDER_INGREDIENTS';
-
-export const getIngredients = createAction(GET_INGREDIENTS_REQUEST);
-export const successIngredients = createAction<Array<IIngredient> | undefined>(GET_INGREDIENTS_SUCCESS);
-export const errorIngredients = createAction(GET_INGREDIENTS_ERROR);
-
-export const addBun = createAction<IIngredient>(CONSTRUCTOR_ADD_BUN);
-export const addIngredient = createAction(CONSTRUCTOR_ADD, function prepare(ingredient) {
+export const addBun = createAction<IIngredient>(BurgerAction.CONSTRUCTOR_ADD_BUN);
+export const addIngredient = createAction(BurgerAction.CONSTRUCTOR_ADD, function prepare(ingredient) {
     return {
         payload: {
             ...ingredient,
@@ -38,17 +22,17 @@ export const addIngredient = createAction(CONSTRUCTOR_ADD, function prepare(ingr
         },
     }
 });
-export const removeIngredient = createAction<ISelectedIngredient>(CONSTRUCTOR_DELETE);
+export const removeIngredient = createAction<ISelectedIngredient>(BurgerAction.CONSTRUCTOR_DELETE);
 
-export const prepareOrder = createAction(ORDER_REQUEST);
-export const successOrder = createAction<IOrderInfo>(ORDER_SUCCESS);
-export const errorOrder = createAction(ORDER_ERROR);
+export const prepareOrder = createAction(BurgerAction.ORDER_REQUEST);
+export const successOrder = createAction<IOrderInfo>(BurgerAction.ORDER_SUCCESS);
+export const errorOrder = createAction(BurgerAction.ORDER_ERROR);
 
-export const selectIngredient = createAction<string | undefined | null>(SELECT_INGREDIENT);
+export const selectIngredient = createAction<string | undefined | null>(BurgerAction.SELECT_INGREDIENT);
 
-export const orderClear = createAction(ORDER_CLEAR);
+export const orderClear = createAction(BurgerAction.ORDER_CLEAR);
 
-export const dndReorderIngredients = createAction<{dragIndex: number, hoverIndex: number}>(DND_REORDER_INGREDIENTS);
+export const dndReorderIngredients = createAction<{dragIndex: number, hoverIndex: number}>(BurgerAction.DND_REORDER_INGREDIENTS);
 
 export function fetchIngredients() {
     return async (dispatch: AppDispatch) => {

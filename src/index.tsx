@@ -8,14 +8,16 @@ import {Provider} from "react-redux";
 import {rootReducer} from "./services/reducers/root";
 import {configureStore} from '@reduxjs/toolkit'
 import {BrowserRouter} from "react-router-dom";
+import {feedMiddleware} from "./services/middlewares/feed-middleware";
 
 const store = configureStore({
     reducer: rootReducer,
-    middleware: [thunk],
+    middleware: [thunk, feedMiddleware],
     devTools: process.env.NODE_ENV !== 'production',
 })
 
 export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
 
 ReactDOM.render(
     <React.StrictMode>

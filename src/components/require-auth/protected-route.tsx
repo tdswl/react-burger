@@ -2,7 +2,7 @@ import React from "react";
 import {Outlet, useLocation, Navigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {LOGIN_ROUTE} from "../../utils/routes";
-import {IRootState} from "../../utils/types";
+import {IRootState} from "../../services/types/types";
 
 const ProtectedRoute = () => {
     const {user, getUserRequest} = useSelector((store: IRootState) => store.auth);

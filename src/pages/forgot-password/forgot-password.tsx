@@ -5,7 +5,7 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchPasswordReset} from "../../services/actions/auth";
 import {INDEX_ROUTE, LOGIN_ROUTE, RESET_ROUTE} from "../../utils/routes";
-import {ILocationState, IRootState} from "../../utils/types";
+import {ILocationState, IRootState} from "../../services/types/types";
 
 const ForgotPasswordPage = () => {
     let navigate = useNavigate();

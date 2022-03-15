@@ -6,7 +6,7 @@ import OrderDetails from "../../../order-details/order-details";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchOrder, orderClear} from "../../../../services/actions/burger";
 import {useNavigate} from "react-router-dom";
-import {IRootState} from "../../../../utils/types";
+import {IRootState} from "../../../../services/types/types";
 
 const Summary = () => {
     let navigate = useNavigate();

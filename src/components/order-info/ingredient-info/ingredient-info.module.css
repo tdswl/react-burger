@@ -1,0 +1,33 @@
+/*Стиль контейнера*/
+.container {
+   display: flex;
+   gap: 16px;
+   justify-content: center;
+   align-items: center;
+}
+
+.imageBorder {
+   width: 64px;
+   height: 64px;
+   left: 0px;
+   top: 0px;
+   background: #131316;
+   border-radius: 100px;
+   border: 2px solid;
+   border-color: #801AB3;
+   overflow: hidden;
+   margin-left: -15px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+}
+
+.price {
+   composes: text text_type_digits-medium from global;
+   margin-left: auto;
+}
+
+.name {
+   composes: text text_type_main-default from global;
+
+}

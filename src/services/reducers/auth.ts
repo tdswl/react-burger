@@ -25,7 +25,7 @@ import {
     errorPatchUser,
     successPatchUser
 } from "../actions/auth";
-import {IAuthState} from "../../utils/types";
+import {IAuthState} from "../types/auth";
 
 const initialState : IAuthState= {
     passwordResetRequest: false,

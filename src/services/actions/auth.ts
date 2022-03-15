@@ -9,71 +9,41 @@ import axios from "axios";
 import {deleteCookie, setCookie} from "../../utils/cookie-helper";
 import {axiosWithAuth} from "../axiosInterceptors";
 import {AppDispatch} from "../../index";
-import {IAuthResponse, IResponse, IUser} from "../../utils/types";
+import {IResponse} from "../types/types";
+import {AuthAction} from "../constants/auth";
+import {IAuthResponse, IUser} from "../types/auth";
 
-const PASSWORD_RESET_REQUEST = 'PASSWORD_RESET_REQUEST';
-const PASSWORD_RESET_SUCCESS = 'PASSWORD_RESET_SUCCESS';
-const PASSWORD_RESET_ERROR = 'PASSWORD_RESET_ERROR';
+export const passwordReset = createAction(AuthAction.PASSWORD_RESET_REQUEST);
+export const successPasswordReset = createAction(AuthAction.PASSWORD_RESET_SUCCESS);
+export const errorPasswordReset = createAction(AuthAction.PASSWORD_RESET_ERROR);
 
-const RESET_REQUEST = 'RESET_REQUEST';
-const RESET_SUCCESS = 'RESET_SUCCESS';
-const RESET_ERROR = 'RESET_ERROR';
+export const reset = createAction(AuthAction.RESET_REQUEST);
+export const successReset = createAction(AuthAction.RESET_SUCCESS);
+export const errorReset = createAction(AuthAction.RESET_ERROR);
 
-const REGISTER_REQUEST = 'REGISTER_REQUEST';
-const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-const REGISTER_ERROR = 'REGISTER_ERROR';
+export const register = createAction(AuthAction.REGISTER_REQUEST);
+export const successRegister = createAction<IUser>(AuthAction.REGISTER_SUCCESS);
+export const errorRegister = createAction(AuthAction.REGISTER_ERROR);
 
-const LOGIN_REQUEST = 'LOGIN_REQUEST';
-const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-const LOGIN_ERROR = 'LOGIN_ERROR';
+export const login = createAction(AuthAction.LOGIN_REQUEST);
+export const successLogin = createAction<IUser>(AuthAction.LOGIN_SUCCESS);
+export const errorLogin = createAction(AuthAction.LOGIN_ERROR);
 
-const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
-const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-const LOGOUT_ERROR = 'LOGOUT_ERROR';
+export const logout = createAction(AuthAction.LOGOUT_REQUEST);
+export const successLogout = createAction(AuthAction.LOGOUT_SUCCESS);
+export const errorLogout = createAction(AuthAction.LOGOUT_ERROR);
 
-const TOKEN_REQUEST = 'TOKEN_REQUEST';
-const TOKEN_SUCCESS = 'TOKEN_SUCCESS';
-const TOKEN_ERROR = 'TOKEN_ERROR';
+export const token = createAction(AuthAction.TOKEN_REQUEST);
+export const successToken = createAction(AuthAction.TOKEN_SUCCESS);
+export const errorToken = createAction(AuthAction.TOKEN_ERROR);
 
-const GET_USER_REQUEST = 'GET_USER_REQUEST';
-const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
-const GET_USER_ERROR = 'GET_USER_ERROR';
+export const getUser = createAction(AuthAction.GET_USER_REQUEST);
+export const successGetUser = createAction<IUser>(AuthAction.GET_USER_SUCCESS);
+export const errorGetUser = createAction(AuthAction.GET_USER_ERROR);
 
-const PATCH_USER_REQUEST = 'PATCH_USER_REQUEST';
-const PATCH_USER_SUCCESS = 'PATCH_USER_SUCCESS';
-const PATCH_USER_ERROR = 'PATCH_USER_ERROR';
-
-export const passwordReset = createAction(PASSWORD_RESET_REQUEST);
-export const successPasswordReset = createAction(PASSWORD_RESET_SUCCESS);
-export const errorPasswordReset = createAction(PASSWORD_RESET_ERROR);
-
-export const reset = createAction(RESET_REQUEST);
-export const successReset = createAction(RESET_SUCCESS);
-export const errorReset = createAction(RESET_ERROR);
-
-export const register = createAction(REGISTER_REQUEST);
-export const successRegister = createAction<IUser>(REGISTER_SUCCESS);
-export const errorRegister = createAction(REGISTER_ERROR);
-
-export const login = createAction(LOGIN_REQUEST);
-export const successLogin = createAction<IUser>(LOGIN_SUCCESS);
-export const errorLogin = createAction(LOGIN_ERROR);
-
-export const logout = createAction(LOGOUT_REQUEST);
-export const successLogout = createAction(LOGOUT_SUCCESS);
-export const errorLogout = createAction(LOGOUT_ERROR);
-
-export const token = createAction(TOKEN_REQUEST);
-export const successToken = createAction(TOKEN_SUCCESS);
-export const errorToken = createAction(TOKEN_ERROR);
-
-export const getUser = createAction(GET_USER_REQUEST);
-export const successGetUser = createAction<IUser>(GET_USER_SUCCESS);
-export const errorGetUser = createAction(GET_USER_ERROR);
-
-export const patchUser = createAction(PATCH_USER_REQUEST);
-export const successPatchUser = createAction<IUser>(PATCH_USER_SUCCESS);
-export const errorPatchUser = createAction(PATCH_USER_ERROR);
+export const patchUser = createAction(AuthAction.PATCH_USER_REQUEST);
+export const successPatchUser = createAction<IUser>(AuthAction.PATCH_USER_SUCCESS);
+export const errorPatchUser = createAction(AuthAction.PATCH_USER_ERROR);
 
 // 20 минут в секундах
 const ACCESS_TOKEN_EXPIRES = 20 * 60;
@@ -111,7 +81,7 @@ export function fetchPasswordReset(email: string, successCallback: () => void) {
     }
 }
 
-export function fetchReset(password: string, token: string, successCallback: ()=>void) {
+export function fetchReset(password: string, token: string, successCallback: () => void) {
     return async (dispatch: AppDispatch) => {
         dispatch(reset())
 
@@ -140,7 +110,7 @@ export function fetchRegister(email: string, password: string, name: string) {
     return async (dispatch: AppDispatch) => {
         dispatch(register())
 
-        await axios.post<IResponse & {user: IUser} & IAuthResponse>(REGISTER_AUTH_ENDPOINT,
+        await axios.post<IResponse & { user: IUser } & IAuthResponse>(REGISTER_AUTH_ENDPOINT,
             {
                 "email": email,
                 "password": password,
@@ -163,11 +133,11 @@ export function fetchRegister(email: string, password: string, name: string) {
     }
 }
 
-export function fetchLogin(email: string, password: string, successCallback: ()=>void) {
+export function fetchLogin(email: string, password: string, successCallback: () => void) {
     return async (dispatch: AppDispatch) => {
         dispatch(login())
 
-        await axios.post<IResponse & {user: IUser} & IAuthResponse>(LOGIN_AUTH_ENDPOINT,
+        await axios.post<IResponse & { user: IUser } & IAuthResponse>(LOGIN_AUTH_ENDPOINT,
             {
                 "email": email,
                 "password": password
@@ -191,7 +161,7 @@ export function fetchLogin(email: string, password: string, successCallback: ()=
     }
 }
 
-export function fetchLogout(successCallback: ()=>void) {
+export function fetchLogout(successCallback: () => void) {
     return async (dispatch: AppDispatch) => {
         dispatch(logout())
 
@@ -222,7 +192,7 @@ export function fetchLogout(successCallback: ()=>void) {
     }
 }
 
-export function fetchToken(refreshToken : string) {
+export function fetchToken(refreshToken: string) {
     return async (dispatch: AppDispatch) => {
         dispatch(token())
 
@@ -250,7 +220,7 @@ export function fetchGetUser() {
     return async (dispatch: AppDispatch) => {
         dispatch(getUser())
 
-        await axiosWithAuth((refreshToken : string) => fetchToken(refreshToken))
+        await axiosWithAuth((refreshToken: string) => fetchToken(refreshToken))
             .get(USER_AUTH_ENDPOINT)
             .then(response => {
                 let data = response.data;
@@ -271,13 +241,13 @@ export function fetchUpdateUser(name: string, email: string, password: string) {
     return async (dispatch: AppDispatch) => {
         dispatch(patchUser())
 
-        await axiosWithAuth((refreshToken : string) => fetchToken(refreshToken))
+        await axiosWithAuth((refreshToken: string) => fetchToken(refreshToken))
             .patch(USER_AUTH_ENDPOINT,
-            {
-                "email": email,
-                "password": password,
-                "name": name
-            })
+                {
+                    "email": email,
+                    "password": password,
+                    "name": name
+                })
             .then(response => {
                 let data = response.data;
                 if (data.success) {

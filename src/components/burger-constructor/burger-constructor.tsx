@@ -7,7 +7,8 @@ import {addBun, addIngredient} from "../../services/actions/burger";
 import {useDrop} from 'react-dnd';
 import DraggableElement from "./components/draggable-element/draggable-element";
 import {IngredientType} from "../../utils/enums";
-import {IIngredient, IRootState} from "../../utils/types";
+import {IRootState} from "../../services/types/types";
+import {IIngredient} from "../../services/types/burger";
 
 const BurgerConstructor = () => {
     const dispatch = useDispatch();

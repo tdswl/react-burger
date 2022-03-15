@@ -3,7 +3,8 @@ import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-com
 import styles from './ingredient.module.css'
 import {useSelector} from "react-redux";
 import {useDrag} from 'react-dnd';
-import {IIngredient, IRootState} from "../../../../utils/types";
+import {IRootState} from "../../../../services/types/types";
+import {IIngredient} from "../../../../services/types/burger";
 
 const Ingredient: FC<{ item: IIngredient, onClick: MouseEventHandler<HTMLElement> }> = ({item, onClick}) => {
     const {selectedIngredients, selectedBun} = useSelector((store: IRootState) => store.burger);

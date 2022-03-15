@@ -1,0 +1,38 @@
+.ingredientsContainer {
+    composes: ml-4 mr-4 pl-8 mt-25 from global;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 60px;
+}
+
+.ordersContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header {
+    composes: text text_type_main-medium from global;
+}
+
+.ordersList {
+    composes:  text text_type_digits-default from global;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0;
+    gap:8px
+}
+
+.orderReady {
+    composes: ordersList;
+    color: #00CCCC;
+}
+
+.summary {
+    composes:  text text_type_digits-large from global;
+
+
+}

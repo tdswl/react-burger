@@ -3,7 +3,7 @@ import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger
 import {useDispatch} from "react-redux";
 import {dndReorderIngredients, removeIngredient} from "../../../../services/actions/burger";
 import {useDrag, useDrop, XYCoord} from 'react-dnd';
-import {ISelectedIngredient} from "../../../../utils/types";
+import {ISelectedIngredient} from "../../../../services/types/burger";
 
 interface IDragItem {
     index: number
