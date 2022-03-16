@@ -44,7 +44,11 @@ const OrdersPage = () => {
     return (
         <div className={styles.container}>
             <Feed orders={feed?.orders} onClick={onOrderClick}/>
+
+            {/*Индикатор загрузки*/}
+            {(ingredientsRequest || !feed) && (<div className="spinner"></div>)}
         </div>
+
     )
 }
 

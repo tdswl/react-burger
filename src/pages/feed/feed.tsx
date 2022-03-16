@@ -49,6 +49,9 @@ const FeedPage = () => {
                 <Feed orders={feed?.orders} onClick={onOrderClick}/>
             </div>
             <FeedSummary/>
+
+            {/*Индикатор загрузки*/}
+            {(ingredientsRequest || !feed) && (<div className="spinner"></div>)}
         </article>
     )
 }

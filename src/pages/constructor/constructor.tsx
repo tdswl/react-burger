@@ -23,7 +23,7 @@ const ConstructorPage = () => {
                     </article>
                 )}
             {/*Индикатор загрузки*/}
-            {(ingredientsRequest || orderRequest) && (<div className={styles.spinner}></div>)}
+            {(ingredientsRequest || orderRequest) && (<div className="spinner"></div>)}
         </>
     )
 }
