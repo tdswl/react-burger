@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import styles from './orders.module.css'
 import Feed from "../../components/feed/feed";
 import {useDispatch, useSelector} from "react-redux";
-import {connectionStart} from "../../services/actions/feed";
+import {connectionClose, connectionStart} from "../../services/actions/feed";
 import {getCookie} from "../../utils/cookie-helper";
 import {useLocation, useNavigate} from "react-router-dom";
 import {ILocationState, IRootState} from "../../services/types/types";
@@ -19,6 +19,10 @@ const OrdersPage = () => {
         () => {
             const token = getCookie('token');
             dispatch(connectionStart(token));
+
+            return () => {
+                dispatch(connectionClose());
+            }
         },
         [dispatch]
     );

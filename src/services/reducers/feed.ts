@@ -1,6 +1,14 @@
 import {createReducer, PayloadAction} from '@reduxjs/toolkit'
 import {IFeed, IFeedState} from "../types/feed";
-import {connectionClosed, connectionError, connectionSucceed, getMessage, getOrder, selectOrder} from "../actions/feed";
+import {
+    connectionClose,
+    connectionClosed,
+    connectionError,
+    connectionSucceed,
+    getMessage,
+    getOrder,
+    selectOrder
+} from "../actions/feed";
 import {IOrder} from "../types/burger";
 import {errorOrder} from "../actions/burger";
 
@@ -34,7 +42,6 @@ export const feedReducer = createReducer(initialState, (builder) => {
             };
         })
         .addCase(getMessage, (state, action: PayloadAction<IFeed>) => {
-            console.log(action.payload)
             return {
                 ...state,
                 feed: action.payload
@@ -61,6 +68,12 @@ export const feedReducer = createReducer(initialState, (builder) => {
                 ...state,
                 orderRequest: true,
                 orderFailed: false,
+            };
+        })
+        .addCase(connectionClose, (state) => {
+            return {
+                ...state,
+                feed: null
             };
         })
 })

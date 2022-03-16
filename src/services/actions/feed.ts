@@ -12,6 +12,7 @@ export const connectionSucceed = createAction<Event>(FeedAction.FEED_WS_CONNECTI
 export const connectionClosed = createAction<Event>(FeedAction.FEED_WS_CONNECTION_CLOSED);
 export const connectionError = createAction<Event>(FeedAction.FEED_WS_CONNECTION_ERROR);
 export const getMessage = createAction<IFeed>(FeedAction.FEED_WS_GET_MESSAGE);
+export const connectionClose = createAction(FeedAction.FEED_WS_CONNECTION_CLOSE);
 
 export const getOrder = createAction(FeedAction.FEED_GET_ORDER_FROM_SERVER);
 export const errorOrder = createAction(FeedAction.FEED_ERROR_ORDER_FROM_SERVER);

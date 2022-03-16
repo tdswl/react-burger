@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import styles from './feed.module.css'
 import Feed from "../../components/feed/feed";
 import FeedSummary from "../../components/feed-summary/feed-summary";
-import {connectionStart} from "../../services/actions/feed";
+import {connectionClose, connectionStart} from "../../services/actions/feed";
 import {useDispatch, useSelector} from "react-redux";
 import {useLocation, useNavigate} from "react-router-dom";
 import {ILocationState, IRootState} from "../../services/types/types";
@@ -18,6 +18,10 @@ const FeedPage = () => {
     useEffect(
         () => {
             dispatch(connectionStart());
+
+            return () => {
+                dispatch(connectionClose());
+            }
         },
         [dispatch]
     );
