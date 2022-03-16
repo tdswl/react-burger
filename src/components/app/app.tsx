@@ -75,8 +75,8 @@ const App = () => {
                             <Route path={PROFILE_ROUTE} element={<ProfilePage/>}>
                                 <Route index element={<UserProfile/>}/>
                                 <Route path={ORDERS_ROUTE} element={<OrdersPage/>}/>
-                                <Route path={ORDER_ROUTE} element={<OrderInfoPage/>}/>
                             </Route>
+                            <Route path={ORDER_ROUTE} element={<OrderInfoPage/>}/>
                         </Route>
                         <Route path={FEED_ROUTE} element={<OrderInfoPage/>}/>
                     </Route>
