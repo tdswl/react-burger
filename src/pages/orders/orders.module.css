@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    height: 86%;
+    height: 100%;
     gap: 40px;
     justify-content: center;
     max-width: 1280px;

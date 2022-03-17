@@ -10,11 +10,12 @@ import IngredientInfo from "./ingredient-info/ingredient-info";
 import {ISelectedIngredient} from "../../services/types/burger";
 import {v4} from "uuid";
 import {OrderStatusTranslate} from "../../utils/helpers";
-import {useIngredientsStatus} from "../../utils/use-ingredient";
+import {useIngredients} from "../../utils/use-ingredients";
+import {OrderStatus} from "../../utils/enums";
 
 const OrderInfo = () => {
     const dispatch = useDispatch();
-    const {isIngredientLoaded} = useIngredientsStatus();
+    const {isIngredientsLoaded} = useIngredients();
 
     const {ingredients} = useSelector((store: IRootState) => store.burger);
     const {selectedOrder} = useSelector((store: IRootState) => store.feed);
@@ -29,26 +30,29 @@ const OrderInfo = () => {
 
     const orderIngredients = React.useMemo(
         () => {
-            let result = new Array<ISelectedIngredient & {count: number}>();
+            let result = new Array<ISelectedIngredient & { count: number }>();
 
-            if (isIngredientLoaded){
+            if (isIngredientsLoaded) {
                 selectedOrder?.ingredients?.forEach(value => {
                     if (value && !result.find(a => a._id === value)) {
                         let count = selectedOrder?.ingredients?.filter(a => a === value).reduce((x) => x + 1, 0);
-                        result.push({key: v4(), ...ingredients.find(a => a._id === value), count: count} as ISelectedIngredient & {count: number});
+                        result.push({
+                            key: v4(), ...ingredients.find(a => a._id === value),
+                            count: count
+                        } as ISelectedIngredient & { count: number });
                     }
                 });
             }
 
             return result;
         },
-        [selectedOrder, ingredients, isIngredientLoaded]
+        [selectedOrder, ingredients, isIngredientsLoaded]
     );
 
     const totalPrice = React.useMemo(
         () => {
             if (orderIngredients && orderIngredients.length > 0) {
-                return orderIngredients.reduce((x, obj) => x + obj.price*obj.count, 0)
+                return orderIngredients.reduce((x, obj) => x + obj.price * obj.count, 0)
             }
 
             return 0;
@@ -65,7 +69,7 @@ const OrderInfo = () => {
             <p className={styles.number}>#{selectedOrder.number}</p>
             <p className={styles.name}>{selectedOrder.name}</p>
             {selectedOrder.status && (
-                <p className={styles.status}>{OrderStatusTranslate.get(selectedOrder.status)}</p>
+                <p className={selectedOrder.status === OrderStatus.DONE ? styles.statusDone : styles.status}>{OrderStatusTranslate.get(selectedOrder.status)}</p>
             )}
             <p className={styles.name}>Состав:</p>
             <div className={styles.scrollableContainer}>

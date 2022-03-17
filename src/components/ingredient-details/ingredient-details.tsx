@@ -5,21 +5,21 @@ import {useParams} from "react-router-dom";
 import {selectIngredient} from "../../services/actions/burger";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootState} from "../../services/types/types";
-import {useIngredientsStatus} from "../../utils/use-ingredient";
+import {useIngredients} from "../../utils/use-ingredients";
 
 const IngredientDetails: FC<{ header?: string }> = ({header}) => {
     const dispatch = useDispatch();
-    const {isIngredientLoaded} = useIngredientsStatus();
+    const {isIngredientsLoaded} = useIngredients();
 
     const {selectedIngredientInfo} = useSelector((store: IRootState) => store.burger);
 
     let {id} = useParams();
 
     React.useEffect(() => {
-        if (isIngredientLoaded) {
+        if (isIngredientsLoaded) {
             dispatch(selectIngredient(id));
         }
-    }, [id, dispatch, isIngredientLoaded])
+    }, [id, dispatch, isIngredientsLoaded])
 
     if (!selectedIngredientInfo) {
         return null;

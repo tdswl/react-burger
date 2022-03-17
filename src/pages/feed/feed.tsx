@@ -6,14 +6,14 @@ import {connectionClose, connectionStart} from "../../services/actions/feed";
 import {useDispatch, useSelector} from "react-redux";
 import {useLocation, useNavigate} from "react-router-dom";
 import {IRootState} from "../../services/types/types";
-import {useIngredientsStatus} from "../../utils/use-ingredient";
+import {useIngredients} from "../../utils/use-ingredients";
 
 const FeedPage = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
     const {feed} = useSelector((store: IRootState) => store.feed);
-    const {isIngredientLoaded} = useIngredientsStatus();
+    const {isIngredientsLoaded} = useIngredients();
 
     useEffect(
         () => {
@@ -44,7 +44,7 @@ const FeedPage = () => {
             <FeedSummary/>
 
             {/*Индикатор загрузки*/}
-            {(!isIngredientLoaded || !feed) && (<div className="spinner"></div>)}
+            {(!isIngredientsLoaded || !feed) && (<div className="spinner"></div>)}
         </article>
     )
 }

@@ -7,6 +7,7 @@ import {IRootState} from "../../../../services/types/types";
 import moment from "moment-ru";
 import {v4} from "uuid";
 import {OrderStatusTranslate} from "../../../../utils/helpers";
+import {OrderStatus} from "../../../../utils/enums";
 
 const FeedOrder: FC<{ order: IOrder }> = ({order}) => {
     const {ingredients} = useSelector((store: IRootState) => store.burger);
@@ -45,7 +46,7 @@ const FeedOrder: FC<{ order: IOrder }> = ({order}) => {
             </section>
             <section className={styles.name}>{order.name}</section>
             {order.status && (
-                <p className={styles.status}>{OrderStatusTranslate.get(order.status)}</p>
+                <p className={order.status === OrderStatus.DONE ? styles.statusDone : styles.status}>{OrderStatusTranslate.get(order.status)}</p>
             )}
             <section className={styles.footer}>
                 <ul className={styles.ingredientsList}>

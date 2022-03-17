@@ -39,6 +39,7 @@ const UserProfile = () => {
     };
 
     return (
+        <div  className={styles.container}>
         <form className="formContainer" onSubmit={onSubmit}>
             <Input type={'text'}
                    placeholder={'Имя'}
@@ -62,6 +63,7 @@ const UserProfile = () => {
                 </Button>
             </div>
         </form>
+        </div>
     )
 }
 

@@ -6,14 +6,14 @@ import {connectionClose, connectionStart} from "../../services/actions/feed";
 import {getCookie} from "../../utils/cookie-helper";
 import {useLocation, useNavigate} from "react-router-dom";
 import {IRootState} from "../../services/types/types";
-import {useIngredientsStatus} from "../../utils/use-ingredient";
+import {useIngredients} from "../../utils/use-ingredients";
 
 const OrdersPage = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
     const {feed} = useSelector((store: IRootState) => store.feed);
-    const {isIngredientLoaded} = useIngredientsStatus();
+    const {isIngredientsLoaded} = useIngredients();
 
     useEffect(
         () => {
@@ -38,7 +38,7 @@ const OrdersPage = () => {
             <Feed orders={feed?.orders} onClick={onOrderClick}/>
 
             {/*Индикатор загрузки*/}
-            {(!isIngredientLoaded || !feed) && (<div className="spinner"></div>)}
+            {(!isIngredientsLoaded || !feed) && (<div className="spinner"></div>)}
         </div>
 
     )
