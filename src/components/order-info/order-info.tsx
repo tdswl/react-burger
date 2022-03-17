@@ -1,9 +1,8 @@
 import React from "react";
 import styles from './order-info.module.css'
-import {useLocation, useParams} from "react-router-dom";
-import {fetchIngredients} from "../../services/actions/burger";
+import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {ILocationState, IRootState} from "../../services/types/types";
+import {IRootState} from "../../services/types/types";
 import {fetchSelectedOrder} from "../../services/actions/feed";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import moment from "moment-ru";
@@ -11,23 +10,16 @@ import IngredientInfo from "./ingredient-info/ingredient-info";
 import {ISelectedIngredient} from "../../services/types/burger";
 import {v4} from "uuid";
 import {OrderStatusTranslate} from "../../utils/helpers";
+import {useIngredientsStatus} from "../../utils/use-ingredient";
 
 const OrderInfo = () => {
     const dispatch = useDispatch();
-    const location = useLocation();
+    const {isIngredientLoaded} = useIngredientsStatus();
 
-    const {ingredients, ingredientsRequest} = useSelector((store: IRootState) => store.burger);
+    const {ingredients} = useSelector((store: IRootState) => store.burger);
     const {selectedOrder} = useSelector((store: IRootState) => store.feed);
 
     let {id} = useParams();
-
-    React.useEffect(() => {
-        const locationState = location.state as ILocationState;
-        // Если не модалка и нет ингридиентов, то надо бы запросить. Непонятно, есть ли роут для получение одного ингридиента
-        if (!locationState?.modal && (!ingredients || ingredients.length === 0) && !ingredientsRequest) {
-            dispatch(fetchIngredients())
-        }
-    }, [dispatch, location, ingredients, ingredientsRequest])
 
     React.useEffect(() => {
         if (id) {
@@ -39,16 +31,18 @@ const OrderInfo = () => {
         () => {
             let result = new Array<ISelectedIngredient & {count: number}>();
 
-            selectedOrder?.ingredients?.forEach(value => {
-                if (value && !result.find(a => a._id === value)) {
-                    let count = selectedOrder?.ingredients?.filter(a => a === value).reduce((x) => x + 1, 0);
-                    result.push({key: v4(), ...ingredients.find(a => a._id === value), count: count} as ISelectedIngredient & {count: number});
-                }
-            });
+            if (isIngredientLoaded){
+                selectedOrder?.ingredients?.forEach(value => {
+                    if (value && !result.find(a => a._id === value)) {
+                        let count = selectedOrder?.ingredients?.filter(a => a === value).reduce((x) => x + 1, 0);
+                        result.push({key: v4(), ...ingredients.find(a => a._id === value), count: count} as ISelectedIngredient & {count: number});
+                    }
+                });
+            }
 
             return result;
         },
-        [selectedOrder, ingredients]
+        [selectedOrder, ingredients, isIngredientLoaded]
     );
 
     const totalPrice = React.useMemo(

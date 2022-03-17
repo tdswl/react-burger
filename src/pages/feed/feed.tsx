@@ -5,15 +5,15 @@ import FeedSummary from "../../components/feed-summary/feed-summary";
 import {connectionClose, connectionStart} from "../../services/actions/feed";
 import {useDispatch, useSelector} from "react-redux";
 import {useLocation, useNavigate} from "react-router-dom";
-import {ILocationState, IRootState} from "../../services/types/types";
-import {fetchIngredients} from "../../services/actions/burger";
+import {IRootState} from "../../services/types/types";
+import {useIngredientsStatus} from "../../utils/use-ingredient";
 
 const FeedPage = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
     const {feed} = useSelector((store: IRootState) => store.feed);
-    const {ingredients, ingredientsRequest} = useSelector((store: IRootState) => store.burger);
+    const {isIngredientLoaded} = useIngredientsStatus();
 
     useEffect(
         () => {
@@ -26,13 +26,6 @@ const FeedPage = () => {
         [dispatch]
     );
 
-    React.useEffect(() => {
-        const locationState = location.state as ILocationState;
-        // Если не модалка и нет ингридиентов, то надо бы запросить. Непонятно, есть ли роут для получение одного ингридиента
-        if (!locationState?.modal && (!ingredients || ingredients.length === 0) && !ingredientsRequest) {
-            dispatch(fetchIngredients())
-        }
-    }, [dispatch, location, ingredients, ingredientsRequest])
 
     const onOrderClick = (id: number) => {
         if (id) {
@@ -51,7 +44,7 @@ const FeedPage = () => {
             <FeedSummary/>
 
             {/*Индикатор загрузки*/}
-            {(ingredientsRequest || !feed) && (<div className="spinner"></div>)}
+            {(!isIngredientLoaded || !feed) && (<div className="spinner"></div>)}
         </article>
     )
 }
