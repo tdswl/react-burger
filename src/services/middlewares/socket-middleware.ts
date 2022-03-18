@@ -1,46 +1,45 @@
 import {Middleware, MiddlewareAPI} from "redux";
-import {connectionClosed, connectionError, connectionSucceed, getMessage} from "../actions/feed";
-import {FeedAction} from "../constants/feed";
-import {AppDispatch, RootState} from "../types";
+import {AppDispatch, RootState, TwsActionTypes} from "../types";
 
-export const socketMiddleware: Middleware = ((store: MiddlewareAPI<AppDispatch, RootState>) => {
-    let socket: WebSocket | null = null;
+export const socketMiddleware = (wsActions: TwsActionTypes): Middleware => {
+    return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
+        let socket: WebSocket | null = null;
 
-    return next => (action) => {
-        const {dispatch} = store;
-        const {type, payload} = action;
+        return next => (action) => {
+            const {dispatch} = store;
+            const {wsConnect, wsDisconnect, onOpen, onClose, onError, onMessage} = wsActions;
 
-        if (type === FeedAction.FEED_WS_CONNECTION_CLOSE && socket) {
-            socket.close();
-        }
+            if (wsDisconnect.match(action) && socket) {
+                socket.close();
+            }
 
-        if (type === FeedAction.FEED_WS_CONNECTION_START) {
-            socket = new WebSocket(payload);
-        }
+            if (wsConnect.match(action)) {
+                socket = new WebSocket(action.payload);
+            }
 
-        if (socket) {
+            if (socket) {
+                // функция, которая вызывается при открытии сокета
+                socket.onopen = event => {
+                    dispatch(onOpen());
+                };
 
-            // функция, которая вызывается при открытии сокета
-            socket.onopen = event => {
-                dispatch(connectionSucceed(event));
-            };
+                // функция, которая вызывается при ошибке соединения
+                socket.onerror = event => {
+                    dispatch(onError());
+                };
 
-            // функция, которая вызывается при ошибке соединения
-            socket.onerror = event => {
-                dispatch(connectionError(event));
-            };
+                // функция, которая вызывается при получения события от сервера
+                socket.onmessage = event => {
+                    const {data} = event;
+                    dispatch(onMessage(JSON.parse(data)));
+                };
+                // функция, которая вызывается при закрытии соединения
+                socket.onclose = event => {
+                    dispatch(onClose());
+                };
+            }
 
-            // функция, которая вызывается при получения события от сервера
-            socket.onmessage = event => {
-                const {data} = event;
-                dispatch(getMessage(JSON.parse(data)));
-            };
-            // функция, которая вызывается при закрытии соединения
-            socket.onclose = event => {
-                dispatch(connectionClosed(event));
-            };
-        }
-
-        next(action);
-    };
-});
+            next(action);
+        };
+    });
+};

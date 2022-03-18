@@ -20,19 +20,19 @@ const initialState: IFeedState = {
 
 export const feedReducer = createReducer(initialState, (builder) => {
     builder
-        .addCase(connectionSucceed, (state, action: PayloadAction<Event>) => {
+        .addCase(connectionSucceed, (state) => {
             return {
                 ...state,
                 wsConnected: true,
             };
         })
-        .addCase(connectionClosed, (state, action: PayloadAction<Event>) => {
+        .addCase(connectionClosed, (state) => {
             return {
                 ...state,
                 wsConnected: false,
             };
         })
-        .addCase(connectionError, (state, action: PayloadAction<Event>) => {
+        .addCase(connectionError, (state) => {
             return {
                 ...state,
                 wsConnected: false,

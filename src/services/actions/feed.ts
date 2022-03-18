@@ -6,10 +6,10 @@ import axios from "axios";
 import {IResponse} from "../types/types";
 import {ORDERS_ENDPOINT} from "../../utils/api-сonstants";
 
-export const connectionStart = createAction<string | undefined>(FeedAction.FEED_WS_CONNECTION_START);
-export const connectionSucceed = createAction<Event>(FeedAction.FEED_WS_CONNECTION_SUCCESS);
-export const connectionClosed = createAction<Event>(FeedAction.FEED_WS_CONNECTION_CLOSED);
-export const connectionError = createAction<Event>(FeedAction.FEED_WS_CONNECTION_ERROR);
+export const connectionStart = createAction<string>(FeedAction.FEED_WS_CONNECTION_START);
+export const connectionSucceed = createAction(FeedAction.FEED_WS_CONNECTION_SUCCESS);
+export const connectionClosed = createAction(FeedAction.FEED_WS_CONNECTION_CLOSED);
+export const connectionError = createAction(FeedAction.FEED_WS_CONNECTION_ERROR);
 export const getMessage = createAction<IFeed>(FeedAction.FEED_WS_GET_MESSAGE);
 export const connectionClose = createAction(FeedAction.FEED_WS_CONNECTION_CLOSE);
 
