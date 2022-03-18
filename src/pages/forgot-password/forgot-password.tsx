@@ -2,23 +2,24 @@ import React, {ChangeEvent} from "react";
 import styles from './forgot-password.module.css'
 import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {fetchPasswordReset} from "../../services/actions/auth";
 import {INDEX_ROUTE, LOGIN_ROUTE, RESET_ROUTE} from "../../utils/routes";
-import {ILocationState, IRootState} from "../../services/types/types";
+import {ILocationState} from "../../services/types/types";
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
 
 const ForgotPasswordPage = () => {
     let navigate = useNavigate();
     const location = useLocation();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const {user, passwordResetRequest} = useSelector((store: IRootState) => store.auth);
+    const {user, passwordResetRequest} = useAppSelector(store => store.auth);
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        dispatch(fetchPasswordReset(email, () => {
+        const successCallback = () : void => {
             navigate(RESET_ROUTE, {replace: true, state: {from: location}});
-        }))
+        }
+        dispatch(fetchPasswordReset({email, successCallback}) as any)
     };
 
     const [email, setEmail] = React.useState('')

@@ -3,17 +3,16 @@ import styles from './summary.module.css'
 import {Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../../../modal/modal";
 import OrderDetails from "../../../order-details/order-details";
-import {useDispatch, useSelector} from "react-redux";
 import {fetchOrder, orderClear} from "../../../../services/actions/burger";
 import {useNavigate} from "react-router-dom";
-import {IRootState} from "../../../../services/types/types";
+import {useAppDispatch, useAppSelector} from "../../../../services/hooks";
 
 const Summary = () => {
     let navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const {order, orderRequest, selectedIngredients, selectedBun} = useSelector((store: IRootState) => store.burger);
-    const {user} = useSelector((store: IRootState) => store.auth);
+    const {order, orderRequest, selectedIngredients, selectedBun} = useAppSelector(store => store.burger);
+    const {user} = useAppSelector(store => store.auth);
 
     const onCompleteOrder = () => {
         if (!user) {
@@ -22,7 +21,7 @@ const Summary = () => {
         }
         console.log("Оформить заказ");
         if (selectedBun) {
-            dispatch(fetchOrder(selectedIngredients, selectedBun))
+            dispatch(fetchOrder({selectedIngredients, selectedBun}) as any)
         }
     };
 

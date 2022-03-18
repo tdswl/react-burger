@@ -2,22 +2,22 @@ import React, {ChangeEvent} from "react";
 import styles from './register.module.css'
 import {Button, EmailInput, PasswordInput, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {fetchRegister} from "../../services/actions/auth";
 import {INDEX_ROUTE, LOGIN_ROUTE} from "../../utils/routes";
-import {ILocationState, IRootState} from "../../services/types/types";
+import {ILocationState} from "../../services/types/types";
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const {user, registerRequest} = useSelector((store: IRootState) => store.auth);
+    const {user, registerRequest} = useAppSelector(store => store.auth);
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (name && email && password) {
-            dispatch(fetchRegister(email, password, name));
+            dispatch(fetchRegister({email, password, name}) as any)
         }
     };
 

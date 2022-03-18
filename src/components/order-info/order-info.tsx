@@ -1,8 +1,6 @@
 import React from "react";
 import styles from './order-info.module.css'
 import {useParams} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {IRootState} from "../../services/types/types";
 import {fetchSelectedOrder} from "../../services/actions/feed";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import moment from "moment-ru";
@@ -12,19 +10,20 @@ import {v4} from "uuid";
 import {OrderStatusTranslate} from "../../utils/helpers";
 import {useIngredients} from "../../utils/use-ingredients";
 import {OrderStatus} from "../../utils/enums";
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
 
 const OrderInfo = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const {isIngredientsLoaded} = useIngredients();
 
-    const {ingredients} = useSelector((store: IRootState) => store.burger);
-    const {selectedOrder} = useSelector((store: IRootState) => store.feed);
+    const {ingredients} = useAppSelector(store => store.burger);
+    const {selectedOrder} = useAppSelector(store => store.feed);
 
     let {id} = useParams();
 
     React.useEffect(() => {
         if (id) {
-            dispatch(fetchSelectedOrder(id));
+            dispatch(fetchSelectedOrder(id) as any);
         }
     }, [id, dispatch])
 

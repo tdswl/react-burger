@@ -1,10 +1,9 @@
 import {Middleware, MiddlewareAPI} from "redux";
-import {AppDispatch, RootState} from "../../index";
 import {connectionClosed, connectionError, connectionSucceed, getMessage} from "../actions/feed";
 import {FeedAction} from "../constants/feed";
-import {WS_ORDERS} from "../../utils/api-сonstants";
+import {AppDispatch, RootState} from "../types";
 
-export const feedMiddleware: Middleware = ((store: MiddlewareAPI<AppDispatch, RootState>) => {
+export const socketMiddleware: Middleware = ((store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
 
     return next => (action) => {
@@ -16,11 +15,7 @@ export const feedMiddleware: Middleware = ((store: MiddlewareAPI<AppDispatch, Ro
         }
 
         if (type === FeedAction.FEED_WS_CONNECTION_START) {
-            if (payload) {
-                socket = new WebSocket(`${WS_ORDERS}?token=${payload}`);
-            } else {
-                socket = new WebSocket(`${WS_ORDERS}/all`);
-            }
+            socket = new WebSocket(payload);
         }
 
         if (socket) {

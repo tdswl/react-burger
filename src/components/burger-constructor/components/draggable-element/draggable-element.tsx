@@ -1,9 +1,9 @@
 import React, {FC, useRef} from "react";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch} from "react-redux";
 import {dndReorderIngredients, removeIngredient} from "../../../../services/actions/burger";
 import {useDrag, useDrop, XYCoord} from 'react-dnd';
 import {ISelectedIngredient} from "../../../../services/types/burger";
+import {useAppDispatch} from "../../../../services/hooks";
 
 interface IDragItem {
     index: number
@@ -12,7 +12,7 @@ interface IDragItem {
 }
 
 const DraggableElement: FC<{ component: ISelectedIngredient, index: number }> = ({component, index}) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const onDelete = (ingredient: ISelectedIngredient) => {
         dispatch(removeIngredient(ingredient));

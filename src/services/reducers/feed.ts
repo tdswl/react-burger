@@ -4,13 +4,10 @@ import {
     connectionClose,
     connectionClosed,
     connectionError,
-    connectionSucceed,
+    connectionSucceed, fetchSelectedOrder,
     getMessage,
-    getOrder,
-    selectOrder
 } from "../actions/feed";
 import {IOrder} from "../types/burger";
-import {errorOrder} from "../actions/burger";
 
 const initialState: IFeedState = {
     feed: null,
@@ -47,7 +44,7 @@ export const feedReducer = createReducer(initialState, (builder) => {
                 feed: action.payload
             };
         })
-        .addCase(selectOrder, (state, action: PayloadAction<IOrder | null>) => {
+        .addCase(fetchSelectedOrder.fulfilled, (state, action: PayloadAction<IOrder | null>) => {
             return {
                 ...state,
                 selectedOrder: action.payload,
@@ -55,7 +52,7 @@ export const feedReducer = createReducer(initialState, (builder) => {
                 orderFailed: false,
             };
         })
-        .addCase(errorOrder, (state) => {
+        .addCase(fetchSelectedOrder.rejected, (state) => {
             return {
                 ...state,
                 selectedOrder: null,
@@ -63,7 +60,7 @@ export const feedReducer = createReducer(initialState, (builder) => {
                 orderFailed: true,
             };
         })
-        .addCase(getOrder, (state) => {
+        .addCase(fetchSelectedOrder.pending, (state) => {
             return {
                 ...state,
                 orderRequest: true,

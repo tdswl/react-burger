@@ -1,11 +1,10 @@
 import React from "react";
 import {Outlet, useLocation, Navigate} from "react-router-dom";
-import {useSelector} from "react-redux";
 import {LOGIN_ROUTE} from "../../utils/routes";
-import {IRootState} from "../../services/types/types";
+import {useAppSelector} from "../../services/hooks";
 
 const ProtectedRoute = () => {
-    const {user, getUserRequest} = useSelector((store: IRootState) => store.auth);
+    const {user, getUserRequest} = useAppSelector(store => store.auth);
     let location = useLocation();
 
     if (!user && !getUserRequest) {

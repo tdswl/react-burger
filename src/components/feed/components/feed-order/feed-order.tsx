@@ -2,15 +2,14 @@ import React, {FC} from "react";
 import styles from './feed-order.module.css'
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {IOrder, ISelectedIngredient} from "../../../../services/types/burger";
-import {useSelector} from "react-redux";
-import {IRootState} from "../../../../services/types/types";
 import moment from "moment-ru";
 import {v4} from "uuid";
 import {OrderStatusTranslate} from "../../../../utils/helpers";
 import {OrderStatus} from "../../../../utils/enums";
+import {useAppSelector} from "../../../../services/hooks";
 
 const FeedOrder: FC<{ order: IOrder }> = ({order}) => {
-    const {ingredients} = useSelector((store: IRootState) => store.burger);
+    const {ingredients} = useAppSelector(store => store.burger);
 
     const orderIngredients = React.useMemo(
         () => {

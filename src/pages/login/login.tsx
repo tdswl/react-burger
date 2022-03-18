@@ -2,17 +2,17 @@ import React, {ChangeEvent} from "react";
 import styles from './login.module.css'
 import {EmailInput, PasswordInput, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import {Link, useNavigate, useLocation} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {fetchLogin} from "../../services/actions/auth";
 import {FORGOT_ROUTE, INDEX_ROUTE, REGISTER_ROUTE} from "../../utils/routes";
-import {ILocationState, IRootState} from "../../services/types/types";
+import {ILocationState} from "../../services/types/types";
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
 
 const LoginPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const {user, loginRequest} = useSelector((store: IRootState) => store.auth);
+    const {user, loginRequest} = useAppSelector(store => store.auth);
 
     const from = React.useMemo(() => {
         const locationState = location.state as ILocationState;
@@ -21,7 +21,11 @@ const LoginPage = () => {
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        dispatch(fetchLogin(email, password, () => navigate(from, {replace: true})))
+
+        const successCallback = () : void => {
+            navigate(from, {replace: true});
+        }
+        dispatch(fetchLogin({email, password, successCallback}) as any)
     };
 
     const [email, setEmail] = React.useState('')

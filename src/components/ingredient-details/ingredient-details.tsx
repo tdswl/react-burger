@@ -3,15 +3,14 @@ import styles from './ingredient-details.module.css'
 import IngredientDetailParam from "./components/ingredient-details-param/ingredient-details-param";
 import {useParams} from "react-router-dom";
 import {selectIngredient} from "../../services/actions/burger";
-import {useDispatch, useSelector} from "react-redux";
-import {IRootState} from "../../services/types/types";
 import {useIngredients} from "../../utils/use-ingredients";
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
 
 const IngredientDetails: FC<{ header?: string }> = ({header}) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const {isIngredientsLoaded} = useIngredients();
 
-    const {selectedIngredientInfo} = useSelector((store: IRootState) => store.burger);
+    const {selectedIngredientInfo} = useAppSelector(store => store.burger);
 
     let {id} = useParams();
 

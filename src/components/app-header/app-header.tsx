@@ -3,11 +3,10 @@ import {BurgerIcon, ListIcon, Logo, ProfileIcon} from '@ya.praktikum/react-devel
 import styles from './app-header.module.css'
 import {NavLink, Link} from "react-router-dom";
 import {INDEX_ROUTE, FEEDS_ROUTE, PROFILE_ROUTE} from "../../utils/routes";
-import {useSelector} from "react-redux";
-import {IRootState} from "../../services/types/types";
+import {useAppSelector} from "../../services/hooks";
 
 const AppHeader = () => {
-    const {user} = useSelector((store: IRootState) => store.auth);
+    const {user} = useAppSelector(store => store.auth);
 
     return (
         <header className={styles.header}>

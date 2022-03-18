@@ -3,21 +3,21 @@ import styles from './feed.module.css'
 import Feed from "../../components/feed/feed";
 import FeedSummary from "../../components/feed-summary/feed-summary";
 import {connectionClose, connectionStart} from "../../services/actions/feed";
-import {useDispatch, useSelector} from "react-redux";
 import {useLocation, useNavigate} from "react-router-dom";
-import {IRootState} from "../../services/types/types";
 import {useIngredients} from "../../utils/use-ingredients";
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
+import {WS_ORDERS} from "../../utils/api-сonstants";
 
 const FeedPage = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const location = useLocation();
     const navigate = useNavigate();
-    const {feed} = useSelector((store: IRootState) => store.feed);
+    const {feed} = useAppSelector(store => store.feed);
     const {isIngredientsLoaded} = useIngredients();
 
     useEffect(
         () => {
-            dispatch(connectionStart());
+            dispatch(connectionStart(`${WS_ORDERS}/all`));
 
             return () => {
                 dispatch(connectionClose());

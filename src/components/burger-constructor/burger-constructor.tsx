@@ -2,18 +2,17 @@ import React from "react";
 import {ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-constructor.module.css'
 import Summary from "./components/summary/summary";
-import {useDispatch, useSelector} from "react-redux";
 import {addBun, addIngredient} from "../../services/actions/burger";
 import {useDrop} from 'react-dnd';
 import DraggableElement from "./components/draggable-element/draggable-element";
 import {IngredientType} from "../../utils/enums";
-import {IRootState} from "../../services/types/types";
 import {IIngredient} from "../../services/types/burger";
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
 
 const BurgerConstructor = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const {selectedBun, selectedIngredients} = useSelector((store: IRootState) => store.burger);
+    const {selectedBun, selectedIngredients} = useAppSelector(store => store.burger);
 
     const [{isHoverTop}, bunTopTarget] = useDrop({
         accept: IngredientType.BUN,

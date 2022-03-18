@@ -1,11 +1,10 @@
 import React from "react";
 import styles from './feed-summary.module.css'
-import {useSelector} from "react-redux";
-import {IRootState} from "../../services/types/types";
 import {OrderStatus} from "../../utils/enums";
+import {useAppSelector} from "../../services/hooks";
 
 const FeedSummary = () => {
-    const {feed} = useSelector((store: IRootState) => store.feed);
+    const {feed} = useAppSelector(store => store.feed);
 
     return (
         <section className={styles.ingredientsContainer}>

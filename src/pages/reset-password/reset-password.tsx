@@ -2,24 +2,27 @@ import React, {ChangeEvent} from "react";
 import styles from './reset-password.module.css'
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {fetchReset} from "../../services/actions/auth";
 import {FORGOT_ROUTE, INDEX_ROUTE, LOGIN_ROUTE} from "../../utils/routes";
-import {ILocationState, IRootState} from "../../services/types/types";
+import {ILocationState} from "../../services/types/types";
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
 
 const ResetPasswordPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const {user, resetRequest} = useSelector((store: IRootState) => store.auth);
+    const {user, resetRequest} = useAppSelector(store => store.auth);
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (password && code) {
-            dispatch(fetchReset(password, code, () => {
+
+            const successCallback = () : void => {
                 navigate(LOGIN_ROUTE, {replace: true})
-            }));
+            }
+
+            dispatch(fetchReset({password, token: code, successCallback}) as any);
         }
     };
 

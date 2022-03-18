@@ -1,16 +1,13 @@
 import {createReducer, PayloadAction} from '@reduxjs/toolkit'
 import {
     addIngredient,
-    errorIngredients,
     errorOrder,
-    getIngredients,
     orderClear,
     prepareOrder,
     removeIngredient,
     selectIngredient,
-    successIngredients,
     successOrder,
-    addBun, dndReorderIngredients
+    addBun, dndReorderIngredients, fetchIngredients
 } from "../actions/burger";
 import {IBurgerState, IIngredient, IOrderInfo, ISelectedIngredient} from "../types/burger";
 
@@ -35,18 +32,27 @@ const initialState: IBurgerState = {
 
 export const burgerReducer = createReducer(initialState, (builder) => {
     builder
-        .addCase(getIngredients, (state) => {
+        .addCase(fetchIngredients.pending, (state) => {
             return {
                 ...state,
                 ingredientsRequest: true,
             };
         })
-        .addCase(errorIngredients, (state) => {
+        .addCase(fetchIngredients.rejected, (state) => {
             return {
                 ...state,
                 ingredients: initialState.ingredients,
                 ingredientsRequest: false,
                 ingredientsFailed: true
+            };
+        })
+
+        .addCase(fetchIngredients.fulfilled, (state, action: PayloadAction<Array<IIngredient> | undefined>) => {
+            return {
+                ...state,
+                ingredients: action.payload ?? [],
+                ingredientsRequest: false,
+                ingredientsFailed: false,
             };
         })
         .addCase(prepareOrder, (state) => {
@@ -99,14 +105,6 @@ export const burgerReducer = createReducer(initialState, (builder) => {
                     ...state.selectedIngredients,
                     {...action.payload}
                 ]
-            };
-        })
-        .addCase(successIngredients, (state, action: PayloadAction<Array<IIngredient> | undefined>) => {
-            return {
-                ...state,
-                ingredients: action.payload ?? [],
-                ingredientsRequest: false,
-                ingredientsFailed: false,
             };
         })
         .addCase(successOrder, (state, action: PayloadAction<IOrderInfo>) => {

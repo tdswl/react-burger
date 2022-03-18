@@ -2,15 +2,18 @@ import React from "react";
 import styles from './profile.module.css'
 import {NavLink, Outlet, useNavigate} from "react-router-dom";
 import {LOGOUT_ROUTE, ORDERS_ROUTE} from "../../utils/routes";
-import {useDispatch} from "react-redux";
 import {fetchLogout} from "../../services/actions/auth";
+import {useAppDispatch} from "../../services/hooks";
 
 const ProfilePage = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const onLogout = () => {
-        dispatch(fetchLogout(() => navigate(LOGOUT_ROUTE)));
+        const successCallback = () : void => {
+            navigate(LOGOUT_ROUTE);
+        }
+        dispatch(fetchLogout({successCallback}) as any)
     }
 
     return (

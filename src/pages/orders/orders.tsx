@@ -1,24 +1,24 @@
 import React, {useEffect} from "react";
 import styles from './orders.module.css'
 import Feed from "../../components/feed/feed";
-import {useDispatch, useSelector} from "react-redux";
 import {connectionClose, connectionStart} from "../../services/actions/feed";
 import {getCookie} from "../../utils/cookie-helper";
 import {useLocation, useNavigate} from "react-router-dom";
-import {IRootState} from "../../services/types/types";
 import {useIngredients} from "../../utils/use-ingredients";
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
+import {WS_ORDERS} from "../../utils/api-сonstants";
 
 const OrdersPage = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const location = useLocation();
     const navigate = useNavigate();
-    const {feed} = useSelector((store: IRootState) => store.feed);
+    const {feed} = useAppSelector(store => store.feed);
     const {isIngredientsLoaded} = useIngredients();
 
     useEffect(
         () => {
             const token = getCookie('token');
-            dispatch(connectionStart(token));
+            dispatch(connectionStart(`${WS_ORDERS}?token=${token}`));
 
             return () => {
                 dispatch(connectionClose());

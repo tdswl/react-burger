@@ -15,7 +15,6 @@ import {
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import {selectIngredient} from "../../services/actions/burger";
-import {useDispatch} from "react-redux";
 import {
     INDEX_ROUTE,
     LOGIN_ROUTE,
@@ -34,12 +33,13 @@ import UserProfile from "../user-profile/user-profile";
 import {ILocationState} from "../../services/types/types";
 import FeedPage from "../../pages/feed/feed";
 import OrdersPage from "../../pages/orders/orders";
-import {selectOrder} from "../../services/actions/feed";
+import {fetchSelectedOrder} from "../../services/actions/feed";
 import OrderInfo from "../order-info/order-info";
 import OrderInfoPage from "../../pages/order-info/order-info";
+import {useAppDispatch} from "../../services/hooks";
 
 const App = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const location = useLocation();
     const locationState = location.state as ILocationState;
     const navigate = useNavigate();
@@ -50,12 +50,12 @@ const App = () => {
     };
 
     const onCloseOrderInfoModal = () => {
-        dispatch(selectOrder(null));
+        dispatch(fetchSelectedOrder(null) as any);
         navigate(-1);
     };
 
     React.useEffect(() => {
-        dispatch(fetchGetUser())
+        dispatch(fetchGetUser() as any)
     }, [dispatch])
 
     return (

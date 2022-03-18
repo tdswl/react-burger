@@ -1,14 +1,13 @@
 import React, {ChangeEvent, SyntheticEvent} from "react";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch, useSelector} from "react-redux";
 import styles from './user-profile.module.css'
 import {fetchUpdateUser} from "../../services/actions/auth";
-import {IRootState} from "../../services/types/types";
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
 
 const UserProfile = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const {user} = useSelector((store: IRootState) => store.auth);
+    const {user} = useAppSelector(store => store.auth);
 
     const [name, setName] = React.useState(user?.name)
     const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +27,7 @@ const UserProfile = () => {
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (name && email) {
-            dispatch(fetchUpdateUser(name, email, password))
+            dispatch(fetchUpdateUser({name, email, password}) as any)
         }
     };
 
