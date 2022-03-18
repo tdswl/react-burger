@@ -2,7 +2,7 @@ import {configureStore} from "@reduxjs/toolkit";
 import {rootReducer} from "./reducers/root";
 import thunk from "redux-thunk";
 import {socketMiddleware} from "./middlewares/socket-middleware";
-import {TwsActionTypes} from "./types";
+import {TWsActionTypes} from "./types";
 import {
     connectionClose,
     connectionClosed,
@@ -12,7 +12,7 @@ import {
     getMessage
 } from "./actions/feed";
 
-const wsActions : TwsActionTypes = {
+const wsActions : TWsActionTypes = {
     wsConnect: connectionStart,
     wsDisconnect: connectionClose,
     onOpen: connectionSucceed,

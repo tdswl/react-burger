@@ -1,7 +1,7 @@
 import {store} from "../store";
 import {ActionCreatorWithoutPayload, ActionCreatorWithPayload} from "@reduxjs/toolkit";
 
-export type TwsActionTypes = {
+export type TWsActionTypes = {
     wsConnect: ActionCreatorWithPayload<string>,
     wsDisconnect: ActionCreatorWithoutPayload,
     onOpen: ActionCreatorWithoutPayload,
