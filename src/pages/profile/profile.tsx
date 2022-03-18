@@ -13,7 +13,7 @@ const ProfilePage = () => {
         const successCallback = () : void => {
             navigate(LOGOUT_ROUTE);
         }
-        dispatch(fetchLogout({successCallback}) as any)
+        dispatch(fetchLogout({successCallback}))
     }
 
     return (

@@ -27,7 +27,7 @@ const UserProfile = () => {
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (name && email) {
-            dispatch(fetchUpdateUser({name, email, password}) as any)
+            dispatch(fetchUpdateUser({name, email, password}))
         }
     };
 

@@ -23,7 +23,7 @@ const OrderInfo = () => {
 
     React.useEffect(() => {
         if (id) {
-            dispatch(fetchSelectedOrder(id) as any);
+            dispatch(fetchSelectedOrder(id));
         }
     }, [id, dispatch])
 

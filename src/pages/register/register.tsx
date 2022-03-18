@@ -17,7 +17,7 @@ const RegisterPage = () => {
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (name && email && password) {
-            dispatch(fetchRegister({email, password, name}) as any)
+            dispatch(fetchRegister({email, password, name}) )
         }
     };
 

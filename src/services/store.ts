@@ -5,6 +5,6 @@ import {socketMiddleware} from "./middlewares/socket-middleware";
 
 export const store = configureStore({
     reducer: rootReducer,
-    middleware: [thunk, socketMiddleware],
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(socketMiddleware).concat(thunk),
     devTools: process.env.NODE_ENV !== 'production',
 })

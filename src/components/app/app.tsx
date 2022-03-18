@@ -50,12 +50,12 @@ const App = () => {
     };
 
     const onCloseOrderInfoModal = () => {
-        dispatch(fetchSelectedOrder(null) as any);
+        dispatch(fetchSelectedOrder(null));
         navigate(-1);
     };
 
     React.useEffect(() => {
-        dispatch(fetchGetUser() as any)
+        dispatch(fetchGetUser())
     }, [dispatch])
 
     return (

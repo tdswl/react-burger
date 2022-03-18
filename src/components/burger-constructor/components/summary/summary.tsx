@@ -21,7 +21,7 @@ const Summary = () => {
         }
         console.log("Оформить заказ");
         if (selectedBun) {
-            dispatch(fetchOrder({selectedIngredients, selectedBun}) as any)
+            dispatch(fetchOrder({selectedIngredients, selectedBun}))
         }
     };
 

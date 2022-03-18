@@ -12,7 +12,7 @@ export function useIngredients() {
     useEffect(() => {
         const locationState = location.state as ILocationState;
         if (!locationState?.modal && (!ingredients || ingredients.length === 0) && !ingredientsRequest) {
-            dispatch(fetchIngredients() as any)
+            dispatch(fetchIngredients())
         }
     }, [dispatch, location, ingredients, ingredientsRequest])
 

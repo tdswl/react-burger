@@ -22,7 +22,7 @@ const ResetPasswordPage = () => {
                 navigate(LOGIN_ROUTE, {replace: true})
             }
 
-            dispatch(fetchReset({password, token: code, successCallback}) as any);
+            dispatch(fetchReset({password, token: code, successCallback}));
         }
     };
 

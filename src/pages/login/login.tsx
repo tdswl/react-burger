@@ -25,7 +25,7 @@ const LoginPage = () => {
         const successCallback = () : void => {
             navigate(from, {replace: true});
         }
-        dispatch(fetchLogin({email, password, successCallback}) as any)
+        dispatch(fetchLogin({email, password, successCallback}))
     };
 
     const [email, setEmail] = React.useState('')

@@ -52,7 +52,7 @@ const BurgerIngredients = () => {
     };
 
     React.useEffect(() => {
-        dispatch(fetchIngredients() as any)
+        dispatch(fetchIngredients())
     }, [dispatch])
 
     const setCurrentTab = (selectedTab: string) => {

@@ -19,7 +19,7 @@ const ForgotPasswordPage = () => {
         const successCallback = () : void => {
             navigate(RESET_ROUTE, {replace: true, state: {from: location}});
         }
-        dispatch(fetchPasswordReset({email, successCallback}) as any)
+        dispatch(fetchPasswordReset({email, successCallback}))
     };
 
     const [email, setEmail] = React.useState('')
