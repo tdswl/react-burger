@@ -3,7 +3,7 @@ import {BurgerIcon, ListIcon, Logo, ProfileIcon} from '@ya.praktikum/react-devel
 import styles from './app-header.module.css'
 import {NavLink, Link} from "react-router-dom";
 import {INDEX_ROUTE, FEEDS_ROUTE, PROFILE_ROUTE} from "../../utils/routes";
-import {useAppSelector} from "../../services/hooks";
+import {useAppSelector} from "../../services/hooks/hooks";
 
 const AppHeader = () => {
     const {user} = useAppSelector(store => store.auth);

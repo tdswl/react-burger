@@ -4,8 +4,8 @@ import Feed from "../../components/feed/feed";
 import FeedSummary from "../../components/feed-summary/feed-summary";
 import {connectionClose, connectionStart} from "../../services/actions/feed";
 import {useLocation, useNavigate} from "react-router-dom";
-import {useIngredients} from "../../utils/use-ingredients";
-import {useAppDispatch, useAppSelector} from "../../services/hooks";
+import {useIngredients} from "../../services/hooks/use-ingredients";
+import {useAppDispatch, useAppSelector} from "../../services/hooks/hooks";
 import {WS_ORDERS} from "../../utils/api-сonstants";
 
 const FeedPage = () => {

@@ -6,7 +6,7 @@ import {axiosWithAuth} from "../axiosInterceptors";
 import {fetchToken} from "./auth";
 import {IResponse} from "../types/types";
 import {BurgerAction} from "../constants/burger";
-import {IIngredient, IOrderInfo, ISelectedIngredient} from "../types/burger";
+import {IIngredient, ISelectedIngredient} from "../types/burger";
 
 export const addBun = createAction<IIngredient>(BurgerAction.CONSTRUCTOR_ADD_BUN);
 export const addIngredient = createAction(BurgerAction.CONSTRUCTOR_ADD, function prepare(ingredient) {
@@ -18,10 +18,6 @@ export const addIngredient = createAction(BurgerAction.CONSTRUCTOR_ADD, function
     }
 });
 export const removeIngredient = createAction<ISelectedIngredient>(BurgerAction.CONSTRUCTOR_DELETE);
-
-export const prepareOrder = createAction(BurgerAction.ORDER_REQUEST);
-export const successOrder = createAction<IOrderInfo>(BurgerAction.ORDER_SUCCESS);
-export const errorOrder = createAction(BurgerAction.ORDER_ERROR);
 
 export const selectIngredient = createAction<string | undefined | null>(BurgerAction.SELECT_INGREDIENT);
 

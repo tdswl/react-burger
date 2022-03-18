@@ -5,7 +5,7 @@ import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
-import {useAppSelector} from "../../services/hooks";
+import {useAppSelector} from "../../services/hooks/hooks";
 
 const ConstructorPage = () => {
     const {ingredientsRequest, ingredientsFailed, orderRequest} = useAppSelector(store => store.burger);

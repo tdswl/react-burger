@@ -5,7 +5,7 @@ import styles from './burger-ingredients.module.css'
 import {fetchIngredients} from "../../services/actions/burger";
 import {IngredientType} from "../../utils/enums";
 import {useLocation, useNavigate} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../../services/hooks";
+import {useAppDispatch, useAppSelector} from "../../services/hooks/hooks";
 
 const BurgerIngredients = () => {
     const dispatch = useAppDispatch();

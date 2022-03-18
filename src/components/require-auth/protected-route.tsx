@@ -1,7 +1,7 @@
 import React from "react";
 import {Outlet, useLocation, Navigate} from "react-router-dom";
 import {LOGIN_ROUTE} from "../../utils/routes";
-import {useAppSelector} from "../../services/hooks";
+import {useAppSelector} from "../../services/hooks/hooks";
 
 const ProtectedRoute = () => {
     const {user, getUserRequest} = useAppSelector(store => store.auth);

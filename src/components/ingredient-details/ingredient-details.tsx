@@ -3,8 +3,8 @@ import styles from './ingredient-details.module.css'
 import IngredientDetailParam from "./components/ingredient-details-param/ingredient-details-param";
 import {useParams} from "react-router-dom";
 import {selectIngredient} from "../../services/actions/burger";
-import {useIngredients} from "../../utils/use-ingredients";
-import {useAppDispatch, useAppSelector} from "../../services/hooks";
+import {useIngredients} from "../../services/hooks/use-ingredients";
+import {useAppDispatch, useAppSelector} from "../../services/hooks/hooks";
 
 const IngredientDetails: FC<{ header?: string }> = ({header}) => {
     const dispatch = useAppDispatch();

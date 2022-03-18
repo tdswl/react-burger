@@ -3,7 +3,7 @@ import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-com
 import styles from './ingredient.module.css'
 import {useDrag} from 'react-dnd';
 import {IIngredient} from "../../../../services/types/burger";
-import {useAppSelector} from "../../../../services/hooks";
+import {useAppSelector} from "../../../../services/hooks/hooks";
 
 const Ingredient: FC<{ item: IIngredient, onClick: MouseEventHandler<HTMLElement> }> = ({item, onClick}) => {
     const {selectedIngredients, selectedBun} = useAppSelector(store => store.burger);

@@ -2,7 +2,7 @@ import React, {ChangeEvent, SyntheticEvent} from "react";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './user-profile.module.css'
 import {fetchUpdateUser} from "../../services/actions/auth";
-import {useAppDispatch, useAppSelector} from "../../services/hooks";
+import {useAppDispatch, useAppSelector} from "../../services/hooks/hooks";
 
 const UserProfile = () => {
     const dispatch = useAppDispatch();

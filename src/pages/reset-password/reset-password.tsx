@@ -5,7 +5,7 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import {fetchReset} from "../../services/actions/auth";
 import {FORGOT_ROUTE, INDEX_ROUTE, LOGIN_ROUTE} from "../../utils/routes";
 import {ILocationState} from "../../services/types/types";
-import {useAppDispatch, useAppSelector} from "../../services/hooks";
+import {useAppDispatch, useAppSelector} from "../../services/hooks/hooks";
 
 const ResetPasswordPage = () => {
     const navigate = useNavigate();

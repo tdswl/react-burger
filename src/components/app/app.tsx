@@ -36,7 +36,7 @@ import OrdersPage from "../../pages/orders/orders";
 import {fetchSelectedOrder} from "../../services/actions/feed";
 import OrderInfo from "../order-info/order-info";
 import OrderInfoPage from "../../pages/order-info/order-info";
-import {useAppDispatch} from "../../services/hooks";
+import {useAppDispatch} from "../../services/hooks/hooks";
 
 const App = () => {
     const dispatch = useAppDispatch();

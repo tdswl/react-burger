@@ -5,7 +5,7 @@ import {Link, useNavigate, useLocation} from "react-router-dom";
 import {fetchLogin} from "../../services/actions/auth";
 import {FORGOT_ROUTE, INDEX_ROUTE, REGISTER_ROUTE} from "../../utils/routes";
 import {ILocationState} from "../../services/types/types";
-import {useAppDispatch, useAppSelector} from "../../services/hooks";
+import {useAppDispatch, useAppSelector} from "../../services/hooks/hooks";
 
 const LoginPage = () => {
     const navigate = useNavigate();

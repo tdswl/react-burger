@@ -8,9 +8,9 @@ import IngredientInfo from "./ingredient-info/ingredient-info";
 import {ISelectedIngredient} from "../../services/types/burger";
 import {v4} from "uuid";
 import {OrderStatusTranslate} from "../../utils/helpers";
-import {useIngredients} from "../../utils/use-ingredients";
+import {useIngredients} from "../../services/hooks/use-ingredients";
 import {OrderStatus} from "../../utils/enums";
-import {useAppDispatch, useAppSelector} from "../../services/hooks";
+import {useAppDispatch, useAppSelector} from "../../services/hooks/hooks";
 
 const OrderInfo = () => {
     const dispatch = useAppDispatch();

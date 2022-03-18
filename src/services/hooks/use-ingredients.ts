@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import {ILocationState} from "../services/types/types";
-import {fetchIngredients} from "../services/actions/burger";
+import {ILocationState} from "../types/types";
+import {fetchIngredients} from "../actions/burger";
 import {useLocation} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../services/hooks";
+import {useAppDispatch, useAppSelector} from "./hooks";
 
 export function useIngredients() {
     const dispatch = useAppDispatch();

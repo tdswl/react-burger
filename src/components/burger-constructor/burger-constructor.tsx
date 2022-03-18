@@ -7,7 +7,7 @@ import {useDrop} from 'react-dnd';
 import DraggableElement from "./components/draggable-element/draggable-element";
 import {IngredientType} from "../../utils/enums";
 import {IIngredient} from "../../services/types/burger";
-import {useAppDispatch, useAppSelector} from "../../services/hooks";
+import {useAppDispatch, useAppSelector} from "../../services/hooks/hooks";
 
 const BurgerConstructor = () => {
     const dispatch = useAppDispatch();

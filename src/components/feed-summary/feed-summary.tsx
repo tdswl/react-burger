@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './feed-summary.module.css'
 import {OrderStatus} from "../../utils/enums";
-import {useAppSelector} from "../../services/hooks";
+import {useAppSelector} from "../../services/hooks/hooks";
 
 const FeedSummary = () => {
     const {feed} = useAppSelector(store => store.feed);

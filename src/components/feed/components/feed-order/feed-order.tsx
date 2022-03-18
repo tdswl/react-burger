@@ -6,7 +6,7 @@ import moment from "moment-ru";
 import {v4} from "uuid";
 import {OrderStatusTranslate} from "../../../../utils/helpers";
 import {OrderStatus} from "../../../../utils/enums";
-import {useAppSelector} from "../../../../services/hooks";
+import {useAppSelector} from "../../../../services/hooks/hooks";
 
 const FeedOrder: FC<{ order: IOrder }> = ({order}) => {
     const {ingredients} = useAppSelector(store => store.burger);

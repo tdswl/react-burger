@@ -5,7 +5,7 @@ import Modal from "../../../modal/modal";
 import OrderDetails from "../../../order-details/order-details";
 import {fetchOrder, orderClear} from "../../../../services/actions/burger";
 import {useNavigate} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../../../../services/hooks";
+import {useAppDispatch, useAppSelector} from "../../../../services/hooks/hooks";
 
 const Summary = () => {
     let navigate = useNavigate();

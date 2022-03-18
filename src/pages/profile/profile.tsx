@@ -3,7 +3,7 @@ import styles from './profile.module.css'
 import {NavLink, Outlet, useNavigate} from "react-router-dom";
 import {LOGOUT_ROUTE, ORDERS_ROUTE} from "../../utils/routes";
 import {fetchLogout} from "../../services/actions/auth";
-import {useAppDispatch} from "../../services/hooks";
+import {useAppDispatch} from "../../services/hooks/hooks";
 
 const ProfilePage = () => {
     const navigate = useNavigate();

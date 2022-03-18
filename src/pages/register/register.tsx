@@ -5,7 +5,7 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import {fetchRegister} from "../../services/actions/auth";
 import {INDEX_ROUTE, LOGIN_ROUTE} from "../../utils/routes";
 import {ILocationState} from "../../services/types/types";
-import {useAppDispatch, useAppSelector} from "../../services/hooks";
+import {useAppDispatch, useAppSelector} from "../../services/hooks/hooks";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
