@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import {useEffect} from 'react';
 import {ILocationState} from "../types/types";
 import {fetchIngredients} from "../actions/burger";
 import {useLocation} from "react-router-dom";

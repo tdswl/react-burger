@@ -8,10 +8,10 @@ const ProtectedRoute = () => {
     let location = useLocation();
 
     if (!user && !getUserRequest) {
-        return <Navigate to={LOGIN_ROUTE} state={{ from: location }} />;
+        return <Navigate to={LOGIN_ROUTE} state={{from: location}}/>;
     }
 
-    return <Outlet />;
+    return <Outlet/>;
 }
 
 export default ProtectedRoute;

@@ -10,7 +10,7 @@ import {
     fetchToken, fetchUpdateUser
 } from "../actions/auth";
 
-const initialState : IAuthState= {
+const initialState: IAuthState = {
     passwordResetRequest: false,
     passwordResetFailed: false,
 

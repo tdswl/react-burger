@@ -38,30 +38,30 @@ const UserProfile = () => {
     };
 
     return (
-        <div  className={styles.container}>
-        <form className="formContainer" onSubmit={onSubmit}>
-            <Input type={'text'}
-                   placeholder={'Имя'}
-                   onChange={onNameChange}
-                   name={'name'}
-                   value={name ?? ''}
-                   error={false}
-                   size={'default'}/>
-            <EmailInput onChange={onEmailChange} value={email ?? ''} name={'email'}/>
-            <PasswordInput onChange={onPasswordChange} value={password} name={'password'}/>
+        <div className={styles.container}>
+            <form className="formContainer" onSubmit={onSubmit}>
+                <Input type={'text'}
+                       placeholder={'Имя'}
+                       onChange={onNameChange}
+                       name={'name'}
+                       value={name ?? ''}
+                       error={false}
+                       size={'default'}/>
+                <EmailInput onChange={onEmailChange} value={email ?? ''} name={'email'}/>
+                <PasswordInput onChange={onPasswordChange} value={password} name={'password'}/>
 
-            <div className={styles.buttonsContainer}
-                 style={{display: user?.name === name && user?.email === email ? "none" : "block"}}>
-                <Button type="secondary" size="medium" disabled={user?.name === name && user?.email === email}
-                        onClick={onCancel}>
-                    Отменить
-                </Button>
-                <Button type="primary" size="medium"
-                        disabled={user?.name === name && user?.email === email && !password}>
-                    Сохранить
-                </Button>
-            </div>
-        </form>
+                <div className={styles.buttonsContainer}
+                     style={{display: user?.name === name && user?.email === email ? "none" : "block"}}>
+                    <Button type="secondary" size="medium" disabled={user?.name === name && user?.email === email}
+                            onClick={onCancel}>
+                        Отменить
+                    </Button>
+                    <Button type="primary" size="medium"
+                            disabled={user?.name === name && user?.email === email && !password}>
+                        Сохранить
+                    </Button>
+                </div>
+            </form>
         </div>
     )
 }

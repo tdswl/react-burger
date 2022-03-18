@@ -16,7 +16,7 @@ const ForgotPasswordPage = () => {
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const successCallback = () : void => {
+        const successCallback = (): void => {
             navigate(RESET_ROUTE, {replace: true, state: {from: location}});
         }
         dispatch(fetchPasswordReset({email, successCallback}))

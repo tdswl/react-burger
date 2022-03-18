@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 import {burgerReducer} from "./burger";
 import {authReducer} from "./auth";
 import {feedReducer} from "./feed";

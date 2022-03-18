@@ -18,7 +18,7 @@ const ResetPasswordPage = () => {
         e.preventDefault();
         if (password && code) {
 
-            const successCallback = () : void => {
+            const successCallback = (): void => {
                 navigate(LOGIN_ROUTE, {replace: true})
             }
 

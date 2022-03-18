@@ -22,7 +22,7 @@ const LoginPage = () => {
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        const successCallback = () : void => {
+        const successCallback = (): void => {
             navigate(from, {replace: true});
         }
         dispatch(fetchLogin({email, password, successCallback}))

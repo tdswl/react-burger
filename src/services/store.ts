@@ -12,7 +12,7 @@ import {
     getMessage
 } from "./actions/feed";
 
-const wsActions : TWsActionTypes = {
+const wsActions: TWsActionTypes = {
     wsConnect: connectionStart,
     wsDisconnect: connectionClose,
     onOpen: connectionSucceed,

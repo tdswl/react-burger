@@ -1,4 +1,4 @@
-export function setCookie(name : string, value: string, props?: any) {
+export function setCookie(name: string, value: string, props?: any) {
     props = props || {};
     let exp = props.expires;
     if (typeof exp == 'number' && exp) {
@@ -31,5 +31,5 @@ export function getCookie(name: string) {
 export function deleteCookie(name: string) {
     // Находим куку по ключу token, удаляем её значение,
     // устанавливаем отрицательное время жизни, чтобы удалить сам ключ token
-    setCookie(name, "", { expires: -1 });
+    setCookie(name, "", {expires: -1});
 }

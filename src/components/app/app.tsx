@@ -82,7 +82,7 @@ const App = () => {
                     </Route>
                 </Routes>
 
-                {/*Модалка для клика по ингредиенту*/}
+                {/*Модалки*/}
                 {locationState?.background && (
                     <Routes>
                         <Route path={INGREDIENT_ROUTE} element={
@@ -95,7 +95,6 @@ const App = () => {
                                 <OrderInfo/>
                             </Modal>)
                         }/>
-
                         <Route path={FEED_ROUTE} element={
                             (<Modal onClose={onCloseOrderInfoModal}>
                                 <OrderInfo/>

@@ -23,7 +23,7 @@ function storeTokens(accessToken: string | undefined | null, refreshToken: strin
         localStorage.removeItem("Authorization_RefreshToken");
 }
 
-export const fetchPasswordReset = createAsyncThunk('password/reset', async (request: {email: string, successCallback: () => void}) => {
+export const fetchPasswordReset = createAsyncThunk('password/reset', async (request: { email: string, successCallback: () => void }) => {
     const {email, successCallback} = request;
 
     const response = await axios.post(PASSWORD_RESET_ENDPOINT,
@@ -38,7 +38,7 @@ export const fetchPasswordReset = createAsyncThunk('password/reset', async (requ
     }
 });
 
-export const fetchReset = createAsyncThunk('password/resetWithCode', async (request: {password: string, token: string, successCallback: () => void}) => {
+export const fetchReset = createAsyncThunk('password/resetWithCode', async (request: { password: string, token: string, successCallback: () => void }) => {
     const {password, token, successCallback} = request;
 
     const response = await axios.post(RESET_ENDPOINT,
@@ -54,7 +54,7 @@ export const fetchReset = createAsyncThunk('password/resetWithCode', async (requ
     }
 });
 
-export const fetchRegister = createAsyncThunk('user/register', async (request: {email: string, password: string, name: string}) => {
+export const fetchRegister = createAsyncThunk('user/register', async (request: { email: string, password: string, name: string }) => {
     const {email, password, name} = request;
 
     const response = await axios.post<IResponse & { user: IUser } & IAuthResponse>(REGISTER_AUTH_ENDPOINT,
@@ -72,10 +72,10 @@ export const fetchRegister = createAsyncThunk('user/register', async (request: {
     }
 });
 
-export const fetchLogin = createAsyncThunk('user/login', async (request: {email: string, password: string, successCallback: () => void}) => {
+export const fetchLogin = createAsyncThunk('user/login', async (request: { email: string, password: string, successCallback: () => void }) => {
     const {email, password, successCallback} = request;
 
-    const response =  await axios.post<IResponse & { user: IUser } & IAuthResponse>(LOGIN_AUTH_ENDPOINT,
+    const response = await axios.post<IResponse & { user: IUser } & IAuthResponse>(LOGIN_AUTH_ENDPOINT,
         {
             "email": email,
             "password": password
@@ -90,7 +90,7 @@ export const fetchLogin = createAsyncThunk('user/login', async (request: {email:
     }
 });
 
-export const fetchLogout = createAsyncThunk('user/logout', async (request: {successCallback: () => void}) => {
+export const fetchLogout = createAsyncThunk('user/logout', async (request: { successCallback: () => void }) => {
     const {successCallback} = request;
 
     const refreshToken = localStorage.getItem("Authorization_RefreshToken");
@@ -98,7 +98,7 @@ export const fetchLogout = createAsyncThunk('user/logout', async (request: {succ
         return;
     }
 
-    const response =   await axios.post(LOGOUT_AUTH_ENDPOINT,
+    const response = await axios.post(LOGOUT_AUTH_ENDPOINT,
         {
             "token": refreshToken
         })
@@ -111,7 +111,7 @@ export const fetchLogout = createAsyncThunk('user/logout', async (request: {succ
     }
 });
 
-export const fetchToken = createAsyncThunk('user/updateToken', async (request: {refreshToken: string}) => {
+export const fetchToken = createAsyncThunk('user/updateToken', async (request: { refreshToken: string }) => {
     const {refreshToken} = request;
 
     const response = await axios.post(TOKEN_AUTH_ENDPOINT,
@@ -127,7 +127,7 @@ export const fetchToken = createAsyncThunk('user/updateToken', async (request: {
 });
 
 export const fetchGetUser = createAsyncThunk('user/get', async () => {
-    const response =  await axiosWithAuth((refreshToken: string) => fetchToken({refreshToken})).get(USER_AUTH_ENDPOINT)
+    const response = await axiosWithAuth((refreshToken: string) => fetchToken({refreshToken})).get(USER_AUTH_ENDPOINT)
     let data = response.data;
     if (data.success) {
         return data.user;
@@ -136,7 +136,7 @@ export const fetchGetUser = createAsyncThunk('user/get', async () => {
     }
 });
 
-export const fetchUpdateUser = createAsyncThunk('user/update', async (request: {name: string, email: string, password: string}) => {
+export const fetchUpdateUser = createAsyncThunk('user/update', async (request: { name: string, email: string, password: string }) => {
     const {name, email, password} = request;
 
     const response = await axiosWithAuth((refreshToken: string) => fetchToken({refreshToken}))

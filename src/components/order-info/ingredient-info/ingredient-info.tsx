@@ -3,7 +3,7 @@ import styles from './ingredient-info.module.css'
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ISelectedIngredient} from "../../../services/types/burger";
 
-const IngredientInfo: FC<{ ingredient: ISelectedIngredient & {count: number} }> = ({ingredient}) => {
+const IngredientInfo: FC<{ ingredient: ISelectedIngredient & { count: number } }> = ({ingredient}) => {
     return (
         <div className={styles.container}>
             <div className={styles.imageBorder}>

@@ -10,7 +10,7 @@ const ProfilePage = () => {
     const dispatch = useAppDispatch();
 
     const onLogout = () => {
-        const successCallback = () : void => {
+        const successCallback = (): void => {
             navigate(LOGOUT_ROUTE);
         }
         dispatch(fetchLogout({successCallback}))
