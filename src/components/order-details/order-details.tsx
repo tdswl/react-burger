@@ -1,9 +1,9 @@
 import React, {FC} from "react";
 import styles from './order-details.module.css'
 import {ReactComponent as DoneImg} from "../../images/done.svg";
-import {IOrder} from "../../utils/types";
+import {IOrder} from "../../services/types/burger";
 
-const OrderDetails : FC<{order: IOrder}> = ({order}) => {
+const OrderDetails: FC<{ order: IOrder }> = ({order}) => {
     return (
         <section className={styles.content}>
             <p className={styles.number}>{order.number}</p>

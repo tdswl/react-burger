@@ -1,5 +1,3 @@
-import {To} from "history";
-
 // Ингредиент получаемый из Api
 export interface IIngredient {
     _id: string,
@@ -21,65 +19,26 @@ export interface ISelectedIngredient extends IIngredient {
 }
 
 export interface IOrder {
-    number: number;
+    number: number,
+    ingredients?: ReadonlyArray<string>,
+    _id?: string,
+    status?: string,
+    createdAt?: Date,
+    updatedAt?: Date,
+    name?: string,
+    owner?: string,
 }
 
 // Информация по заказу после его создания через Api
 export interface IOrderInfo {
-    name: string;
-    order: IOrder;
+    name: string,
+    order: IOrder,
 }
 
-export interface ILocationState {
-    background?: string;
-    modal?: boolean;
-    from?: {
-        pathname?: To;
-    }
-}
-
-export interface IUser {
-    name: string;
-    email: string;
-    password?: string;
-}
-
-export interface IAuthResponse {
-    accessToken?: string;
-    refreshToken?: string;
-}
-
-export interface IResponse {
-    success: boolean;
-    message?: string;
-}
-
-export interface IAuthState {
-    passwordResetRequest: boolean,
-    passwordResetFailed: boolean,
-
-    resetRequest: boolean,
-    resetFailed: boolean,
-
-    registerRequest: boolean,
-    registerFailed: boolean,
-
-    loginRequest: boolean,
-    loginFailed: boolean,
-
-    logoutRequest: boolean,
-    logoutFailed: boolean,
-
-    tokenRequest: boolean,
-    tokenFailed: boolean,
-
-    getUserRequest: boolean,
-    getUserFailed: boolean,
-
-    patchUserRequest: boolean,
-    patchUserFailed: boolean,
-
-    user: IUser | null,
+export interface Feed {
+    orders: ReadonlyArray<IOrder>,
+    total: number,
+    totalToday: number,
 }
 
 export interface IBurgerState {
@@ -98,9 +57,4 @@ export interface IBurgerState {
     order: IOrder | null,
     orderRequest: boolean,
     orderFailed: boolean,
-}
-
-export interface IRootState {
-    auth: IAuthState,
-    burger: IBurgerState,
 }

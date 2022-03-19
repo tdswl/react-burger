@@ -5,11 +5,10 @@ import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
-import {useSelector} from "react-redux";
-import {IRootState} from "../../utils/types";
+import {useAppSelector} from "../../services/hooks/hooks";
 
 const ConstructorPage = () => {
-    const {ingredientsRequest, ingredientsFailed, orderRequest} = useSelector((store: IRootState) => store.burger);
+    const {ingredientsRequest, ingredientsFailed, orderRequest} = useAppSelector(store => store.burger);
 
     return (
         <>
@@ -23,7 +22,7 @@ const ConstructorPage = () => {
                     </article>
                 )}
             {/*Индикатор загрузки*/}
-            {(ingredientsRequest || orderRequest) && (<div className={styles.spinner}></div>)}
+            {(ingredientsRequest || orderRequest) && (<div className="spinner"></div>)}
         </>
     )
 }

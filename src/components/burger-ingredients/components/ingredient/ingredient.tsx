@@ -1,12 +1,12 @@
 import React, {FC, MouseEventHandler} from "react";
 import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './ingredient.module.css'
-import {useSelector} from "react-redux";
 import {useDrag} from 'react-dnd';
-import {IIngredient, IRootState} from "../../../../utils/types";
+import {IIngredient} from "../../../../services/types/burger";
+import {useAppSelector} from "../../../../services/hooks/hooks";
 
 const Ingredient: FC<{ item: IIngredient, onClick: MouseEventHandler<HTMLElement> }> = ({item, onClick}) => {
-    const {selectedIngredients, selectedBun} = useSelector((store: IRootState) => store.burger);
+    const {selectedIngredients, selectedBun} = useAppSelector(store => store.burger);
 
     // Подсчет всех выбранных ингредиентов с тем же id
     const counter = React.useMemo(

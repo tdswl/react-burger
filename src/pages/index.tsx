@@ -6,4 +6,4 @@ import ResetPasswordPage from "./reset-password/reset-password";
 import ForgotPasswordPage from "./forgot-password/forgot-password";
 import RegisterPage from "./register/register";
 
-export { ConstructorPage, ProfilePage, LoginPage, IngredientPage, ResetPasswordPage, ForgotPasswordPage, RegisterPage };
+export {ConstructorPage, ProfilePage, LoginPage, IngredientPage, ResetPasswordPage, ForgotPasswordPage, RegisterPage};

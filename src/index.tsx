@@ -3,19 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
-import thunk from 'redux-thunk';
 import {Provider} from "react-redux";
-import {rootReducer} from "./services/reducers/root";
-import {configureStore} from '@reduxjs/toolkit'
 import {BrowserRouter} from "react-router-dom";
-
-const store = configureStore({
-    reducer: rootReducer,
-    middleware: [thunk],
-    devTools: process.env.NODE_ENV !== 'production',
-})
-
-export type AppDispatch = typeof store.dispatch;
+import {store} from "./services/store";
 
 ReactDOM.render(
     <React.StrictMode>

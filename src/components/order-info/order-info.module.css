@@ -1,0 +1,64 @@
+/*Стиль контейнера*/
+.content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/*Настройки контейнера с ингредиентами*/
+.scrollableContainer {
+    composes: custom-scroll from global;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.footer {
+    composes: mt-10 from global;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ingredientsList {
+    composes: pl-4 pr-4 from global;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0;
+    gap:18px
+}
+
+/*Общий стиль для элемента списка с ингредиентами*/
+.ingredientsList > li {
+    flex: 0 0 0;
+    width: 100%;
+}
+
+.price {
+    composes: text text_type_digits-medium from global;
+}
+
+.date {
+    composes: text text_type_main-default text_color_inactive from global;
+}
+
+.number {
+    composes: text text_type_digits-medium mb-10 from global;
+    align-self: center;
+}
+
+.name {
+    composes: text text_type_main-medium mb-3 from global;
+}
+
+.status {
+    composes: text text_type_main-default mb-15 from global;
+}
+
+.statusDone {
+    composes: status;
+    color: #00CCCC;
+}

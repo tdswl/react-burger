@@ -1,18 +1,12 @@
 import {createReducer, PayloadAction} from '@reduxjs/toolkit'
 import {
     addIngredient,
-    errorIngredients,
-    errorOrder,
-    getIngredients,
     orderClear,
-    prepareOrder,
     removeIngredient,
     selectIngredient,
-    successIngredients,
-    successOrder,
-    addBun, dndReorderIngredients
+    addBun, dndReorderIngredients, fetchIngredients, fetchOrder
 } from "../actions/burger";
-import {IBurgerState, IIngredient, IOrderInfo, ISelectedIngredient} from "../../utils/types";
+import {IBurgerState, IIngredient, IOrderInfo, ISelectedIngredient} from "../types/burger";
 
 const initialState: IBurgerState = {
     // список всех полученных ингредиентов
@@ -35,13 +29,13 @@ const initialState: IBurgerState = {
 
 export const burgerReducer = createReducer(initialState, (builder) => {
     builder
-        .addCase(getIngredients, (state) => {
+        .addCase(fetchIngredients.pending, (state) => {
             return {
                 ...state,
                 ingredientsRequest: true,
             };
         })
-        .addCase(errorIngredients, (state) => {
+        .addCase(fetchIngredients.rejected, (state) => {
             return {
                 ...state,
                 ingredients: initialState.ingredients,
@@ -49,18 +43,37 @@ export const burgerReducer = createReducer(initialState, (builder) => {
                 ingredientsFailed: true
             };
         })
-        .addCase(prepareOrder, (state) => {
+
+        .addCase(fetchIngredients.fulfilled, (state, action: PayloadAction<Array<IIngredient> | undefined>) => {
+            return {
+                ...state,
+                ingredients: action.payload ?? [],
+                ingredientsRequest: false,
+                ingredientsFailed: false,
+            };
+        })
+        .addCase(fetchOrder.pending, (state) => {
             return {
                 ...state,
                 orderRequest: true,
             };
         })
-        .addCase(errorOrder, (state) => {
+        .addCase(fetchOrder.rejected, (state) => {
             return {
                 ...state,
                 order: initialState.order,
                 orderRequest: false,
                 orderFailed: true,
+            };
+        })
+        .addCase(fetchOrder.fulfilled, (state, action: PayloadAction<IOrderInfo>) => {
+            return {
+                ...state,
+                selectedBun: null,
+                selectedIngredients: [],
+                order: action.payload.order,
+                orderRequest: false,
+                orderFailed: false,
             };
         })
         .addCase(orderClear, (state) => {
@@ -99,24 +112,6 @@ export const burgerReducer = createReducer(initialState, (builder) => {
                     ...state.selectedIngredients,
                     {...action.payload}
                 ]
-            };
-        })
-        .addCase(successIngredients, (state, action: PayloadAction<Array<IIngredient> | undefined>) => {
-            return {
-                ...state,
-                ingredients: action.payload ?? [],
-                ingredientsRequest: false,
-                ingredientsFailed: false,
-            };
-        })
-        .addCase(successOrder, (state, action: PayloadAction<IOrderInfo>) => {
-            return {
-                ...state,
-                selectedBun: null,
-                selectedIngredients: [],
-                order: action.payload.order,
-                orderRequest: false,
-                orderFailed: false,
             };
         })
         .addCase(selectIngredient, (state, action: PayloadAction<string | undefined | null>) => {

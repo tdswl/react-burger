@@ -1,3 +1,7 @@
+.container {
+    width: 584px;
+}
+
 .buttonsContainer {
     display: flex;
     align-self: flex-end;

@@ -6,7 +6,7 @@ import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 
 const modalRoot = document.getElementById("react-modals") as HTMLElement;
 
-const Modal: FC<{header?: string, onClose: ()=>void}> = ({children, header, onClose}) => {
+const Modal: FC<{ header?: string, onClose: () => void }> = ({children, header, onClose}) => {
     React.useEffect(() => {
         const onKeyClose = (e: KeyboardEvent) => {
             if (e.key === "Escape" || e.key === "Esc") {
@@ -23,7 +23,7 @@ const Modal: FC<{header?: string, onClose: ()=>void}> = ({children, header, onCl
 
     return ReactDOM.createPortal(
         <>
-            <ModalOverlay onClose={onClose} />
+            <ModalOverlay onClose={onClose}/>
             <div className={styles.modal}>
                 <div className={styles.header}>
                     {header && <p className={styles.headerText}>

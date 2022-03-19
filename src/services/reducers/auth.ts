@@ -1,33 +1,16 @@
 import {createReducer} from '@reduxjs/toolkit'
+import {IAuthState} from "../types/auth";
 import {
-    errorPasswordReset,
-    passwordReset,
-    successPasswordReset,
-    errorReset,
-    reset,
-    successReset,
-    register,
-    successRegister,
-    errorRegister,
-    logout,
-    login,
-    successLogin,
-    errorLogin,
-    successLogout,
-    errorLogout,
-    token,
-    successToken,
-    errorToken,
-    getUser,
-    successGetUser,
-    errorGetUser,
-    patchUser,
-    errorPatchUser,
-    successPatchUser
+    fetchGetUser,
+    fetchLogin,
+    fetchLogout,
+    fetchPasswordReset,
+    fetchRegister,
+    fetchReset,
+    fetchToken, fetchUpdateUser
 } from "../actions/auth";
-import {IAuthState} from "../../utils/types";
 
-const initialState : IAuthState= {
+const initialState: IAuthState = {
     passwordResetRequest: false,
     passwordResetFailed: false,
 
@@ -57,40 +40,40 @@ const initialState : IAuthState= {
 
 export const authReducer = createReducer(initialState, (builder) => {
     builder
-        .addCase(passwordReset, (state) => {
+        .addCase(fetchPasswordReset.pending, (state) => {
             return {
                 ...state,
                 passwordResetRequest: true,
             };
         })
-        .addCase(successPasswordReset, (state) => {
+        .addCase(fetchPasswordReset.fulfilled, (state) => {
             return {
                 ...state,
                 passwordResetRequest: false,
                 passwordResetFailed: false,
             };
         })
-        .addCase(errorPasswordReset, (state) => {
+        .addCase(fetchPasswordReset.rejected, (state) => {
             return {
                 ...state,
                 passwordResetRequest: false,
                 passwordResetFailed: true,
             };
         })
-        .addCase(reset, (state) => {
+        .addCase(fetchReset.pending, (state) => {
             return {
                 ...state,
                 resetRequest: true,
             };
         })
-        .addCase(successReset, (state) => {
+        .addCase(fetchReset.fulfilled, (state) => {
             return {
                 ...state,
                 resetRequest: false,
                 resetFailed: false,
             };
         })
-        .addCase(errorReset, (state) => {
+        .addCase(fetchReset.rejected, (state) => {
             return {
                 ...state,
                 resetRequest: false,
@@ -98,13 +81,13 @@ export const authReducer = createReducer(initialState, (builder) => {
             };
         })
 
-        .addCase(register, (state) => {
+        .addCase(fetchRegister.pending, (state) => {
             return {
                 ...state,
                 registerRequest: true,
             };
         })
-        .addCase(successRegister, (state, action) => {
+        .addCase(fetchRegister.fulfilled, (state, action) => {
             return {
                 ...state,
                 user: action.payload,
@@ -112,7 +95,7 @@ export const authReducer = createReducer(initialState, (builder) => {
                 registerFailed: false,
             };
         })
-        .addCase(errorRegister, (state) => {
+        .addCase(fetchRegister.rejected, (state) => {
             return {
                 ...state,
                 user: initialState.user,
@@ -120,13 +103,13 @@ export const authReducer = createReducer(initialState, (builder) => {
                 registerFailed: true,
             };
         })
-        .addCase(login, (state) => {
+        .addCase(fetchLogin.pending, (state) => {
             return {
                 ...state,
                 loginRequest: true,
             };
         })
-        .addCase(successLogin, (state, action) => {
+        .addCase(fetchLogin.fulfilled, (state, action) => {
             return {
                 ...state,
                 user: action.payload,
@@ -134,7 +117,7 @@ export const authReducer = createReducer(initialState, (builder) => {
                 loginFailed: false,
             };
         })
-        .addCase(errorLogin, (state) => {
+        .addCase(fetchLogin.rejected, (state) => {
             return {
                 ...state,
                 user: initialState.user,
@@ -142,13 +125,13 @@ export const authReducer = createReducer(initialState, (builder) => {
                 loginFailed: true,
             };
         })
-        .addCase(logout, (state) => {
+        .addCase(fetchLogout.pending, (state) => {
             return {
                 ...state,
                 logoutRequest: true,
             };
         })
-        .addCase(successLogout, (state) => {
+        .addCase(fetchLogout.fulfilled, (state) => {
             return {
                 ...state,
                 user: initialState.user,
@@ -156,40 +139,40 @@ export const authReducer = createReducer(initialState, (builder) => {
                 loginFailed: false,
             };
         })
-        .addCase(errorLogout, (state) => {
+        .addCase(fetchLogout.rejected, (state) => {
             return {
                 ...state,
                 loginRequest: false,
                 loginFailed: true,
             };
         })
-        .addCase(token, (state) => {
+        .addCase(fetchToken.pending, (state) => {
             return {
                 ...state,
                 tokenRequest: true,
             };
         })
-        .addCase(successToken, (state) => {
+        .addCase(fetchToken.fulfilled, (state) => {
             return {
                 ...state,
                 tokenRequest: false,
                 tokenFailed: false,
             };
         })
-        .addCase(errorToken, (state) => {
+        .addCase(fetchToken.rejected, (state) => {
             return {
                 ...state,
                 tokenRequest: false,
                 tokenFailed: true,
             };
         })
-        .addCase(getUser, (state) => {
+        .addCase(fetchGetUser.pending, (state) => {
             return {
                 ...state,
                 getUserRequest: true,
             };
         })
-        .addCase(successGetUser, (state, action) => {
+        .addCase(fetchGetUser.fulfilled, (state, action) => {
             return {
                 ...state,
                 user: action.payload,
@@ -197,20 +180,20 @@ export const authReducer = createReducer(initialState, (builder) => {
                 getUserFailed: false,
             };
         })
-        .addCase(errorGetUser, (state) => {
+        .addCase(fetchGetUser.rejected, (state) => {
             return {
                 ...state,
                 getUserRequest: false,
                 getUserFailed: true,
             };
         })
-        .addCase(patchUser, (state) => {
+        .addCase(fetchUpdateUser.pending, (state) => {
             return {
                 ...state,
                 patchUserRequest: true,
             };
         })
-        .addCase(successPatchUser, (state, action) => {
+        .addCase(fetchUpdateUser.fulfilled, (state, action) => {
             return {
                 ...state,
                 user: action.payload,
@@ -218,7 +201,7 @@ export const authReducer = createReducer(initialState, (builder) => {
                 patchUserFailed: false,
             };
         })
-        .addCase(errorPatchUser, (state) => {
+        .addCase(fetchUpdateUser.rejected, (state) => {
             return {
                 ...state,
                 patchUserRequest: false,

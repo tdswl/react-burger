@@ -2,18 +2,17 @@ import React from "react";
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import Ingredient from "./components/ingredient/ingredient";
 import styles from './burger-ingredients.module.css'
-import {useDispatch, useSelector} from "react-redux";
 import {fetchIngredients} from "../../services/actions/burger";
 import {IngredientType} from "../../utils/enums";
 import {useLocation, useNavigate} from "react-router-dom";
-import {IRootState} from "../../utils/types";
+import {useAppDispatch, useAppSelector} from "../../services/hooks/hooks";
 
 const BurgerIngredients = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const location = useLocation();
     const navigate = useNavigate();
 
-    const {ingredients} = useSelector((store: IRootState) => store.burger);
+    const {ingredients} = useAppSelector(store => store.burger);
 
     const bunRef = React.useRef<HTMLDivElement>(null);
     const sauceRef = React.useRef<HTMLDivElement>(null);
