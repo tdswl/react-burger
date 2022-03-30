@@ -1,7 +1,7 @@
 import React from 'react';
 import AppHeader from "../app-header/app-header";
 import styles from './app.module.css'
-import ProtectedRoute from "../require-auth/protected-route";
+import ProtectedRoute from "../protected-route/protected-route";
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import {
     ConstructorPage,
