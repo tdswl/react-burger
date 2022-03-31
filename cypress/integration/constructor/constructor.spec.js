@@ -1,7 +1,7 @@
 import {INGREDIENTS_ENDPOINT, USER_AUTH_ENDPOINT} from "../../../src/utils/api-сonstants";
 
 describe('app constructor tests', function () {
-    before(function () {
+    beforeEach(function () {
         // Эмулируем логин юзера
         cy.intercept('GET', USER_AUTH_ENDPOINT, {
             success: true, user: {
@@ -10,6 +10,7 @@ describe('app constructor tests', function () {
                 password: undefined,
             }
         });
+
         // Ждем ингредиентов
         cy.intercept('GET', INGREDIENTS_ENDPOINT).as('getIngredients');
         cy.visit('http://localhost:3000');
@@ -37,7 +38,7 @@ describe('app constructor tests', function () {
 
     it('Открытие модального окна с описанием ингредиента и закрытие по нажатию на кнопку', function () {
         // Жмем на один из них
-        cy.get('[data-cy=bun-list] > li > section[class^=ingredient_ingredientContainer__]').first().as('firstIngredient');
+        cy.get('[data-cy=bun-ingredient]').first().as('firstIngredient');
         cy.get('@firstIngredient').click();
 
         // Проверяем модалку
@@ -56,7 +57,7 @@ describe('app constructor tests', function () {
 
     it('Открытие модального окна с описанием ингредиента и закрытие по нажатию на overlay', function () {
         // Жмем на один из них
-        cy.get('[data-cy=bun-list] > li > section[class^=ingredient_ingredientContainer__]').first().as('firstIngredient');
+        cy.get('[data-cy=bun-ingredient]').first().as('firstIngredient');
         cy.get('@firstIngredient').click();
 
         // Проверяем модалку
@@ -75,7 +76,7 @@ describe('app constructor tests', function () {
 
     it('Открытие модального окна с описанием ингредиента и закрытие по esc', function () {
         // Жмем на один из них
-        cy.get('[data-cy=bun-list] > li > section[class^=ingredient_ingredientContainer__]').first().as('firstIngredient');
+        cy.get('[data-cy=bun-ingredient]').first().as('firstIngredient');
         cy.get('@firstIngredient').click();
 
         // Проверяем модалку
@@ -93,7 +94,7 @@ describe('app constructor tests', function () {
 
     it('Перетаскивание булки в конструкторе на верхний элемент', function () {
         // Берем ингредиент
-        cy.get('[data-cy=bun-list] > li > section[class^=ingredient_ingredientContainer__]').first().as('firstBun');
+        cy.get('[data-cy=bun-ingredient]').first().as('firstBun');
         cy.get('@firstBun')
             .trigger("dragstart")
             .trigger("dragleave");
@@ -113,7 +114,7 @@ describe('app constructor tests', function () {
 
     it('Перетаскивание булки в конструкторе на нижний элемент', function () {
         // Берем ингредиент
-        cy.get('[data-cy=bun-list] > li > section[class^=ingredient_ingredientContainer__]').last().as('lastBun');
+        cy.get('[data-cy=bun-ingredient]').last().as('lastBun');
         cy.get('@lastBun')
             .trigger("dragstart")
             .trigger("dragleave");
@@ -133,7 +134,7 @@ describe('app constructor tests', function () {
 
     it('Перетаскивание ингредиентов разных типов в конструкторе', function () {
         // Берем ингредиент
-        cy.get('[data-cy=bun-list] > li > section[class^=ingredient_ingredientContainer__]').last().as('lastBun');
+        cy.get('[data-cy=bun-ingredient]').last().as('lastBun');
         cy.get('@lastBun')
             .trigger("dragstart")
             .trigger("dragleave");
@@ -151,7 +152,7 @@ describe('app constructor tests', function () {
         cy.get('@selectedConstructor').should('contain', 'Положите ингредиенты сюда');
 
         // Берем ингредиент
-        cy.get('[data-cy=main-list] > li > section[class^=ingredient_ingredientContainer__]').first().as('ingredientMain');
+        cy.get('[data-cy=main-ingredient]').first().as('ingredientMain');
         cy.get('@ingredientMain')
             .trigger("dragstart")
             .trigger("dragleave");
@@ -165,7 +166,7 @@ describe('app constructor tests', function () {
             .trigger("dragend");
 
         // Берем соус
-        cy.get('[data-cy=sauce-list] > li > section[class^=ingredient_ingredientContainer__]').first().as('ingredientSauce');
+        cy.get('[data-cy=sauce-ingredient]').first().as('ingredientSauce');
         cy.get('@ingredientSauce')
             .trigger("dragstart")
             .trigger("dragleave");
@@ -183,7 +184,7 @@ describe('app constructor tests', function () {
 
     it('Оформить заказ', function () {
         // Берем булку
-        cy.get('[data-cy=bun-list] > li > section[class^=ingredient_ingredientContainer__]').first().as('firstBun');
+        cy.get('[data-cy=bun-ingredient]').first().as('firstBun');
         cy.get('@firstBun')
             .trigger("dragstart")
             .trigger("dragleave");
@@ -197,7 +198,7 @@ describe('app constructor tests', function () {
             .trigger("dragend");
 
         // Берем ингредиент
-        cy.get('[data-cy=main-list] > li > section[class^=ingredient_ingredientContainer__]').first().as('ingredientMain');
+        cy.get('[data-cy=main-ingredient]').first().as('ingredientMain');
         cy.get('@ingredientMain')
             .trigger("dragstart")
             .trigger("dragleave");
@@ -211,7 +212,7 @@ describe('app constructor tests', function () {
             .trigger("dragend");
 
         // Берем соус
-        cy.get('[data-cy=sauce-list] > li > section[class^=ingredient_ingredientContainer__]').first().as('ingredientSauce');
+        cy.get('[data-cy=sauce-ingredient]').first().as('ingredientSauce');
         cy.get('@ingredientSauce')
             .trigger("dragstart")
             .trigger("dragleave");
