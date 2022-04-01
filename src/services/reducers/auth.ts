@@ -135,15 +135,15 @@ export const authReducer = createReducer(initialState, (builder) => {
             return {
                 ...state,
                 user: initialState.user,
-                loginRequest: false,
-                loginFailed: false,
+                logoutRequest: false,
+                logoutFailed: false,
             };
         })
         .addCase(fetchLogout.rejected, (state) => {
             return {
                 ...state,
-                loginRequest: false,
-                loginFailed: true,
+                logoutRequest: false,
+                logoutFailed: true,
             };
         })
         .addCase(fetchToken.pending, (state) => {

@@ -28,7 +28,8 @@ const Ingredient: FC<{ item: IIngredient, onClick: MouseEventHandler<HTMLElement
     });
 
     return (
-        <section className={styles.ingredientContainer} onClick={onClick} ref={ref} style={{opacity}}>
+        <section className={styles.ingredientContainer} onClick={onClick} ref={ref} style={{opacity}}
+                 data-cy={`${item.type}-ingredient`}>
             <img className={styles.image} alt={item.name} src={item.image}/>
             {counter > 0 && (<Counter count={counter} size="default"/>)}
             <p className={styles.price}>

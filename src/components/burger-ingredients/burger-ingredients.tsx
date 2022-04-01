@@ -102,7 +102,8 @@ const BurgerIngredients = () => {
                     <article ref={scrollableContainerRef} className={styles.scrollableContainer} onScroll={onScroll}>
                         <section ref={bunRef}>
                             <h1 className={styles.ingredientsLabel}>Булки</h1>
-                            <ul className={styles.ingredientsList}>
+                            <ul className={styles.ingredientsList}
+                                data-cy="bun-list">
                                 {ingredients.filter(component => component.type === IngredientType.BUN).map((component) =>
                                     (
                                         <li key={component._id}>
@@ -115,7 +116,8 @@ const BurgerIngredients = () => {
 
                         <section ref={sauceRef}>
                             <h1 className={styles.ingredientsLabel}>Соусы</h1>
-                            <ul className={styles.ingredientsList}>
+                            <ul className={styles.ingredientsList}
+                                data-cy="sauce-list">
                                 {ingredients.filter(component => component.type === IngredientType.SAUCE).map((component) =>
                                     (
                                         <li key={component._id}>
@@ -128,7 +130,8 @@ const BurgerIngredients = () => {
 
                         <section ref={mainRef}>
                             <h1 className={styles.ingredientsLabel}>Начинки</h1>
-                            <ul className={styles.ingredientsList}>
+                            <ul className={styles.ingredientsList}
+                                data-cy="main-list">
                                 {ingredients.filter(component => component.type === IngredientType.MAIN).map((component) =>
                                     (
                                         <li key={component._id}>
