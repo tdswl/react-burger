@@ -57,7 +57,7 @@ const ResetPasswordPage = () => {
                    name={'code'}
                    error={false}
                    size={'default'}/>
-            <Button type="primary" size="medium" disabled={!(password && code) || resetRequest}>
+            <Button type="primary" size="medium" disabled={!(password && code) || resetRequest} htmlType={"button"}>
                 Сохранить
             </Button>
             <p className="text text_type_main-default text_color_inactive" style={{paddingTop: '56px'}}>

@@ -51,7 +51,7 @@ const LoginPage = () => {
             </p>
             <EmailInput onChange={onEmailChange} value={email} name={'email'}/>
             <PasswordInput onChange={onPasswordChange} value={password} name={'password'}/>
-            <Button type="primary" size="medium" disabled={!(password && email) || loginRequest}>
+            <Button type="primary" size="medium" disabled={!(password && email) || loginRequest} htmlType={"button"}>
                 Войти
             </Button>
             <p className="text text_type_main-default text_color_inactive" style={{paddingTop: '56px'}}>

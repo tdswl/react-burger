@@ -58,7 +58,8 @@ const RegisterPage = () => {
                    size={'default'}/>
             <EmailInput onChange={onEmailChange} value={email} name={'email'}/>
             <PasswordInput onChange={onPasswordChange} value={password} name={'password'}/>
-            <Button type="primary" size="medium" disabled={registerRequest || !(name && email && password)}>
+            <Button type="primary" size="medium" disabled={registerRequest || !(name && email && password)}
+                    htmlType={"button"}>
                 Зарегистрироваться
             </Button>
             <p className="text text_type_main-default text_color_inactive" style={{paddingTop: '56px'}}>

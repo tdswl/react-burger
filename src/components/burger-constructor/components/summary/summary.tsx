@@ -52,7 +52,7 @@ const Summary = () => {
                 {totalPrice}
                 <CurrencyIcon type="primary"/>
             </div>
-            <Button type="primary" size="large" onClick={onCompleteOrder} disabled={disabled}>
+            <Button type="primary" size="large" onClick={onCompleteOrder} disabled={disabled} htmlType={"button"}>
                 Оформить заказ
             </Button>
 

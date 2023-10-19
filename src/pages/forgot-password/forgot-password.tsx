@@ -41,7 +41,7 @@ const ForgotPasswordPage = () => {
                 Восстановление пароля
             </p>
             <EmailInput onChange={onEmailChange} value={email} name={'email'}/>
-            <Button type="primary" size="medium" disabled={!email || passwordResetRequest}>
+            <Button type="primary" size="medium" disabled={!email || passwordResetRequest} htmlType={"button"}>
                 Восстановить
             </Button>
             <p className="text text_type_main-default text_color_inactive" style={{paddingTop: '56px'}}>

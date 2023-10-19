@@ -53,10 +53,10 @@ const UserProfile = () => {
                 <div className={styles.buttonsContainer}
                      style={{display: user?.name === name && user?.email === email ? "none" : "block"}}>
                     <Button type="secondary" size="medium" disabled={user?.name === name && user?.email === email}
-                            onClick={onCancel}>
+                            onClick={onCancel} htmlType={"button"}>
                         Отменить
                     </Button>
-                    <Button type="primary" size="medium"
+                    <Button type="primary" size="medium" htmlType={"button"}
                             disabled={user?.name === name && user?.email === email && !password}>
                         Сохранить
                     </Button>
